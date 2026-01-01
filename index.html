@@ -1,284 +1,260 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pendaftaran Sholat Idul Fitri - Okayama Central Mosque</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registrasi Buka Puasa Bersama Ramadan 1447 H - Masjid Central Okayama</title>
 
-  <!-- Fonts & Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#f0fdf4;
+  color:#064e3b;
+}
 
-    body{
-      margin:0;
-      font-family:'Inter',sans-serif;
-      background:#f0fdf4;
-      color:#064e3b;
-    }
+main{padding:40px 16px}
+.container{max-width:480px;margin:auto}
 
-    main{ padding:40px 16px; }
-    .container{ max-width:480px; margin:auto; }
+.header{text-align:center;margin-bottom:28px}
+.header h1{margin:0;font-size:24px;font-weight:700}
+.header div{font-size:13px;color:#6b7280;margin-top:4px}
 
-    .header{text-align:center;margin-bottom:28px}
-    .header h1{margin:0;font-size:24px;color:#064e3b;font-weight:700}
-    .header div{font-size:13px;color:#047857;margin-top:4px}
+.card{
+  background:#fff;
+  padding:28px;
+  border-radius:22px;
+  border:1px solid #e5e7eb;
+}
 
-    .card{
-      background:#ffffff;
-      padding:28px;
-      border-radius:22px;
-      border:1px solid #dcfce7;
-    }
+.field{margin-bottom:22px}
 
-    .field{margin-bottom:22px}
+label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:600;
+  font-size:12px;
+  letter-spacing:.04em;
+  color:#374151;
+}
 
-    label{
-      display:block;
-      margin-bottom:6px;
-      font-weight:600;
-      font-size:12px;
-      color:#065f46;
-      letter-spacing:.04em;
-    }
+.input-wrapper{position:relative}
+.input-wrapper i{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#9ca3af;
+}
 
-    .input-wrapper{position:relative}
-    .input-wrapper i{
-      position:absolute;
-      left:16px;
-      top:50%;
-      transform:translateY(-50%);
-      color:#047857;
-    }
+input,select{
+  width:100%;
+  padding:12px 14px 12px 44px;
+  border-radius:14px;
+  border:1.5px solid #e5e7eb;
+  font-size:14px;
+  background:#f9fafb;
+}
 
-    input, select{
-      width:100%;
-      padding:12px 14px 12px 44px;
-      border-radius:14px;
-      border:1.5px solid #bbf7d0;
-      font-size:14px;
-      background:#f0fdf4;
-    }
+input:focus,select:focus{
+  outline:none;
+  border-color:#059669;
+  background:#fff;
+}
 
-    input:focus, select:focus{
-      outline:none;
-      border-color:#10b981;
-      background:#ffffff;
-    }
+select{
+  appearance:none;
+  -webkit-appearance:none;
+  padding-right:40px;
+}
 
-    select{
-      appearance:none;
-      -webkit-appearance:none;
-      padding-right:40px;
-    }
+.gender-group{
+  display:flex;
+  gap:12px;
+}
 
-    .row{display:flex;gap:14px}
-    .row .field{flex:1}
+.gender-group input{display:none}
 
-    .gender-group{
-      display:flex;
-      gap:12px;
-    }
+.gender-group label{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:14px;
+  border-radius:14px;
+  border:1.5px solid #e5e7eb;
+  background:#f9fafb;
+  font-size:14px;
+  cursor:pointer;
+  color:#374151;
+  transition:.2s ease;
+}
 
-    .gender-group input{display:none}
+.gender-group input:checked + label{
+  background:#ecfdf5;
+  border-color:#059669;
+  color:#064e3b;
+}
 
-    .gender-group label{
-      flex:1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:12px;
-      border-radius:14px;
-      border:1.5px solid #bbf7d0;
-      background:#f0fdf4;
-      font-size:14px;
-      cursor:pointer;
-      color:#065f46;
-      transition:.2s;
-    }
+.hint{
+  font-size:12px;
+  color:#6b7280;
+  margin-top:6px;
+  line-height:1.5;
+}
 
-    .gender-group input:checked + label{
-      background:#dcfce7;
-      border-color:#10b981;
-      color:#064e3b;
-    }
+.row{display:flex;gap:14px}
+.row .field{flex:1}
 
-    .otp-container{display:flex;gap:8px}
+button{
+  width:100%;
+  padding:16px;
+  background:#059669;
+  color:#fff;
+  border:none;
+  border-radius:16px;
+  font-weight:600;
+  font-size:15px;
+  cursor:pointer;
+}
+button:disabled{background:#d1d5db;cursor:not-allowed}
 
-    .btn-otp{
-      padding:0 16px;
-      font-size:12px;
-      border-radius:12px;
-      background:#047857;
-      color:#fff;
-      border:none;
-      cursor:pointer;
-      white-space:nowrap;
-    }
+.alert{
+  display:none;
+  background:#fef2f2;
+  color:#991b1b;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:18px;
+  text-align:center;
+  font-size:13px;
+}
 
-    .btn-otp:disabled{
-      background:#a7f3d0;
-      cursor:not-allowed;
-    }
+footer{text-align:center;font-size:12px;color:#9ca3af;padding:28px}
 
-    .hint{
-      font-size:12px;
-      color:#047857;
-      margin-top:6px;
-    }
-
-    button{
-      width:100%;
-      padding:16px;
-      background:#059669;
-      color:#ffffff;
-      border:none;
-      border-radius:16px;
-      font-weight:600;
-      font-size:15px;
-      cursor:pointer;
-    }
-
-    button:disabled{
-      background:#a7f3d0;
-      cursor:not-allowed;
-    }
-
-    .consent{
-      display:flex;
-      gap:12px;
-      padding:14px;
-      background:#ecfdf5;
-      border:1px solid #bbf7d0;
-      border-radius:14px;
-      font-size:13px;
-    }
-
-    .alert{
-      display:none;
-      background:#fee2e2;
-      color:#991b1b;
-      padding:12px;
-      border-radius:12px;
-      margin-bottom:18px;
-      text-align:center;
-      font-size:13px;
-    }
-
-    footer{
-      text-align:center;
-      font-size:12px;
-      color:#047857;
-      padding:28px;
-    }
-
-    @media(max-width:480px){
-      .row{flex-direction:column}
-    }
-  </style>
+@media(max-width:480px){
+  .row{flex-direction:column}
+}
+</style>
 </head>
 
 <body>
 
 <main>
-  <div class="container">
+<div class="container">
 
-    <div class="alert" id="duplicateAlert"
-      data-id="Data ini sudah terdaftar"
-      data-en="This data is already registered"
-      data-ja="すでに登録されています"></div>
+<div class="alert" id="duplicateAlert"
+ data-id="Data ini sudah terdaftar"
+ data-en="This data is already registered"
+ data-ja="すでに登録されています"></div>
 
-    <div class="header">
-      <h1 data-id="Pendaftaran Sholat Idul Fitri"
-          data-en="Eid Prayer Registration"
-          data-ja="参加登録"></h1>
-      <div>Okayama Central Mosque</div>
-    </div>
+<div class="header">
+  <h1 data-id="Registrasi Buka Puasa Bersama Ramadan 1447 H"
+      data-en="Ramadan Iftar Registration 1447 AH"
+      data-ja="ラマダン・イフタール参加登録 1447年"></h1>
+  <div>Masjid Central Okayama</div>
+</div>
 
-    <div class="card">
-      <form id="registrationForm">
+<div class="card">
+<form id="registrationForm">
 
-        <!-- NAMA -->
-        <div class="field">
-          <label data-id="Nama Lengkap" data-en="Full Name" data-ja="氏名"></label>
-          <div class="input-wrapper">
-            <i class="fas fa-user"></i>
-            <input id="nama_lengkap" name="nama_lengkap" required
-              data-id-ph="Nama sesuai identitas"
-              data-en-ph="Name as shown on ID"
-              data-ja-ph="身分証通りの氏名">
-          </div>
-        </div>
+<!-- Nama -->
+<div class="field">
+<label data-id="Nama Lengkap" data-en="Full Name" data-ja="氏名"></label>
+<div class="input-wrapper">
+<i class="fas fa-user"></i>
+<input name="nama_lengkap" required
+ data-id-ph="Nama sesuai identitas"
+ data-en-ph="Name as shown on ID"
+ data-ja-ph="身分証通りの氏名">
+</div>
+</div>
 
-        <!-- EMAIL + OTP -->
-        <div class="field">
-          <label>Email</label>
-          <div class="otp-container">
-            <div class="input-wrapper" style="flex:1">
-              <i class="fas fa-envelope"></i>
-              <input type="email" id="email" name="email" required>
-            </div>
-            <button type="button" class="btn-otp" id="sendOtpBtn" onclick="sendOTP()">
-              <span data-id="Kirim Kode" data-en="Send Code" data-ja="コード送信"></span>
-            </button>
-          </div>
-        </div>
+<!-- Email -->
+<div class="field">
+<label>Email</label>
+<div class="input-wrapper">
+<i class="fas fa-envelope"></i>
+<input type="email" name="email" required
+ data-id-ph="contoh@email.com"
+ data-en-ph="example@email.com"
+ data-ja-ph="example@email.com">
+</div>
+<div class="hint"
+ data-id="Email digunakan untuk konfirmasi pendaftaran"
+ data-en="Email will be used for registration confirmation"
+ data-ja="登録確認のために使用されます"></div>
+</div>
 
-        <!-- OTP -->
-        <div class="field" id="otpField" style="display:none">
-          <label data-id="Masukkan Kode OTP" data-en="Enter OTP Code" data-ja="OTPコード"></label>
-          <div class="input-wrapper">
-            <i class="fas fa-key"></i>
-            <input type="text" id="otp_input" maxlength="4">
-          </div>
-        </div>
+<!-- Kebangsaan -->
+<div class="field">
+<label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
+<div class="input-wrapper">
+<i class="fas fa-flag"></i>
+<select name="kebangsaan" required>
+<option value="" disabled selected
+ data-id="Pilih kebangsaan"
+ data-en="Select nationality"
+ data-ja="国籍を選択"></option>
+<option value="Indonesia">Indonesia</option>
+<option value="Japan">Japan</option>
+<option value="Other"
+ data-id="Lainnya"
+ data-en="Other"
+ data-ja="その他"></option>
+</select>
+</div>
+</div>
 
-        <!-- KEBANGSAAN -->
-        <div class="field">
-          <label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
-          <div class="input-wrapper">
-            <i class="fas fa-flag"></i>
-            <select name="kebangsaan" required>
-              <option value="" disabled selected data-id="Pilih kebangsaan" data-en="Select nationality" data-ja="国籍を選択"></option>
-              <option value="Indonesia" data-id="Indonesia" data-en="Indonesia" data-ja="インドネシア"></option>
-              <option value="Japan" data-id="Jepang" data-en="Japan" data-ja="日本"></option>
-              <option value="Other" data-id="Lainnya" data-en="Other" data-ja="その他"></option>
-            </select>
-          </div>
-        </div>
+<div class="field" id="otherNationalityField" style="display:none">
+<label data-id="Kebangsaan Lainnya"
+       data-en="Other Nationality"
+       data-ja="その他の国籍"></label>
+<div class="input-wrapper">
+<i class="fas fa-pen"></i>
+<input name="kebangsaan_lainnya"
+ data-id-ph="Tulis kebangsaan Anda"
+ data-en-ph="Enter your nationality"
+ data-ja-ph="国籍を入力してください">
+</div>
+</div>
 
-        <!-- ANAK -->
-        <div class="field">
-          <label data-id="Datang Bersama Anak" data-en="Coming with Children" data-ja="お子様同伴"></label>
-          <div class="gender-group">
-            <input type="radio" id="anak_ya" name="dengan_anak" value="Ya" required>
-            <label for="anak_ya"><i class="fas fa-child"></i> <span data-id="Ya" data-en="Yes" data-ja="はい"></span></label>
-            <input type="radio" id="anak_tidak" name="dengan_anak" value="Tidak">
-            <label for="anak_tidak"><i class="fas fa-user"></i> <span data-id="Tidak" data-en="No" data-ja="いいえ"></span></label>
-          </div>
-          <div class="hint"
-            data-id="Anak usia 0–12 tahun. Mohon menjaga adab dan kenyamanan jamaah."
-            data-en="Children aged 0–12. Please maintain comfort and etiquette."
-            data-ja="0〜12歳のお子様が対象です。礼儀へのご配慮をお願いします。"></div>
-        </div>
+<!-- Datang dengan anak -->
+<div class="field">
+<label data-id="Datang Bersama Anak"
+       data-en="Coming with Children"
+       data-ja="お子様同伴"></label>
 
-        <button id="submitBtn" type="submit"
-          data-id="Daftar" data-en="Register" data-ja="登録"></button>
+<div class="gender-group">
+<input type="radio" name="dengan_anak" value="Ya" required>
+<label><i class="fas fa-child"></i><span data-id="Ya" data-en="Yes" data-ja="はい"></span></label>
 
-      </form>
-    </div>
-  </div>
+<input type="radio" name="dengan_anak" value="Tidak">
+<label><i class="fas fa-user"></i><span data-id="Tidak" data-en="No" data-ja="いいえ"></span></label>
+</div>
+
+<div class="hint"
+ data-id="Anak usia 0–12 tahun. Mohon menjaga adab dan kenyamanan jamaah."
+ data-en="Children aged 0–12 years. Please maintain comfort and etiquette."
+ data-ja="0〜12歳のお子様を指します。礼儀とご配慮をお願いします。">
+</div>
+</div>
+
+<button data-id="Daftar" data-en="Register" data-ja="登録"></button>
+
+</form>
+</div>
+</div>
 </main>
 
 <footer>© 2026 — Masjid Central Okayama</footer>
 
 <script>
-const SCRIPT_URL = "MY URL";
-const sendOtpBtn = document.getElementById("sendOtpBtn");
-
 const lang = navigator.language.startsWith("ja") ? "ja" :
              navigator.language.startsWith("en") ? "en" : "id";
 
@@ -288,30 +264,14 @@ document.querySelectorAll("[data-id]").forEach(el=>{
 document.querySelectorAll("[data-id-ph]").forEach(el=>{
   el.placeholder = el.dataset[`${lang}Ph`] || el.dataset.idPh;
 });
-document.querySelectorAll("option[data-id]").forEach(opt=>{
-  opt.textContent = opt.dataset[lang] || opt.dataset.id;
-});
 
-let serverOTP="", isVerified=false;
+const nationalitySelect = document.querySelector('select[name="kebangsaan"]');
+const otherNationalityField = document.getElementById("otherNationalityField");
 
-async function sendOTP(){
-  if(!email.value || !nama_lengkap.value){
-    alert("Mohon isi nama dan email");
-    return;
-  }
-  sendOtpBtn.disabled=true;
-  sendOtpBtn.textContent="...";
-  try{
-    const r = await fetch(`${SCRIPT_URL}?action=send_otp&email=${email.value}`);
-    const j = await r.json();
-    serverOTP=j.otp;
-    otpField.style.display="block";
-  }catch{
-    alert("Gagal mengirim OTP");
-    sendOtpBtn.disabled=false;
-    sendOtpBtn.textContent="Kirim Kode";
-  }
-}
+nationalitySelect.onchange = () => {
+  otherNationalityField.style.display =
+    nationalitySelect.value === "Other" ? "block" : "none";
+};
 </script>
 
 </body>
