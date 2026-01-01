@@ -1,2 +1,0 @@
-# registrasi
-Form untuk registrasi
