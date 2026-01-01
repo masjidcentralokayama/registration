@@ -97,13 +97,13 @@ select {
   align-items:center;
   justify-content:center;
   gap:8px;
-  padding:12px 14px 12px 44px; /* SAMA dengan input */
+  padding:12px 14px 12px 44px; 
   border-radius:14px;
   border:1.5px solid #e2e8f0;
   background:#f8fafc;
   font-size:14px;
   font-weight:500;
-  line-height:1;               /* 🔥 KUNCI PRESISI */
+  line-height:1;               
   cursor:pointer;
   transition:.2s ease;
   color:#475569;
@@ -143,7 +143,7 @@ select {
 .btn-otp:disabled { background: #cbd5e1; cursor: not-allowed; }
 
 input[name="domisili"]{
-  padding:12px 14px 12px 44px; /* sama dengan input lain */
+  padding:12px 14px 12px 44px; 
   font-size:14px;
 }
 
@@ -275,7 +275,7 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 <label data-id="Domisili" data-en="City / Residence" data-ja="居住地"></label>
 <div class="input-wrapper">
 <i class="fas fa-map-marker-alt"></i>
-<input name="domisili" list="neighborhoods" required
+<input name="domisili" list="neighborhoods" id="domisili" required
  data-id-ph="Cari kelurahan (Contoh: Kaminakano)"
  data-en-ph="Search neighborhood (Ex: Kaminakano)"
  data-ja-ph="町名を検索 (例：上中野)">
@@ -287,23 +287,19 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
   <option value="Okayama-shi, Kita-ku, Hokan-cho">
   <option value="Okayama-shi, Naka-ku, Nishigawara">
   <option value="Okayama-shi, Minami-ku, Toyonari">
-  
   <option value="Kurashiki-shi, Achi">
   <option value="Kurashiki-shi, Nakasho">
   <option value="Kurashiki-shi, Chaya-machi">
   <option value="Kurashiki-shi, Mizushima">
   <option value="Kurashiki-shi, Kojima">
   <option value="Kurashiki-shi, Tamashima">
-
   <option value="Tamano-shi, Chikko">
   <option value="Tamano-shi, Uno">
   <option value="Tamano-shi, Hibibi">
   <option value="Tamano-shi, Shibukawa">
-
   <option value="Soja-shi, Chuo">
   <option value="Soja-shi, Kiyone">
   <option value="Soja-shi, Yamate">
-
   <option value="Akaiwa-shi, Sanyo">
   <option value="Setouchi-shi, Oku-cho">
 </datalist>
@@ -315,7 +311,7 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 <label data-id="Usia" data-en="Age" data-ja="年齢"></label>
 <div class="input-wrapper">
 <i class="fas fa-id-card"></i>
-<input type="number" name="usia" required>
+<input type="number" name="usia" id="usia" required>
 </div>
 </div>
 
@@ -323,7 +319,7 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 <label data-id="Jumlah Orang" data-en="Number of People" data-ja="人数"></label>
 <div class="input-wrapper">
 <i class="fas fa-users"></i>
-<input type="number" name="jumlah_orang" min="1" value="1" required>
+<input type="number" name="jumlah_orang" id="jumlah_orang" min="1" value="1" required>
 </div>
 <div class="hint"
  data-id="Jumlah orang yang hadir, termasuk Anda"
@@ -359,7 +355,7 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 </label>
 </div>
 
-<button id="submitBtn"
+<button type="submit" id="submitBtn"
  data-id="Daftar"
  data-en="Register"
  data-ja="登録"></button>
@@ -372,6 +368,7 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 <footer>© 2026 — Masjid Central Okayama</footer>
 
 <script>
+// GANTI "MY URL" DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
 const SCRIPT_URL="https://script.google.com/macros/s/AKfycbylntOq1cWcn2xZb2sNoNfKFrjx7qzWYC20WFwXwo6hIgWhBlEN1AU2S2Bhd-GTnRqcHg/exec";
 
 const lang=navigator.language.startsWith("ja")?"ja":
@@ -402,12 +399,23 @@ const messages = {
     id: "OTP terkirim ke email!",
     en: "OTP sent to your email!",
     ja: "OTPがメールに送信されました！"
+  },
+  processing: {
+    id: "Sedang memproses...",
+    en: "Processing...",
+    ja: "処理中..."
+  },
+  connError: {
+    id: "Koneksi bermasalah",
+    en: "Connection problem",
+    ja: "接続エラー"
   }
 };
 
 async function sendOTP() {
-  const emailVal = email.value;
+  const emailVal = document.getElementById("email").value;
   const namaVal = document.getElementById("nama_lengkap").value;
+  const sendOtpBtn = document.getElementById("sendOtpBtn");
   
   if(!emailVal || !namaVal) {
     alert(messages.fillEmail[lang]);
@@ -430,66 +438,98 @@ async function sendOTP() {
           isVerified = true;
           this.disabled = true;
           document.getElementById("otpField").style.background = "#dcfce7";
+          document.getElementById("otpField").style.border = "1px solid #10b981";
         }
       };
+    } else {
+      alert("Error: " + (j.message || "Gagal kirim OTP"));
+      sendOtpBtn.disabled = false;
+      sendOtpBtn.textContent = (lang === "ja" ? "コード送信" : lang === "en" ? "Send Code" : "Kirim Kode");
     }
   } catch(e) {
-    alert("Error");
+    alert("Error Server");
     sendOtpBtn.disabled = false;
   }
 }
 
 let t;
-email.oninput=no_hp.oninput=()=>{
- clearTimeout(t);
- t=setTimeout(async()=>{
-  if(email.value&&no_hp.value){
-   const r=await fetch(`${SCRIPT_URL}?action=check_duplicate&email=${email.value}&no_hp=${no_hp.value}`);
-   const j=await r.json();
-   duplicateAlert.style.display=j.isDuplicate?"block":"none";
-   submitBtn.disabled=j.isDuplicate;
-  }
- }, 800);
+const emailInp = document.getElementById("email");
+const phoneInp = document.getElementById("no_hp");
+const duplicateAlert = document.getElementById("duplicateAlert");
+const submitBtn = document.getElementById("submitBtn");
+
+emailInp.oninput = phoneInp.oninput = () => {
+  clearTimeout(t);
+  t = setTimeout(async () => {
+    if (emailInp.value && phoneInp.value) {
+      try {
+        const r = await fetch(`${SCRIPT_URL}?action=check_duplicate&email=${encodeURIComponent(emailInp.value)}&no_hp=${encodeURIComponent(phoneInp.value)}`);
+        const j = await r.json();
+        if (j.isDuplicate) {
+          duplicateAlert.style.display = "block";
+          submitBtn.disabled = true;
+        } else {
+          duplicateAlert.style.display = "none";
+          submitBtn.disabled = false;
+        }
+      } catch (e) {
+        console.error("Duplicate check failed");
+      }
+    }
+  }, 800);
 };
 
-registrationForm.onsubmit=async e=>{
- e.preventDefault();
- if(!isVerified) {
-   alert(messages.verifyOtp[lang]);
-   return;
- }
- submitBtn.disabled=true;
- const processingText={id:"Sedang memproses…",en:"Processing…",ja:"処理中…"};
- const original=submitBtn.textContent;
- submitBtn.textContent=processingText[lang];
-
- const fd = new FormData(registrationForm);
-fd.append("action", "register");
-
-// Membuat ID Cantik: EID-2703-X8A (TanggalBulan-Acak)
-const now = new Date();
-const datePart = ("0" + now.getDate()).slice(-2) + ("0" + (now.getMonth() + 1)).slice(-2);
-const randomPart = Math.random().toString(36).substring(2, 5).toUpperCase();
-const cantikID = "EID-" + datePart + "-" + randomPart;
-
-fd.append("id", cantikID);
-fd.append("lang", lang); // Mengirim kode bahasa (id, en, atau ja) ke Google Script
+document.getElementById("registrationForm").onsubmit = async e => {
+  e.preventDefault();
   
- try{
-  const r=await fetch(SCRIPT_URL,{method:"POST",body:fd});
-  const j=await r.json();
-  if(j.status==="success"){
-   window.location.href="success.html?"+new URLSearchParams(fd).toString();
-  }else{
-   alert(j.message||"Error");
-   submitBtn.textContent=original;
-   submitBtn.disabled=false;
+  if(!isVerified) {
+    alert(messages.verifyOtp[lang]);
+    return;
   }
- }catch{
-  alert("Koneksi bermasalah");
-  submitBtn.textContent=original;
-  submitBtn.disabled=false;
- }
+  
+  submitBtn.disabled = true;
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = messages.processing[lang];
+
+  const now = new Date();
+  const datePart = ("0" + now.getDate()).slice(-2) + ("0" + (now.getMonth() + 1)).slice(-2);
+  const randomPart = Math.random().toString(36).substring(2, 5).toUpperCase();
+  const cantikID = "EID-" + datePart + "-" + randomPart;
+
+  const formData = new FormData(e.target);
+  const params = new URLSearchParams();
+  
+  formData.forEach((value, key) => {
+    params.append(key, value);
+  });
+  
+  params.append("action", "register");
+  params.append("id", cantikID);
+  params.append("lang", lang);
+
+  try {
+    // Backend menggunakan doGet/doPost yang menerima query parameter untuk registrasi
+    const r = await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: params.toString(),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    });
+    
+    const j = await r.json();
+    if(j.status === "success") {
+      window.location.href = "success.html?" + params.toString();
+    } else {
+      alert(j.message || "Error");
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+    }
+  } catch(err) {
+    alert(messages.connError[lang]);
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
+  }
 };
 </script>
 
