@@ -389,6 +389,33 @@ main {
   display: none;
 }
 
+/* Language Selector */
+.language-selector {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
+
+.lang-btn {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  color: var(--accent-teal);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-green);
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   main {
@@ -416,6 +443,14 @@ main {
     text-align: left;
     max-width: 100%;
   }
+  
+  .language-selector {
+    position: relative;
+    top: 0;
+    right: 0;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
 }
 </style>
 </head>
@@ -425,32 +460,40 @@ main {
 <div class="ornament-bottom"></div>
 <div class="islamic-pattern"></div>
 
+<!-- Language Selector -->
+<div class="language-selector">
+  <button id="langBtn" class="lang-btn">
+    <i class="fas fa-globe"></i>
+    <span id="currentLang">ID</span>
+  </button>
+</div>
+
 <main>
   <div class="container">
     <div class="brand-header">
       <div class="success-icon">
         <i class="fas fa-check-circle"></i>
       </div>
-      <h1>Pendaftaran Berhasil!</h1>
-      <p>Data Anda telah berhasil tersimpan dalam sistem registrasi.</p>
+      <h1 data-i18n="title">Pendaftaran Berhasil!</h1>
+      <p data-i18n="subtitle">Data Anda telah berhasil tersimpan dalam sistem registrasi.</p>
       
       <div class="success-message">
         <i class="fas fa-check-circle"></i>
-        <span>Simpan kartu akses di bawah ini untuk ditunjukkan saat acara.</span>
+        <span data-i18n="successMessage">Simpan kartu akses di bawah ini untuk ditunjukkan saat acara.</span>
       </div>
     </div>
 
     <!-- Error Message -->
     <div id="errorMessage" class="error-message" style="display: none;">
       <i class="fas fa-exclamation-triangle"></i>
-      <span id="errorText">Gagal memuat data dari server. Data yang ditampilkan berasal dari parameter URL.</span>
+      <span id="errorText" data-i18n="errorMessage">Gagal memuat data dari server. Data yang ditampilkan berasal dari parameter URL.</span>
     </div>
 
     <!-- Registration Card -->
     <div class="card" id="registrationCard">
       <div class="event-header">
-        <h2>Buka Puasa Bersama 1447 H</h2>
-        <p>Masjid Central Okayama</p>
+        <h2 data-i18n="eventTitle">Buka Puasa Bersama 1447 H</h2>
+        <p data-i18n="organization">Yayasan Ibadurrahman Islamic Center</p>
       </div>
 
       <div class="qr-container">
@@ -460,46 +503,48 @@ main {
 
       <div id="details">
         <div class="data-row">
-          <span class="data-label">Nama Lengkap</span>
+          <span class="data-label" data-i18n="fullName">Nama Lengkap</span>
           <span class="data-value" id="displayName">...</span>
         </div>
         <div class="data-row">
-          <span class="data-label">Email</span>
+          <span class="data-label" data-i18n="email">Email</span>
           <span class="data-value" id="displayEmail">...</span>
         </div>
         <div class="data-row">
-          <span class="data-label">Total Kehadiran</span>
+          <span class="data-label" data-i18n="totalAttendees">Total Kehadiran</span>
           <span class="data-value" id="displayQty">1 Orang</span>
         </div>
         <div class="data-row">
-          <span class="data-label">Tanggal Acara</span>
-          <span class="data-value">Sabtu, 14 Maret 2026</span>
+          <span class="data-label" data-i18n="eventDate">Tanggal Acara</span>
+          <span class="data-value" data-i18n="dateValue">Sabtu, 28 Maret 2026</span>
         </div>
         <div class="data-row">
-          <span class="data-label">Waktu</span>
-          <span class="data-value">17.30 - 20.00 JST</span>
+          <span class="data-label" data-i18n="eventTime">Waktu</span>
+          <span class="data-value" data-i18n="timeValue">17.30 - 20.00 WIB</span>
         </div>
       </div>
       
       <div class="info-box">
         <i class="fas fa-info-circle"></i>
-        <span>Harap tunjukkan QR Code ini kepada petugas saat kedatangan. Kartu ini berlaku untuk semua peserta yang terdaftar.</span>
+        <span data-i18n="instruction">Harap tunjukkan QR Code ini kepada petugas saat kedatangan. Kartu ini berlaku untuk semua peserta yang terdaftar.</span>
       </div>
     </div>
 
     <div class="btn-group">
       <button id="downloadBtn" class="btn btn-primary">
-        <i class="fas fa-download"></i> Simpan Kartu
+        <i class="fas fa-download"></i>
+        <span data-i18n="downloadBtn">Simpan Kartu</span>
       </button>
       <a href="index.html" class="btn btn-secondary">
-        <i class="fas fa-home"></i> Beranda
+        <i class="fas fa-home"></i>
+        <span data-i18n="homeBtn">Beranda</span>
       </a>
     </div>
 
     <div class="footer-text">
-      <div>© 2026 Yayasan Ibadurrahman Islamic Center</div>
+      <div data-i18n="copyright">© 2026 Yayasan Ibadurrahman Islamic Center</div>
       <div class="contact-info">
-        Untuk informasi lebih lanjut: 
+        <span data-i18n="contactInfo">Untuk informasi lebih lanjut:</span>
         <a href="mailto:info@ibadurrahman.org">info@ibadurrahman.org</a>
       </div>
     </div>
@@ -507,7 +552,226 @@ main {
 </main>
 
 <script>
-// 1. Konfigurasi dan Sanitasi Input
+// ============================================
+// MULTILINGUAL SUPPORT (ID, EN, JA)
+// ============================================
+
+// Data terjemahan untuk semua bahasa
+const translations = {
+  id: {
+    // Halaman utama
+    title: "Pendaftaran Berhasil!",
+    subtitle: "Data Anda telah berhasil tersimpan dalam sistem registrasi.",
+    successMessage: "Simpan kartu akses di bawah ini untuk ditunjukkan saat acara.",
+    
+    // Kartu registrasi
+    eventTitle: "Buka Puasa Bersama 1447 H",
+    organization: "Yayasan Ibadurrahman Islamic Center",
+    
+    // Label data
+    fullName: "Nama Lengkap",
+    email: "Email",
+    totalAttendees: "Total Kehadiran",
+    eventDate: "Tanggal Acara",
+    eventTime: "Waktu",
+    
+    // Nilai data
+    dateValue: "Sabtu, 28 Maret 2026",
+    timeValue: "17.30 - 20.00 WIB",
+    
+    // Instruksi
+    instruction: "Harap tunjukkan QR Code ini kepada petugas saat kedatangan. Kartu ini berlaku untuk semua peserta yang terdaftar.",
+    
+    // Tombol
+    downloadBtn: "Simpan Kartu",
+    homeBtn: "Beranda",
+    downloading: "Mengunduh...",
+    
+    // Footer
+    copyright: "© 2026 Yayasan Ibadurrahman Islamic Center",
+    contactInfo: "Untuk informasi lebih lanjut:",
+    
+    // Pesan error
+    errorMessage: "Gagal memuat data dari server. Data yang ditampilkan berasal dari parameter URL.",
+    downloadError: "Maaf, terjadi kesalahan saat mengunduh kartu. Silakan coba lagi atau hubungi panitia.",
+    
+    // Bahasa
+    langName: "Bahasa Indonesia",
+    langCode: "ID"
+  },
+  
+  en: {
+    // Main page
+    title: "Registration Successful!",
+    subtitle: "Your data has been successfully saved in the registration system.",
+    successMessage: "Save the access card below to present at the event.",
+    
+    // Registration card
+    eventTitle: "Iftar Gathering 1447 H",
+    organization: "Ibadurrahman Islamic Center Foundation",
+    
+    // Data labels
+    fullName: "Full Name",
+    email: "Email",
+    totalAttendees: "Total Attendees",
+    eventDate: "Event Date",
+    eventTime: "Time",
+    
+    // Data values
+    dateValue: "Saturday, March 28, 2026",
+    timeValue: "5:30 PM - 8:00 PM WIB",
+    
+    // Instruction
+    instruction: "Please show this QR Code to the officer upon arrival. This card is valid for all registered participants.",
+    
+    // Buttons
+    downloadBtn: "Save Card",
+    homeBtn: "Home",
+    downloading: "Downloading...",
+    
+    // Footer
+    copyright: "© 2026 Ibadurrahman Islamic Center Foundation",
+    contactInfo: "For more information:",
+    
+    // Error messages
+    errorMessage: "Failed to load data from server. Data displayed is from URL parameters.",
+    downloadError: "Sorry, an error occurred while downloading the card. Please try again or contact the committee.",
+    
+    // Language
+    langName: "English",
+    langCode: "EN"
+  },
+  
+  ja: {
+    // メインページ
+    title: "登録が完了しました！",
+    subtitle: "あなたのデータは登録システムに正常に保存されました。",
+    successMessage: "下記のアクセスカードを保存して、イベント当日に提示してください。",
+    
+    // 登録カード
+    eventTitle: "イフタール集会 1447 H",
+    organization: "イバドゥッラフマン・イスラムセンター財団",
+    
+    // データラベル
+    fullName: "氏名",
+    email: "メール",
+    totalAttendees: "参加者総数",
+    eventDate: "イベント日",
+    eventTime: "時間",
+    
+    // データ値
+    dateValue: "2026年3月28日（土）",
+    timeValue: "17:30 - 20:00 WIB",
+    
+    // 指示
+    instruction: "到着時にこのQRコードを係員に提示してください。このカードは登録されたすべての参加者に有効です。",
+    
+    // ボタン
+    downloadBtn: "カードを保存",
+    homeBtn: "ホーム",
+    downloading: "ダウンロード中...",
+    
+    // フッター
+    copyright: "© 2026 イバドゥッラフマン・イスラムセンター財団",
+    contactInfo: "詳細については：",
+    
+    // エラーメッセージ
+    errorMessage: "サーバーからのデータの読み込みに失敗しました。表示されているデータはURLパラメータからのものです。",
+    downloadError: "申し訳ありません、カードのダウンロード中にエラーが発生しました。もう一度お試しいただくか、委員会にご連絡ください。",
+    
+    // 言語
+    langName: "日本語",
+    langCode: "JA"
+  }
+};
+
+// ============================================
+// KONFIGURASI DAN DETEKSI BAHASA
+// ============================================
+
+// Deteksi bahasa pengguna
+function detectUserLanguage() {
+  // 1. Cek parameter URL terlebih dahulu (lang=id/en/ja)
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlLang = urlParams.get('lang');
+  
+  if (urlLang && ['id', 'en', 'ja'].includes(urlLang)) {
+    return urlLang;
+  }
+  
+  // 2. Ambil bahasa dari browser/navigator
+  const browserLang = navigator.language || navigator.userLanguage;
+  
+  // 3. Mapping bahasa browser ke kode yang kita dukung
+  if (browserLang.startsWith('ja')) {
+    return 'ja';
+  } else if (browserLang.startsWith('en')) {
+    return 'en';
+  } else if (browserLang.startsWith('id')) {
+    return 'id';
+  }
+  
+  // 4. Default ke bahasa Indonesia
+  return 'id';
+}
+
+// Set bahasa saat ini
+let currentLang = detectUserLanguage();
+
+// ============================================
+// FUNGSI MULTILINGUAL
+// ============================================
+
+// Fungsi untuk menerapkan terjemahan
+function applyTranslations(lang) {
+  // Update semua elemen dengan atribut data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const key = element.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key]) {
+      element.textContent = translations[lang][key];
+    }
+  });
+  
+  // Update tombol bahasa
+  const langBtn = document.getElementById('currentLang');
+  if (langBtn) {
+    langBtn.textContent = translations[lang].langCode;
+  }
+  
+  // Update title halaman
+  document.title = `${translations[lang].title} - ${translations[lang].eventTitle}`;
+  
+  // Simpan preferensi bahasa di localStorage
+  localStorage.setItem('preferredLanguage', lang);
+  
+  // Update currentLang
+  currentLang = lang;
+}
+
+// Fungsi untuk ganti bahasa
+function switchLanguage() {
+  // Rotasi bahasa: id -> en -> ja -> id
+  const languages = ['id', 'en', 'ja'];
+  const currentIndex = languages.indexOf(currentLang);
+  const nextIndex = (currentIndex + 1) % languages.length;
+  const nextLang = languages[nextIndex];
+  
+  applyTranslations(nextLang);
+  
+  // Beri feedback visual
+  const langBtn = document.getElementById('langBtn');
+  if (langBtn) {
+    langBtn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      langBtn.style.transform = 'scale(1)';
+    }, 150);
+  }
+}
+
+// ============================================
+// KONFIGURASI DATA REGISTRASI
+// ============================================
+
 const params = new URLSearchParams(window.location.search);
 
 // Fungsi untuk sanitasi input (mencegah XSS)
@@ -533,7 +797,10 @@ const regData = {
   domisili: sanitizeInput(params.get('domisili') || '-')
 };
 
-// 2. Validasi Data
+// ============================================
+// VALIDASI DATA
+// ============================================
+
 function validateData() {
   let isValid = true;
   const errorMessages = [];
@@ -559,13 +826,21 @@ function validateData() {
   return { isValid, errorMessages };
 }
 
-// 3. Tampilkan Data ke UI dengan Sanitasi
-document.getElementById('displayId').textContent = regData.id;
-document.getElementById('displayName').textContent = regData.nama;
-document.getElementById('displayEmail').textContent = regData.email;
-document.getElementById('displayQty').textContent = regData.qty + " Orang";
+// ============================================
+// TAMPILKAN DATA KE UI
+// ============================================
 
-// 4. Generate QR Code dengan Error Handling
+function displayData() {
+  document.getElementById('displayId').textContent = regData.id;
+  document.getElementById('displayName').textContent = regData.nama;
+  document.getElementById('displayEmail').textContent = regData.email;
+  document.getElementById('displayQty').textContent = regData.qty + " " + translations[currentLang].totalAttendees.split(' ').pop();
+}
+
+// ============================================
+// GENERATE QR CODE
+// ============================================
+
 function generateQRCode() {
   try {
     const qrcodeElement = document.getElementById("qrcode");
@@ -590,7 +865,10 @@ function generateQRCode() {
   }
 }
 
-// 5. Fungsi Download Kartu (Screenshot) dengan Optimasi dan Efek Eksklusif
+// ============================================
+// FUNGSI DOWNLOAD KARTU DENGAN MULTILINGUAL
+// ============================================
+
 async function downloadRegistrationCard() {
   const btn = document.getElementById('downloadBtn');
   const card = document.getElementById('registrationCard');
@@ -600,15 +878,15 @@ async function downloadRegistrationCard() {
     return;
   }
   
-  // Visual Feedback
+  // Visual Feedback dengan teks multilingual
   const originalText = btn.innerHTML;
   btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+  btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[currentLang].downloading}`;
 
   try {
     // Optimasi untuk screenshot dengan efek eksklusif saat diunduh
     const canvas = await html2canvas(card, {
-      scale: 3, // High resolution untuk hasil yang tajam (HD)
+      scale: 3,
       useCORS: true,
       backgroundColor: "#ffffff",
       logging: false,
@@ -616,26 +894,17 @@ async function downloadRegistrationCard() {
       onclone: function(clonedDoc) {
         const clonedCard = clonedDoc.getElementById('registrationCard');
         if (clonedCard) {
-          // Memberikan border emas tebal dan padding ekstra saat diunduh
-          // agar terlihat seperti kartu fisik premium
+          // Efek eksklusif untuk kartu yang diunduh
           clonedCard.style.border = '3px solid var(--accent-gold)';
           clonedCard.style.padding = '30px';
           clonedCard.style.boxSizing = 'border-box';
-          
-          // Efek shadow yang lebih menonjol untuk kesan premium
           clonedCard.style.boxShadow = '0 20px 50px rgba(212, 175, 55, 0.25)';
-          
-          // Background gradient yang lebih mewah untuk kartu yang diunduh
           clonedCard.style.background = 'linear-gradient(135deg, #ffffff 0%, var(--accent-gold-light) 100%)';
-          
-          // Pastikan tidak ada transformasi yang mengganggu
           clonedCard.style.transform = 'scale(1)';
-          
-          // Tambahkan efek glow subtle pada border
           clonedCard.style.outline = '1px solid rgba(212, 175, 55, 0.3)';
           clonedCard.style.outlineOffset = '5px';
           
-          // Tambahkan watermark eksklusif hanya untuk versi unduhan
+          // Watermark eksklusif
           const watermark = clonedDoc.createElement('div');
           watermark.style.position = 'absolute';
           watermark.style.top = '50%';
@@ -647,41 +916,9 @@ async function downloadRegistrationCard() {
           watermark.style.zIndex = '1';
           watermark.style.pointerEvents = 'none';
           watermark.style.whiteSpace = 'nowrap';
-          watermark.textContent = 'IFTAR 1447 H - RESMI';
+          watermark.textContent = 'IFTAR 1447 H';
           
           clonedCard.appendChild(watermark);
-          
-          // Update event header untuk versi unduhan
-          const eventHeader = clonedCard.querySelector('.event-header');
-          if (eventHeader) {
-            const eventTitle = eventHeader.querySelector('h2');
-            if (eventTitle) {
-              eventTitle.style.color = 'var(--accent-gold)';
-              eventTitle.style.fontSize = '1.4rem';
-            }
-            
-            // Tambahkan elemen khusus untuk versi unduhan
-            const exclusiveBadge = clonedDoc.createElement('div');
-            exclusiveBadge.style.background = 'linear-gradient(135deg, var(--accent-gold), #b8941f)';
-            exclusiveBadge.style.color = 'white';
-            exclusiveBadge.style.padding = '5px 15px';
-            exclusiveBadge.style.borderRadius = '20px';
-            exclusiveBadge.style.fontSize = '0.7rem';
-            exclusiveBadge.style.fontWeight = 'bold';
-            exclusiveBadge.style.marginTop = '10px';
-            exclusiveBadge.style.display = 'inline-block';
-            exclusiveBadge.style.boxShadow = '0 4px 8px rgba(212, 175, 55, 0.3)';
-            exclusiveBadge.textContent = 'KARTU AKSES EKSKLUSIF';
-            
-            eventHeader.appendChild(exclusiveBadge);
-          }
-          
-          // Update QR container untuk versi unduhan
-          const qrContainer = clonedCard.querySelector('.qr-container');
-          if (qrContainer) {
-            qrContainer.style.border = '2px solid var(--accent-gold)';
-            qrContainer.style.background = 'linear-gradient(135deg, #ffffff, #f9f5e7)';
-          }
         }
       }
     });
@@ -690,13 +927,17 @@ async function downloadRegistrationCard() {
     const imageData = canvas.toDataURL("image/png", 1.0);
     const link = document.createElement('a');
     
-    // Buat nama file yang aman dan deskriptif
+    // Buat nama file yang aman
     const cleanName = regData.nama
       .replace(/[^a-zA-Z0-9\u0600-\u06FF\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\s]/g, '')
       .replace(/\s+/g, '_')
       .substring(0, 30);
     
-    const fileName = `KARTU_AKSES_IFTAR_${regData.id}_${cleanName}.png`;
+    // Nama file dalam bahasa yang sesuai
+    const fileNamePrefix = currentLang === 'id' ? 'KARTU_AKSES_' : 
+                          currentLang === 'en' ? 'ACCESS_CARD_' : 'アクセスカード_';
+    
+    const fileName = `${fileNamePrefix}${regData.id}_${cleanName}.png`;
     link.href = imageData;
     link.download = fileName;
     
@@ -708,106 +949,96 @@ async function downloadRegistrationCard() {
     console.log("Card downloaded successfully:", fileName);
     
     // Tampilkan konfirmasi sukses
-    const originalTitle = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-check-circle"></i> Berhasil!';
+    btn.innerHTML = '<i class="fas fa-check-circle"></i> ✓';
     btn.style.background = 'linear-gradient(135deg, var(--accent-green), var(--accent-teal))';
     
     setTimeout(() => {
       btn.innerHTML = originalText;
+      applyTranslations(currentLang); // Kembalikan teks asli
     }, 2000);
     
   } catch (err) {
     console.error("Gagal mengunduh kartu:", err);
     
-    // Tampilkan pesan error
+    // Tampilkan pesan error dalam bahasa yang sesuai
     const errorMsg = document.getElementById('errorMessage');
     const errorText = document.getElementById('errorText');
     if (errorMsg && errorText) {
-      errorText.textContent = "Maaf, terjadi kesalahan saat mengunduh kartu. Silakan coba lagi atau hubungi panitia.";
+      errorText.textContent = translations[currentLang].downloadError;
       errorMsg.style.display = 'flex';
       setTimeout(() => {
         errorMsg.style.display = 'none';
       }, 5000);
     }
     
-    // Reset button dengan efek error
-    btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Coba Lagi';
+    // Reset button
+    btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> !';
     btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
     
     setTimeout(() => {
       btn.innerHTML = originalText;
+      applyTranslations(currentLang); // Kembalikan teks asli
       btn.style.background = 'linear-gradient(135deg, var(--accent-green), var(--accent-teal))';
     }, 3000);
     
   } finally {
-    // Reset button state setelah delay
+    // Reset button state
     setTimeout(() => {
       btn.disabled = false;
-      btn.innerHTML = originalText;
-      btn.style.background = 'linear-gradient(135deg, var(--accent-green), var(--accent-teal))';
+      applyTranslations(currentLang); // Pastikan teks tombol dalam bahasa yang benar
     }, 2000);
   }
 }
 
-// 6. Fungsi untuk Memuat Data dari Server (Opsional)
-async function loadDataFromServer() {
-  // Jika ingin mengambil data dari server, bisa ditambahkan di sini
-  // Contoh: fetch(`https://api.example.com/registrations/${regData.id}`)
-  return null; // Untuk sekarang, return null karena kita hanya pakai URL params
-}
+// ============================================
+// INISIALISASI HALAMAN
+// ============================================
 
-// 7. Inisialisasi Halaman
 async function initializePage() {
   console.log("Initializing registration page...");
   
-  // Validasi data
+  // 1. Deteksi dan terapkan bahasa
+  const savedLang = localStorage.getItem('preferredLanguage');
+  if (savedLang && ['id', 'en', 'ja'].includes(savedLang)) {
+    currentLang = savedLang;
+  }
+  
+  applyTranslations(currentLang);
+  
+  // 2. Setup event listener untuk tombol bahasa
+  const langBtn = document.getElementById('langBtn');
+  if (langBtn) {
+    langBtn.addEventListener('click', switchLanguage);
+  }
+  
+  // 3. Validasi data
   const validation = validateData();
   if (!validation.isValid) {
     console.warn("Data validation warnings:", validation.errorMessages);
   }
   
-  // Set page title dengan data registrasi
-  document.title = `Kartu Akses - ${regData.nama} - Buka Puasa Bersama 1447 H`;
+  // 4. Tampilkan data registrasi
+  displayData();
   
-  // Update Open Graph URL
-  const ogUrlMeta = document.querySelector('meta[property="og:url"]');
-  if (ogUrlMeta) {
-    ogUrlMeta.content = window.location.href;
-  }
-  
-  // Coba load data dari server (opsional)
-  try {
-    const serverData = await loadDataFromServer();
-    if (serverData) {
-      // Jika ada data dari server, update regData
-      Object.assign(regData, serverData);
-      
-      // Update UI dengan data dari server
-      document.getElementById('displayId').textContent = regData.id;
-      document.getElementById('displayName').textContent = regData.nama;
-      document.getElementById('displayEmail').textContent = regData.email;
-      document.getElementById('displayQty').textContent = regData.qty + " Orang";
-    }
-  } catch (error) {
-    console.log("Using URL parameters data:", error);
-  }
-  
-  // Generate QR Code
+  // 5. Generate QR Code
   generateQRCode();
   
-  // Setup event listener untuk download button
+  // 6. Setup event listener untuk tombol download
   const downloadBtn = document.getElementById('downloadBtn');
   if (downloadBtn) {
     downloadBtn.addEventListener('click', downloadRegistrationCard);
   }
   
-  console.log("Page initialized successfully");
+  console.log("Page initialized successfully with language:", currentLang);
 }
 
-// 8. Start application when DOM is loaded
+// ============================================
+// START APPLICATION
+// ============================================
+
 document.addEventListener('DOMContentLoaded', initializePage);
 
-// 9. Fallback untuk browser lama
+// Fallback untuk browser lama
 if (!window.Promise) {
   console.warn("Browser doesn't support Promises, using fallback");
   document.getElementById('downloadBtn').onclick = function() {
