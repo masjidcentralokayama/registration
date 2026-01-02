@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dashboard Kehadiran - Buka Puasa Bersama 1447 H</title>
 
+<!-- Apps Script API URL -->
+<meta name="api-url" content="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec">
+
 <!-- Open Graph Meta Tags -->
 <meta property="og:title" content="Dashboard Kehadiran - Buka Puasa Bersama 1447 H">
 <meta property="og:description" content="Sistem pendataan dan monitoring kehadiran jamaah">
@@ -62,7 +65,7 @@ body {
   background: linear-gradient(135deg, var(--accent-green), var(--accent-teal)); 
   clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%); 
   z-index: 1;
-  opacity: 0.65; /* Lebih redup */
+  opacity: 0.65;
 }
 
 .ornament-bottom {
@@ -74,7 +77,7 @@ body {
   background: linear-gradient(135deg, var(--accent-teal), var(--accent-green));
   clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
   z-index: 1;
-  opacity: 0.65; /* Lebih redup */
+  opacity: 0.65;
 }
 
 .islamic-pattern {
@@ -128,7 +131,6 @@ body {
   border-radius: 20px 20px 0 0;
 }
 
-/* Dekorasi Islami di Login */
 .login-decoration {
   position: absolute;
   bottom: 20px;
@@ -694,6 +696,37 @@ body {
     padding: 0.75rem;
   }
 }
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  display: none;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--accent-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 </head>
 <body>
@@ -701,6 +734,12 @@ body {
 <div class="ornament-top"></div>
 <div class="ornament-bottom"></div>
 <div class="islamic-pattern"></div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <p id="loadingText">Memuat data...</p>
+</div>
 
 <!-- Login Section -->
 <div class="login-container" id="loginContainer">
@@ -920,8 +959,11 @@ body {
 
 <script>
 // ============================================
-// KONFIGURASI DAN DATA
+// KONFIGURASI SISTEM
 // ============================================
+
+// GANTI dengan URL Apps Script deployment Anda
+const API_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
 // Data login yang valid
 const validCredentials = {
@@ -939,25 +981,6 @@ const validCredentials = {
   }
 };
 
-// Data dummy jamaah (akan disimpan di localStorage)
-const initialParticipants = [
-  { id: 'IFTAR-0001', name: 'Ahmad Santoso', phone: '081234567890', gender: 'male', age: 'Dewasa', checkinTime: null, status: 'waiting' },
-  { id: 'IFTAR-0002', name: 'Siti Rahayu', phone: '081234567891', gender: 'female', age: 'Dewasa', checkinTime: '17:45', status: 'present' },
-  { id: 'IFTAR-0003', name: 'Budi Prasetyo', phone: '081234567892', gender: 'male', age: 'Dewasa', checkinTime: null, status: 'waiting' },
-  { id: 'IFTAR-0004', name: 'Dewi Anggraini', phone: '081234567893', gender: 'female', age: 'Dewasa', checkinTime: '18:15', status: 'present' },
-  { id: 'IFTAR-0005', name: 'Rina Wati', phone: '081234567894', gender: 'female', age: 'Dewasa', checkinTime: null, status: 'waiting' },
-  { id: 'IFTAR-0006', name: 'Rudi Hartono', phone: '081234567895', gender: 'male', age: 'Dewasa', checkinTime: '17:30', status: 'present' },
-  { id: 'IFTAR-0007', name: 'Ani Lestari', phone: '081234567896', gender: 'female', age: 'Anak', checkinTime: null, status: 'waiting' },
-  { id: 'IFTAR-0008', name: 'Joko Widodo', phone: '081234567897', gender: 'male', age: 'Dewasa', checkinTime: '18:00', status: 'present' },
-  { id: 'IFTAR-0009', name: 'Maya Sari', phone: '081234567898', gender: 'female', age: 'Dewasa', checkinTime: null, status: 'waiting' },
-  { id: 'IFTAR-0010', name: 'Agus Supriyadi', phone: '081234567899', gender: 'male', age: 'Dewasa', checkinTime: '18:20', status: 'present' }
-];
-
-// Simpan data ke localStorage jika belum ada
-if (!localStorage.getItem('iftarParticipants')) {
-  localStorage.setItem('iftarParticipants', JSON.stringify(initialParticipants));
-}
-
 // State aplikasi
 let currentUser = null;
 let scannerActive = false;
@@ -965,6 +988,7 @@ let videoStream = null;
 let attendanceChart = null;
 let genderChart = null;
 let lastUpdateTime = null;
+let allParticipants = [];
 
 // ============================================
 // FUNGSI UTILITAS
@@ -995,6 +1019,99 @@ function updateLastUpdateTime() {
   const element = document.getElementById('lastUpdate');
   if (element) {
     element.textContent = `Terakhir update: ${formatTime(lastUpdateTime)}`;
+  }
+}
+
+// Tampilkan loading overlay
+function showLoading(text = 'Memuat data...') {
+  const overlay = document.getElementById('loadingOverlay');
+  const textElement = document.getElementById('loadingText');
+  textElement.textContent = text;
+  overlay.style.display = 'flex';
+}
+
+// Sembunyikan loading overlay
+function hideLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  overlay.style.display = 'none';
+}
+
+// ============================================
+// FUNGSI API KE GOOGLE APPS SCRIPT
+// ============================================
+
+// Fetch data peserta dari API
+async function fetchParticipants() {
+  try {
+    const response = await fetch(`${API_URL}?action=get_participants`);
+    const result = await response.json();
+    
+    if (result.success) {
+      allParticipants = result.participants;
+      return allParticipants;
+    } else {
+      console.error('Gagal mengambil data peserta:', result.error);
+      showNotification('Gagal mengambil data peserta', 'error');
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching participants:', error);
+    showNotification('Gagal menghubungi server', 'error');
+    return [];
+  }
+}
+
+// Fetch statistik dari API
+async function fetchStatistics() {
+  try {
+    const response = await fetch(`${API_URL}?action=get_stats`);
+    const result = await response.json();
+    
+    if (result.success) {
+      return result.stats;
+    } else {
+      console.error('Gagal mengambil statistik:', result.error);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching statistics:', error);
+    return null;
+  }
+}
+
+// Proses check-in via API
+async function processCheckin(participantId) {
+  try {
+    showLoading('Memproses check-in...');
+    
+    const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(participantId)}`);
+    const result = await response.json();
+    
+    hideLoading();
+    
+    if (result.success) {
+      return { success: true, message: result.message };
+    } else {
+      return { success: false, message: result.error || 'Gagal check-in' };
+    }
+  } catch (error) {
+    hideLoading();
+    console.error('Check-in error:', error);
+    return { success: false, message: 'Gagal menghubungi server' };
+  }
+}
+
+// Manual check-in via API
+async function manualCheckin(participantId) {
+  const result = await processCheckin(participantId);
+  
+  if (result.success) {
+    showNotification(result.message, 'success');
+    // Refresh data
+    await updateStats();
+    updateCharts();
+  } else {
+    showNotification(result.message, 'error');
   }
 }
 
@@ -1083,7 +1200,7 @@ function showLogin() {
 }
 
 // Tampilkan dashboard
-function showDashboard() {
+async function showDashboard() {
   document.getElementById('loginContainer').style.display = 'none';
   document.getElementById('dashboardContainer').style.display = 'block';
   
@@ -1091,10 +1208,11 @@ function showDashboard() {
   updateUIForRole();
   
   // Load data awal
-  loadParticipantsData();
-  updateStats();
+  showLoading('Memuat data...');
+  await updateStats();
   updateCharts();
   updateLastUpdateTime();
+  hideLoading();
   
   // Setup tabs
   setupTabs();
@@ -1161,43 +1279,30 @@ function setupTabs() {
 // FUNGSI DATA PESERTA
 // ============================================
 
-// Load data peserta dari localStorage
-function loadParticipantsData() {
-  const data = localStorage.getItem('iftarParticipants');
-  return data ? JSON.parse(data) : [];
-}
-
-// Save data peserta ke localStorage
-function saveParticipantsData(participants) {
-  localStorage.setItem('iftarParticipants', JSON.stringify(participants));
-  updateLastUpdateTime();
-}
-
 // Update statistik
-function updateStats() {
-  const participants = loadParticipantsData();
+async function updateStats() {
+  showLoading('Memuat statistik...');
   
-  // Hitung statistik
-  const totalRegistered = participants.length;
-  const totalPresent = participants.filter(p => p.status === 'present').length;
-  const totalWaiting = participants.filter(p => p.status === 'waiting').length;
-  const totalChildren = participants.filter(p => p.age === 'Anak').length;
-  const totalMale = participants.filter(p => p.gender === 'male').length;
-  const totalFemale = participants.filter(p => p.gender === 'female').length;
+  const stats = await fetchStatistics();
+  const participants = await fetchParticipants();
   
-  // Update UI
-  document.getElementById('totalRegistered').textContent = totalRegistered;
-  document.getElementById('totalPresent').textContent = totalPresent;
-  document.getElementById('totalPending').textContent = totalWaiting;
-  document.getElementById('totalChildren').textContent = totalChildren;
-  document.getElementById('totalMale').textContent = totalMale;
-  document.getElementById('totalFemale').textContent = totalFemale;
-  document.getElementById('totalData').textContent = totalRegistered;
+  if (stats) {
+    document.getElementById('totalRegistered').textContent = stats.totalRegistered;
+    document.getElementById('totalPresent').textContent = stats.totalPresent;
+    document.getElementById('totalPending').textContent = stats.totalWaiting;
+    document.getElementById('totalChildren').textContent = stats.totalChildren;
+    document.getElementById('totalMale').textContent = stats.totalMale;
+    document.getElementById('totalFemale').textContent = stats.totalFemale;
+    document.getElementById('totalData').textContent = stats.totalRegistered;
+  }
   
   // Update tabel jika admin
   if (currentUser.role === 'admin') {
     updateParticipantTable(participants);
   }
+  
+  updateLastUpdateTime();
+  hideLoading();
 }
 
 // Update tabel peserta (admin only)
@@ -1207,8 +1312,8 @@ function updateParticipantTable(participants) {
   
   // Filter data berdasarkan pencarian
   const filteredParticipants = participants.filter(p => 
-    p.name.toLowerCase().includes(searchTerm) || 
-    p.id.toLowerCase().includes(searchTerm)
+    (p.name && p.name.toLowerCase().includes(searchTerm)) || 
+    (p.id && p.id.toLowerCase().includes(searchTerm))
   );
   
   // Clear table
@@ -1222,35 +1327,35 @@ function updateParticipantTable(participants) {
     const checkinTime = participant.checkinTime || '-';
     
     // Status badge dengan teks yang lebih halus
-    const statusClass = participant.status === 'present' ? 'status-present' : 'status-waiting';
-    const statusIcon = participant.status === 'present' ? 'fas fa-check-circle' : 'fas fa-clock';
-    const statusText = participant.status === 'present' ? 'Hadir' : 'Menunggu Kehadiran';
+    const statusClass = participant.status === 'Hadir' ? 'status-present' : 'status-waiting';
+    const statusIcon = participant.status === 'Hadir' ? 'fas fa-check-circle' : 'fas fa-clock';
+    const statusText = participant.status === 'Hadir' ? 'Hadir' : 'Menunggu Kehadiran';
     
     // Gender badge
-    const genderClass = participant.gender === 'male' ? 'gender-male' : 'gender-female';
-    const genderText = participant.gender === 'male' ? 'Laki-laki' : 'Perempuan';
-    const genderIcon = participant.gender === 'male' ? 'fas fa-male' : 'fas fa-female';
+    const genderClass = participant.gender === 'Laki-laki' ? 'gender-male' : 'gender-female';
+    const genderText = participant.gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan';
+    const genderIcon = participant.gender === 'Laki-laki' ? 'fas fa-male' : 'fas fa-female';
     
     // Tombol WhatsApp
-    const whatsappLink = participant.phone !== '-' ? 
+    const whatsappLink = participant.phone && participant.phone !== '-' ? 
       `https://wa.me/62${participant.phone.substring(1)}?text=Assalamu'alaikum%20Warahmatullahi%20Wabarakatuh%0A%0AKepada%20Yth.%20${encodeURIComponent(participant.name)}%2C%0A%0AKami%20dari%20panitia%20Buka%20Puasa%20Bersama%20Yayasan%20Ibadurrahman%20mengingatkan%20bahwa%20acara%20akan%20segera%20dimulai%20pukul%2017.30%20WIB.%0A%0AMohon%20kesediaannya%20untuk%20segera%20hadir.%0A%0AJazakumullah%20khairan%20katsira.%0A%0AWassalamu'alaikum%20Warahmatullahi%20Wabarakatuh` : 
       '#';
     
     row.innerHTML = `
-      <td><strong>${participant.id}</strong></td>
-      <td>${participant.name}</td>
-      <td>${participant.phone}</td>
+      <td><strong>${participant.id || '-'}</strong></td>
+      <td>${participant.name || '-'}</td>
+      <td>${participant.phone || '-'}</td>
       <td><span class="gender-badge ${genderClass}"><i class="${genderIcon}"></i> ${genderText}</span></td>
-      <td>${participant.age}</td>
+      <td>${participant.usia || '-'}</td>
       <td>${checkinTime}</td>
       <td><span class="status-badge ${statusClass}"><i class="${statusIcon}"></i> ${statusText}</span></td>
       <td>
-        ${participant.phone !== '-' ? 
+        ${participant.phone && participant.phone !== '-' ? 
           `<a href="${whatsappLink}" target="_blank" class="btn-action btn-whatsapp">
             <i class="fab fa-whatsapp"></i> WA
           </a>` : ''
         }
-        ${participant.status !== 'present' ? 
+        ${participant.status !== 'Hadir' ? 
           `<button class="btn-action btn-checkin" onclick="manualCheckin('${participant.id}')">
             <i class="fas fa-user-check"></i> Check-in
           </button>` : 
@@ -1261,53 +1366,6 @@ function updateParticipantTable(participants) {
     
     tableBody.appendChild(row);
   });
-}
-
-// Manual check-in (untuk admin)
-function manualCheckin(participantId) {
-  const participants = loadParticipantsData();
-  const participantIndex = participants.findIndex(p => p.id === participantId);
-  
-  if (participantIndex !== -1 && participants[participantIndex].status !== 'present') {
-    participants[participantIndex].status = 'present';
-    participants[participantIndex].checkinTime = formatTime();
-    
-    saveParticipantsData(participants);
-    updateStats();
-    updateCharts();
-    
-    // Tampilkan notifikasi
-    showNotification(`Check-in berhasil untuk jamaah ${participants[participantIndex].name}`, 'success');
-  }
-}
-
-// Handle check-in dari QR scanner
-function processCheckin(participantId) {
-  const participants = loadParticipantsData();
-  const participant = participants.find(p => p.id === participantId);
-  
-  if (!participant) {
-    showNotification(`Data jamaah tidak terdaftar di sistem`, 'error');
-    return false;
-  }
-  
-  if (participant.status === 'present') {
-    showNotification(`Jamaah ${participant.name} sudah melakukan check-in sebelumnya`, 'warning');
-    return false;
-  }
-  
-  // Update status
-  participant.status = 'present';
-  participant.checkinTime = formatTime();
-  
-  saveParticipantsData(participants);
-  updateStats();
-  updateCharts();
-  
-  // Tampilkan notifikasi sukses
-  showNotification(`Check-in berhasil untuk jamaah ${participant.name}`, 'success');
-  
-  return true;
 }
 
 // ============================================
@@ -1348,9 +1406,6 @@ async function startScanner() {
   } catch (error) {
     console.error('Error accessing camera:', error);
     showNotification('Tidak dapat mengakses kamera. Pastikan izin kamera diberikan.', 'error');
-    
-    // Fallback ke input manual untuk testing
-    manualQRInput();
   }
 }
 
@@ -1408,17 +1463,9 @@ function scanQRCode() {
     showScanResult(result);
     
     // Proses check-in
-    const success = processCheckin(result);
+    processCheckinFromScanner(result);
     
-    // Jika berhasil, pause scanner sebentar
-    if (success) {
-      setTimeout(() => {
-        if (scannerActive) {
-          scanQRCode();
-        }
-      }, 2000);
-      return;
-    }
+    return;
   }
   
   // Lanjutkan scanning
@@ -1431,18 +1478,17 @@ function showScanResult(result) {
   const contentElement = document.getElementById('scan-result-content');
   
   // Cari data peserta
-  const participants = loadParticipantsData();
-  const participant = participants.find(p => p.id === result);
+  const participant = allParticipants.find(p => p.id === result);
   
   if (participant) {
-    const statusText = participant.status === 'present' ? 'Sudah check-in sebelumnya' : 'Siap check-in';
-    const statusClass = participant.status === 'present' ? 'scan-error' : 'scan-success';
+    const statusText = participant.status === 'Hadir' ? 'Sudah check-in sebelumnya' : 'Siap check-in';
+    const statusClass = participant.status === 'Hadir' ? 'scan-error' : 'scan-success';
     
     contentElement.innerHTML = `
       <p><strong>ID Jamaah:</strong> ${participant.id}</p>
       <p><strong>Nama:</strong> ${participant.name}</p>
       <p><strong>Status:</strong> <span class="${statusClass}">${statusText}</span></p>
-      ${participant.status !== 'present' ? 
+      ${participant.status !== 'Hadir' ? 
         '<p class="scan-success"><i class="fas fa-check-circle"></i> Silakan lanjutkan proses check-in</p>' : 
         '<p class="scan-error"><i class="fas fa-exclamation-circle"></i> Jamaah sudah tercatat hadir</p>'
       }
@@ -1457,12 +1503,26 @@ function showScanResult(result) {
   resultElement.style.display = 'block';
 }
 
-// Input manual QR untuk testing (jika kamera tidak tersedia)
-function manualQRInput() {
-  const result = prompt("Masukkan ID Jamaah (untuk simulasi, tanpa kamera):");
-  if (result) {
-    showScanResult(result);
-    processCheckin(result);
+// Proses check-in dari scanner
+async function processCheckinFromScanner(participantId) {
+  const result = await processCheckin(participantId);
+  
+  if (result.success) {
+    showNotification(result.message, 'success');
+    
+    // Refresh data
+    await updateStats();
+    updateCharts();
+    
+    // Hentikan scanner sementara
+    stopScanner();
+    setTimeout(() => {
+      if (document.getElementById('scannerTab').classList.contains('active')) {
+        startScanner();
+      }
+    }, 3000);
+  } else {
+    showNotification(result.message, 'error');
   }
 }
 
@@ -1480,9 +1540,8 @@ function updateCharts() {
 
 // Update chart kehadiran
 function updateAttendanceChart() {
-  const participants = loadParticipantsData();
-  const presentCount = participants.filter(p => p.status === 'present').length;
-  const waitingCount = participants.filter(p => p.status === 'waiting').length;
+  const presentCount = parseInt(document.getElementById('totalPresent').textContent) || 0;
+  const waitingCount = parseInt(document.getElementById('totalPending').textContent) || 0;
   
   const ctx = document.getElementById('attendanceChart').getContext('2d');
   
@@ -1527,9 +1586,8 @@ function updateAttendanceChart() {
 
 // Update chart gender (admin only)
 function updateGenderChart() {
-  const participants = loadParticipantsData();
-  const maleCount = participants.filter(p => p.gender === 'male').length;
-  const femaleCount = participants.filter(p => p.gender === 'female').length;
+  const maleCount = parseInt(document.getElementById('totalMale').textContent) || 0;
+  const femaleCount = parseInt(document.getElementById('totalFemale').textContent) || 0;
   
   const ctx = document.getElementById('genderChart').getContext('2d');
   
@@ -1635,7 +1693,7 @@ function showNotification(message, type = 'info') {
 
 // Setup pencarian
 document.getElementById('searchInput').addEventListener('input', function() {
-  updateStats();
+  updateParticipantTable(allParticipants);
 });
 
 // ============================================
@@ -1643,11 +1701,10 @@ document.getElementById('searchInput').addEventListener('input', function() {
 // ============================================
 
 // Auto refresh data setiap 30 detik
-setInterval(() => {
+setInterval(async () => {
   if (currentUser) {
-    updateStats();
+    await updateStats();
     updateCharts();
-    updateLastUpdateTime();
   }
 }, 30000);
 
