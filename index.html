@@ -3,276 +3,1061 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Registrasi Buka Puasa Bersama Ramadan 1447 H - Masjid Central Okayama</title>
+<title>Pendaftaran Sholat Idul Fitri - Okayama Central Mosque</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#f0fdf4;
-  color:#064e3b;
+/* RESET & BASE STYLES */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-main{padding:40px 16px}
-.container{max-width:480px;margin:auto}
-
-.header{text-align:center;margin-bottom:28px}
-.header h1{margin:0;font-size:24px;font-weight:700}
-.header div{font-size:13px;color:#6b7280;margin-top:4px}
-
-.card{
-  background:#fff;
-  padding:28px;
-  border-radius:22px;
-  border:1px solid #e5e7eb;
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #1e293b;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-.field{margin-bottom:22px}
-
-label{
-  display:block;
-  margin-bottom:6px;
-  font-weight:600;
-  font-size:12px;
-  letter-spacing:.04em;
-  color:#374151;
+main {
+  padding: 2rem 1rem;
 }
 
-.input-wrapper{position:relative}
-.input-wrapper i{
-  position:absolute;
-  left:16px;
-  top:50%;
-  transform:translateY(-50%);
-  color:#9ca3af;
+.container {
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-input,select{
-  width:100%;
-  padding:12px 14px 12px 44px;
-  border-radius:14px;
-  border:1.5px solid #e5e7eb;
-  font-size:14px;
-  background:#f9fafb;
+/* HEADER STYLES */
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
 }
 
-input:focus,select:focus{
-  outline:none;
-  border-color:#059669;
-  background:#fff;
+.header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  color: #065f46;
+  font-weight: 700;
 }
 
-select{
-  appearance:none;
-  -webkit-appearance:none;
-  padding-right:40px;
+.header .mosque-name {
+  color: #047857;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.gender-group{
-  display:flex;
-  gap:12px;
+.header .subtitle {
+  color: #64748b;
+  font-size: 0.875rem;
 }
 
-.gender-group input{display:none}
-
-.gender-group label{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:14px;
-  border-radius:14px;
-  border:1.5px solid #e5e7eb;
-  background:#f9fafb;
-  font-size:14px;
-  cursor:pointer;
-  color:#374151;
-  transition:.2s ease;
+/* CARD STYLES */
+.card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
 }
 
-.gender-group input:checked + label{
-  background:#ecfdf5;
-  border-color:#059669;
-  color:#064e3b;
+/* FORM FIELD STYLES */
+.field {
+  margin-bottom: 1.5rem;
 }
 
-.hint{
-  font-size:12px;
-  color:#6b7280;
-  margin-top:6px;
-  line-height:1.5;
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #475569;
 }
 
-.row{display:flex;gap:14px}
-.row .field{flex:1}
-
-button{
-  width:100%;
-  padding:16px;
-  background:#059669;
-  color:#fff;
-  border:none;
-  border-radius:16px;
-  font-weight:600;
-  font-size:15px;
-  cursor:pointer;
-}
-button:disabled{background:#d1d5db;cursor:not-allowed}
-
-.alert{
-  display:none;
-  background:#fef2f2;
-  color:#991b1b;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:18px;
-  text-align:center;
-  font-size:13px;
+.input-wrapper {
+  position: relative;
 }
 
-footer{text-align:center;font-size:12px;color:#9ca3af;padding:28px}
+.input-wrapper i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 1rem;
+}
 
-@media(max-width:480px){
-  .row{flex-direction:column}
+input, select {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  border-radius: 0.75rem;
+  border: 2px solid #e2e8f0;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+
+/* SELECT STYLES */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+  padding-right: 3rem;
+}
+
+/* RADIO & TOGGLE BUTTON STYLES */
+.radio-group, .toggle-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.radio-group input, .toggle-group input {
+  display: none;
+}
+
+.radio-group label, .toggle-group label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0;
+}
+
+.radio-group label i, .toggle-group label i {
+  position: static;
+  transform: none;
+  font-size: 1rem;
+}
+
+.radio-group input:checked + label,
+.toggle-group input:checked + label {
+  background: #d1fae5;
+  border-color: #10b981;
+  color: #065f46;
+  font-weight: 600;
+}
+
+/* OTP CONTAINER */
+.otp-container {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.otp-container .input-wrapper {
+  flex: 1;
+}
+
+.btn-otp {
+  padding: 0.875rem 1.5rem;
+  background: #065f46;
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.btn-otp:hover {
+  background: #047857;
+}
+
+.btn-otp:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* HINT TEXT */
+.hint {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.375rem;
+  line-height: 1.4;
+}
+
+/* ROW LAYOUT */
+.row {
+  display: flex;
+  gap: 1rem;
+}
+
+.row .field {
+  flex: 1;
+}
+
+/* OTP FIELD */
+.otp-field {
+  display: none;
+  background: #f0fdf4;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 2px dashed #10b981;
+  margin-bottom: 1.5rem;
+}
+
+.otp-field.active {
+  display: block;
+}
+
+/* OTHER NATIONALITY FIELD */
+.other-nationality-wrapper {
+  display: none;
+  margin-top: 0.75rem;
+}
+
+.other-nationality-wrapper.active {
+  display: block;
+}
+
+/* CHILDREN FIELD */
+.children-field-wrapper {
+  display: none;
+  margin-top: 0.75rem;
+}
+
+.children-field-wrapper.active {
+  display: block;
+}
+
+/* TOTAL SUMMARY */
+.total-summary {
+  background: #f0fdf4;
+  border: 2px solid #a7f3d0;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.total-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #065f46;
+  margin: 0.5rem 0;
+}
+
+.total-label {
+  font-size: 0.875rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.total-label i {
+  color: #059669;
+}
+
+/* CONSENT CHECKBOX */
+.consent {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f0fdf4;
+  border: 2px solid #a7f3d0;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+  align-items: flex-start;
+}
+
+.consent input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.consent span {
+  font-size: 0.875rem;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+/* BUTTON */
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #059669;
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #047857;
+}
+
+.submit-btn:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* ALERT */
+.alert {
+  display: none;
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #fecaca;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.alert.active {
+  display: block;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  padding: 1rem 0;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 2rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  main {
+    padding: 1rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+  
+  .row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .otp-container {
+    flex-direction: column;
+  }
+  
+  .btn-otp {
+    width: 100%;
+  }
 }
 </style>
 </head>
 
 <body>
-
 <main>
-<div class="container">
+  <div class="container">
+    <!-- Duplicate Alert -->
+    <div class="alert" id="duplicateAlert">
+      <span data-id="Data ini sudah terdaftar" 
+            data-en="This data is already registered" 
+            data-ja="すでに登録されています"></span>
+    </div>
 
-<div class="alert" id="duplicateAlert"
- data-id="Data ini sudah terdaftar"
- data-en="This data is already registered"
- data-ja="すでに登録されています"></div>
+    <!-- Header -->
+    <div class="header">
+      <h1 data-id="Pendaftaran Sholat Idul Fitri"
+          data-en="Eid Prayer Registration"
+          data-ja="イド・アル＝フィトル礼拝 参加登録"></h1>
+      <div class="mosque-name">Okayama Central Mosque</div>
+      <div class="subtitle"
+           data-id="Silakan lengkapi formulir pendaftaran"
+           data-en="Please complete the registration form"
+           data-ja="登録フォームにご記入ください"></div>
+    </div>
 
-<div class="header">
-  <h1 data-id="Registrasi Buka Puasa Bersama Ramadan 1447 H"
-      data-en="Ramadan Iftar Registration 1447 AH"
-      data-ja="ラマダン・イフタール参加登録 1447年"></h1>
-  <div>Masjid Central Okayama</div>
-</div>
+    <!-- Registration Form -->
+    <div class="card">
+      <form id="registrationForm">
+        <!-- Full Name -->
+        <div class="field">
+          <label data-id="Nama Lengkap" data-en="Full Name" data-ja="氏名"></label>
+          <div class="input-wrapper">
+            <i class="fas fa-user"></i>
+            <input type="text" id="nama_lengkap" name="nama_lengkap" required
+                   data-id-ph="Nama sesuai identitas"
+                   data-en-ph="Name as shown on ID"
+                   data-ja-ph="身分証通りの氏名">
+          </div>
+        </div>
 
-<div class="card">
-<form id="registrationForm">
+        <!-- Email -->
+        <div class="field">
+          <label data-id="Alamat Email" data-en="Email Address" data-ja="メールアドレス"></label>
+          <div class="otp-container">
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email" name="email" required
+                     data-id-ph="contoh@email.com"
+                     data-en-ph="example@email.com"
+                     data-ja-ph="例: example@email.com">
+            </div>
+            <button type="button" class="btn-otp" id="sendOtpBtn">
+              <span data-id="Kirim OTP" data-en="Send OTP" data-ja="OTP送信"></span>
+            </button>
+          </div>
+          <div class="hint"
+               data-id="Kode OTP akan dikirim ke email ini"
+               data-en="OTP code will be sent to this email"
+               data-ja="OTPコードはこのメールに送信されます"></div>
+        </div>
 
-<!-- Nama -->
-<div class="field">
-<label data-id="Nama Lengkap" data-en="Full Name" data-ja="氏名"></label>
-<div class="input-wrapper">
-<i class="fas fa-user"></i>
-<input name="nama_lengkap" required
- data-id-ph="Nama sesuai identitas"
- data-en-ph="Name as shown on ID"
- data-ja-ph="身分証通りの氏名">
-</div>
-</div>
+        <!-- OTP Field -->
+        <div class="otp-field" id="otpField">
+          <label data-id="Kode OTP" data-en="OTP Code" data-ja="OTPコード"></label>
+          <div class="input-wrapper">
+            <i class="fas fa-key"></i>
+            <input type="text" id="otp_input" maxlength="6"
+                   data-id-ph="Masukkan 6 digit kode"
+                   data-en-ph="Enter 6-digit code"
+                   data-ja-ph="6桁のコードを入力">
+          </div>
+          <div class="hint" id="otpHint"
+               data-id="Periksa inbox atau spam folder email Anda"
+               data-en="Check your inbox or spam folder"
+               data-ja="受信トレイまたはスパムフォルダをご確認ください"></div>
+        </div>
 
-<!-- Email -->
-<div class="field">
-<label>Email</label>
-<div class="input-wrapper">
-<i class="fas fa-envelope"></i>
-<input type="email" name="email" required
- data-id-ph="contoh@email.com"
- data-en-ph="example@email.com"
- data-ja-ph="example@email.com">
-</div>
-<div class="hint"
- data-id="Email digunakan untuk konfirmasi pendaftaran"
- data-en="Email will be used for registration confirmation"
- data-ja="登録確認のために使用されます"></div>
-</div>
+        <!-- Phone Number -->
+        <div class="field">
+          <label data-id="Nomor Telepon" data-en="Phone Number" data-ja="電話番号"></label>
+          <div class="input-wrapper">
+            <i class="fas fa-phone"></i>
+            <input type="tel" id="no_hp" name="no_hp" required
+                   data-id-ph="081234567890"
+                   data-en-ph="081234567890"
+                   data-ja-ph="08012345678">
+          </div>
+          <div class="hint"
+               data-id="Gunakan nomor aktif yang dapat dihubungi"
+               data-en="Use an active contact number"
+               data-ja="連絡可能な番号を入力してください"></div>
+        </div>
 
-<!-- Kebangsaan -->
-<div class="field">
-<label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
-<div class="input-wrapper">
-<i class="fas fa-flag"></i>
-<select name="kebangsaan" required>
-<option value="" disabled selected
- data-id="Pilih kebangsaan"
- data-en="Select nationality"
- data-ja="国籍を選択"></option>
-<option value="Indonesia">Indonesia</option>
-<option value="Japan">Japan</option>
-<option value="Other"
- data-id="Lainnya"
- data-en="Other"
- data-ja="その他"></option>
-</select>
-</div>
-</div>
+        <!-- Residence -->
+        <div class="field">
+          <label data-id="Domisili" data-en="Residence" data-ja="居住地"></label>
+          <div class="input-wrapper">
+            <i class="fas fa-map-marker-alt"></i>
+            <input type="text" id="domisili" name="domisili" list="neighborhoods" required
+                   data-id-ph="Cari nama kelurahan/kecamatan"
+                   data-en-ph="Search for neighborhood/district"
+                   data-ja-ph="町名・地区名を検索">
+            <datalist id="neighborhoods">
+              <option value="Okayama-shi, Kita-ku, Kaminakano">
+              <option value="Okayama-shi, Kita-ku, Ima">
+              <option value="Okayama-shi, Kita-ku, Omoto">
+              <option value="Okayama-shi, Kita-ku, Tsushima">
+              <option value="Okayama-shi, Kita-ku, Hokan-cho">
+              <option value="Okayama-shi, Naka-ku, Nishigawara">
+              <option value="Okayama-shi, Minami-ku, Toyonari">
+              <option value="Kurashiki-shi, Achi">
+              <option value="Kurashiki-shi, Nakasho">
+              <option value="Kurashiki-shi, Chaya-machi">
+              <option value="Kurashiki-shi, Mizushima">
+              <option value="Kurashiki-shi, Kojima">
+              <option value="Kurashiki-shi, Tamashima">
+              <option value="Tamano-shi, Chikko">
+              <option value="Tamano-shi, Uno">
+              <option value="Tamano-shi, Hibibi">
+              <option value="Tamano-shi, Shibukawa">
+              <option value="Soja-shi, Chuo">
+              <option value="Soja-shi, Kiyone">
+              <option value="Soja-shi, Yamate">
+              <option value="Akaiwa-shi, Sanyo">
+              <option value="Setouchi-shi, Oku-cho">
+            </datalist>
+          </div>
+        </div>
 
-<div class="field" id="otherNationalityField" style="display:none">
-<label data-id="Kebangsaan Lainnya"
-       data-en="Other Nationality"
-       data-ja="その他の国籍"></label>
-<div class="input-wrapper">
-<i class="fas fa-pen"></i>
-<input name="kebangsaan_lainnya"
- data-id-ph="Tulis kebangsaan Anda"
- data-en-ph="Enter your nationality"
- data-ja-ph="国籍を入力してください">
-</div>
-</div>
+        <!-- Nationality -->
+        <div class="field">
+          <label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
+          <div class="input-wrapper">
+            <i class="fas fa-globe"></i>
+            <select id="kebangsaan" name="kebangsaan" required>
+              <option value="" data-id="Pilih kebangsaan" data-en="Select nationality" data-ja="国籍を選択"></option>
+              <option value="Indonesia" data-id="Indonesia" data-en="Indonesia" data-ja="インドネシア">Indonesia</option>
+              <option value="Jepang" data-id="Jepang" data-en="Japan" data-ja="日本">Japan</option>
+              <option value="Lainnya" data-id="Lainnya" data-en="Other" data-ja="その他">Other</option>
+            </select>
+          </div>
+          
+          <!-- Other Nationality Input -->
+          <div class="other-nationality-wrapper" id="otherNationalityWrapper">
+            <div class="input-wrapper">
+              <i class="fas fa-edit"></i>
+              <input type="text" id="kebangsaan_lainnya" name="kebangsaan_lainnya"
+                     data-id-ph="Masukkan kebangsaan Anda"
+                     data-en-ph="Enter your nationality"
+                     data-ja-ph="国籍を入力してください">
+            </div>
+          </div>
+        </div>
 
-<!-- Datang dengan anak -->
-<div class="field">
-<label data-id="Datang Bersama Anak"
-       data-en="Coming with Children"
-       data-ja="お子様同伴"></label>
+        <!-- Age & Gender -->
+        <div class="row">
+          <div class="field">
+            <label data-id="Usia" data-en="Age" data-ja="年齢"></label>
+            <div class="input-wrapper">
+              <i class="fas fa-birthday-cake"></i>
+              <input type="number" id="usia" name="usia" min="1" max="120" required
+                     data-id-ph="Usia saat ini"
+                     data-en-ph="Current age"
+                     data-ja-ph="現在の年齢">
+            </div>
+          </div>
 
-<div class="gender-group">
-<input type="radio" name="dengan_anak" value="Ya" required>
-<label><i class="fas fa-child"></i><span data-id="Ya" data-en="Yes" data-ja="はい"></span></label>
+          <div class="field">
+            <label data-id="Jenis Kelamin" data-en="Gender" data-ja="性別"></label>
+            <div class="radio-group">
+              <input type="radio" id="jk_l" name="jk" value="Laki-laki" required checked>
+              <label for="jk_l">
+                <i class="fas fa-mars"></i>
+                <span data-id="Laki-laki" data-en="Male" data-ja="男性"></span>
+              </label>
+              <input type="radio" id="jk_p" name="jk" value="Perempuan">
+              <label for="jk_p">
+                <i class="fas fa-venus"></i>
+                <span data-id="Perempuan" data-en="Female" data-ja="女性"></span>
+              </label>
+            </div>
+          </div>
+        </div>
 
-<input type="radio" name="dengan_anak" value="Tidak">
-<label><i class="fas fa-user"></i><span data-id="Tidak" data-en="No" data-ja="いいえ"></span></label>
-</div>
+        <!-- Attendance Details -->
+        <div class="field">
+          <label data-id="Detail Kehadiran" data-en="Attendance Details" data-ja="参加者詳細"></label>
+          
+          <!-- Additional Adults -->
+          <div class="field" style="margin-bottom: 1.25rem;">
+            <label data-id="Dewasa Tambahan" data-en="Additional Adults" data-ja="追加の大人"></label>
+            <div class="input-wrapper">
+              <i class="fas fa-user-plus"></i>
+              <input type="number" id="dewasa_tambahan" name="dewasa_tambahan" min="0" max="10" value="0"
+                     data-id-ph="Jumlah dewasa selain Anda"
+                     data-en-ph="Number of adults besides you"
+                     data-ja-ph="ご本人以外の大人の人数">
+            </div>
+            <div class="hint" data-id="Usia 13 tahun ke atas" data-en="Age 13 and above" data-ja="13歳以上"></div>
+          </div>
 
-<div class="hint"
- data-id="Anak usia 0–12 tahun. Mohon menjaga adab dan kenyamanan jamaah."
- data-en="Children aged 0–12 years. Please maintain comfort and etiquette."
- data-ja="0〜12歳のお子様を指します。礼儀とご配慮をお願いします。">
-</div>
-</div>
+          <!-- Children -->
+          <div class="field">
+            <label data-id="Datang dengan Anak?" data-en="Coming with Children?" data-ja="お子様と一緒ですか？"></label>
+            <div class="toggle-group">
+              <input type="radio" id="anak_tidak" name="dengan_anak" value="Tidak" checked>
+              <label for="anak_tidak">
+                <i class="fas fa-times"></i>
+                <span data-id="Tidak" data-en="No" data-ja="いいえ"></span>
+              </label>
+              <input type="radio" id="anak_ya" name="dengan_anak" value="Ya">
+              <label for="anak_ya">
+                <i class="fas fa-child"></i>
+                <span data-id="Ya" data-en="Yes" data-ja="はい"></span>
+              </label>
+            </div>
+            <div class="hint" data-id="Anak usia 0-12 tahun" data-en="Children age 0-12 years" data-ja="0〜12歳のお子様"></div>
+          </div>
 
-<button data-id="Daftar" data-en="Register" data-ja="登録"></button>
+          <!-- Number of Children -->
+          <div class="children-field-wrapper" id="childrenFieldWrapper">
+            <div class="field">
+              <label data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
+              <div class="input-wrapper">
+                <i class="fas fa-baby"></i>
+                <input type="number" id="jumlah_anak" name="jumlah_anak" min="1" max="10" value="1">
+              </div>
+              <div class="hint" data-id="Usia maksimal 12 tahun" data-en="Maximum age: 12 years" data-ja="最大12歳まで"></div>
+            </div>
+          </div>
 
-</form>
-</div>
-</div>
+          <!-- Total Summary -->
+          <div class="total-summary">
+            <div class="total-label">
+              <i class="fas fa-users"></i>
+              <span data-id="Total yang akan hadir" data-en="Total attendees" data-ja="総参加者数"></span>
+            </div>
+            <div class="total-number" id="totalAttendees">1</div>
+            <div class="hint" id="totalDetail" style="color: #475569;"></div>
+          </div>
+          
+          <!-- Hidden field for total -->
+          <input type="hidden" id="jumlah_orang_total" name="jumlah_orang_total" value="1">
+        </div>
+
+        <!-- Consent -->
+        <div class="consent">
+          <input type="checkbox" id="consentCheckbox" required>
+          <span data-id="Saya menyetujui bahwa data saya akan digunakan untuk keperluan administratif acara Sholat Idul Fitri ini"
+                data-en="I agree that my data will be used for administrative purposes of this Eid prayer event"
+                data-ja="個人情報がこのイド・アル＝フィトル礼拝の運営に使用されることに同意します"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span data-id="Daftar Sekarang" data-en="Register Now" data-ja="今すぐ登録"></span>
+        </button>
+      </form>
+    </div>
+
+    <footer>
+      <div>© 2026 — Okayama Central Mosque</div>
+      <div style="margin-top: 0.5rem; font-size: 0.75rem;">
+        <span data-id="Untuk informasi lebih lanjut: info@okayama-mosque.jp"
+              data-en="For more information: info@okayama-mosque.jp"
+              data-ja="お問い合わせ: info@okayama-mosque.jp"></span>
+      </div>
+    </footer>
+  </div>
 </main>
 
-<footer>© 2026 — Masjid Central Okayama</footer>
-
 <script>
-const lang = navigator.language.startsWith("ja") ? "ja" :
-             navigator.language.startsWith("en") ? "en" : "id";
+// Configuration
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvLVMIbhBThHJ8l3d4Rppo1GvDbgeVjELq8_zOtzD7WHaWIaEHhVqHqyVJpgiaiDzp/exec";
 
-document.querySelectorAll("[data-id]").forEach(el=>{
-  el.textContent = el.dataset[lang] || el.dataset.id;
-});
-document.querySelectorAll("[data-id-ph]").forEach(el=>{
-  el.placeholder = el.dataset[`${lang}Ph`] || el.dataset.idPh;
-});
+// Detect language
+const userLang = navigator.language || navigator.userLanguage;
+let lang = 'id';
+if (userLang.startsWith('ja')) {
+  lang = 'ja';
+} else if (userLang.startsWith('en')) {
+  lang = 'en';
+}
 
-const nationalitySelect = document.querySelector('select[name="kebangsaan"]');
-const otherNationalityField = document.getElementById("otherNationalityField");
+// Application State
+let serverOTP = '';
+let isOTPVerified = false;
 
-nationalitySelect.onchange = () => {
-  otherNationalityField.style.display =
-    nationalitySelect.value === "Other" ? "block" : "none";
+// Messages for multilingual
+const messages = {
+  fillNameEmail: {
+    id: 'Mohon isi nama dan email terlebih dahulu',
+    en: 'Please fill in name and email first',
+    ja: '先に名前とメールアドレスを入力してください'
+  },
+  otpSent: {
+    id: 'Kode OTP telah dikirim ke email Anda',
+    en: 'OTP code has been sent to your email',
+    ja: 'OTPコードをメールに送信しました'
+  },
+  otpVerified: {
+    id: 'Kode OTP berhasil diverifikasi',
+    en: 'OTP code successfully verified',
+    ja: 'OTPコードが確認されました'
+  },
+  invalidOtp: {
+    id: 'Kode OTP tidak valid',
+    en: 'Invalid OTP code',
+    ja: '無効なOTPコードです'
+  },
+  verifyOtpFirst: {
+    id: 'Mohon verifikasi kode OTP terlebih dahulu',
+    en: 'Please verify the OTP code first',
+    ja: '先にOTPコードを確認してください'
+  },
+  selectNationality: {
+    id: 'Mohon pilih kebangsaan',
+    en: 'Please select nationality',
+    ja: '国籍を選択してください'
+  },
+  fillOtherNationality: {
+    id: 'Mohon isi kebangsaan Anda',
+    en: 'Please enter your nationality',
+    ja: '国籍を入力してください'
+  },
+  processing: {
+    id: 'Memproses...',
+    en: 'Processing...',
+    ja: '処理中...'
+  },
+  sendingOtp: {
+    id: 'Mengirim OTP...',
+    en: 'Sending OTP...',
+    ja: 'OTP送信中...'
+  }
 };
-</script>
 
+// DOM Elements
+const namaLengkapInput = document.getElementById('nama_lengkap');
+const emailInput = document.getElementById('email');
+const sendOtpBtn = document.getElementById('sendOtpBtn');
+const otpField = document.getElementById('otpField');
+const otpInput = document.getElementById('otp_input');
+const otpHint = document.getElementById('otpHint');
+const noHpInput = document.getElementById('no_hp');
+const domisiliInput = document.getElementById('domisili');
+const kebangsaanSelect = document.getElementById('kebangsaan');
+const otherNationalityWrapper = document.getElementById('otherNationalityWrapper');
+const kebangsaanLainnyaInput = document.getElementById('kebangsaan_lainnya');
+const usiaInput = document.getElementById('usia');
+const dewasaTambahanInput = document.getElementById('dewasa_tambahan');
+const denganAnakRadio = document.querySelectorAll('input[name="dengan_anak"]');
+const childrenFieldWrapper = document.getElementById('childrenFieldWrapper');
+const jumlahAnakInput = document.getElementById('jumlah_anak');
+const totalAttendeesSpan = document.getElementById('totalAttendees');
+const totalDetailSpan = document.getElementById('totalDetail');
+const jumlahOrangTotalInput = document.getElementById('jumlah_orang_total');
+const consentCheckbox = document.getElementById('consentCheckbox');
+const submitBtn = document.getElementById('submitBtn');
+const registrationForm = document.getElementById('registrationForm');
+const duplicateAlert = document.getElementById('duplicateAlert');
+
+// Initialize multilingual text
+function initMultilingual() {
+  // Update all elements with data-id attributes
+  document.querySelectorAll('[data-id]').forEach(element => {
+    if (element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA' && element.tagName !== 'OPTION') {
+      element.textContent = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
+    }
+  });
+  
+  // Update all placeholders
+  document.querySelectorAll('[data-id-ph]').forEach(element => {
+    element.placeholder = element.getAttribute(`data-${lang}-ph`) || element.getAttribute('data-id-ph');
+  });
+  
+  // Update select options
+  document.querySelectorAll('select option[data-id]').forEach(option => {
+    option.textContent = option.getAttribute(`data-${lang}`) || option.getAttribute('data-id');
+  });
+}
+
+// Calculate total attendees
+function calculateTotal() {
+  const registrant = 1;
+  const additionalAdults = parseInt(dewasaTambahanInput.value) || 0;
+  let children = 0;
+  
+  // Check if coming with children
+  const denganAnak = document.querySelector('input[name="dengan_anak"]:checked');
+  if (denganAnak && denganAnak.value === 'Ya') {
+    children = parseInt(jumlahAnakInput.value) || 1;
+  }
+  
+  const total = registrant + additionalAdults + children;
+  
+  // Update display
+  totalAttendeesSpan.textContent = total;
+  jumlahOrangTotalInput.value = total;
+  
+  // Update detail text
+  let detailText = '';
+  if (lang === 'id') {
+    detailText = `${registrant} pendaftar`;
+    if (additionalAdults > 0) detailText += `, ${additionalAdults} dewasa tambahan`;
+    if (children > 0) detailText += `, ${children} anak`;
+  } else if (lang === 'en') {
+    detailText = `${registrant} registrant`;
+    if (additionalAdults > 0) detailText += `, ${additionalAdults} additional adult${additionalAdults > 1 ? 's' : ''}`;
+    if (children > 0) detailText += `, ${children} child${children > 1 ? 'ren' : ''}`;
+  } else if (lang === 'ja') {
+    detailText = `登録者${registrant}名`;
+    if (additionalAdults > 0) detailText += `、追加の大人${additionalAdults}名`;
+    if (children > 0) detailText += `、お子様${children}名`;
+  }
+  
+  totalDetailSpan.textContent = detailText;
+  
+  return total;
+}
+
+// Send OTP function
+async function sendOTP() {
+  const nama = namaLengkapInput.value.trim();
+  const email = emailInput.value.trim();
+  
+  // Validation
+  if (!nama || !email) {
+    alert(messages.fillNameEmail[lang]);
+    return;
+  }
+  
+  // Disable button and show loading
+  const originalText = sendOtpBtn.innerHTML;
+  sendOtpBtn.disabled = true;
+  sendOtpBtn.innerHTML = `<span>${messages.sendingOtp[lang]}</span>`;
+  
+  try {
+    const response = await fetch(
+      `${SCRIPT_URL}?action=send_otp&email=${encodeURIComponent(email)}&nama=${encodeURIComponent(nama)}&lang=${lang}`
+    );
+    const result = await response.json();
+    
+    if (result.status === 'success') {
+      serverOTP = result.otp;
+      
+      // Show OTP field
+      otpField.classList.add('active');
+      otpInput.focus();
+      
+      // Update hint
+      otpHint.textContent = messages.otpSent[lang];
+      otpHint.style.color = '#059669';
+      
+      // Reset OTP verification state
+      isOTPVerified = false;
+      otpInput.disabled = false;
+      otpInput.value = '';
+      
+      // Show success message
+      setTimeout(() => {
+        otpHint.textContent = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
+        otpHint.style.color = '';
+      }, 3000);
+    } else {
+      alert(result.message || 'Gagal mengirim OTP');
+    }
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    alert('Terjadi kesalahan saat mengirim OTP');
+  } finally {
+    // Restore button
+    sendOtpBtn.disabled = false;
+    sendOtpBtn.innerHTML = originalText;
+    initMultilingual();
+  }
+}
+
+// Verify OTP on input
+function verifyOTP() {
+  const enteredOTP = otpInput.value.trim();
+  
+  if (enteredOTP.length === 6) {
+    if (enteredOTP === serverOTP) {
+      isOTPVerified = true;
+      otpInput.disabled = true;
+      otpInput.style.backgroundColor = '#d1fae5';
+      otpInput.style.borderColor = '#10b981';
+      
+      // Update hint
+      otpHint.innerHTML = `<i class="fas fa-check-circle"></i> ${messages.otpVerified[lang]}`;
+      otpHint.style.color = '#059669';
+    } else {
+      isOTPVerified = false;
+      otpHint.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${messages.invalidOtp[lang]}`;
+      otpHint.style.color = '#dc2626';
+    }
+  } else {
+    isOTPVerified = false;
+    otpHint.textContent = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
+    otpHint.style.color = '';
+  }
+}
+
+// Check for duplicate registration
+let duplicateCheckTimeout;
+function checkDuplicate() {
+  clearTimeout(duplicateCheckTimeout);
+  
+  duplicateCheckTimeout = setTimeout(async () => {
+    const email = emailInput.value.trim();
+    const phone = noHpInput.value.trim();
+    
+    if (email && phone) {
+      try {
+        const response = await fetch(
+          `${SCRIPT_URL}?action=check_duplicate&email=${encodeURIComponent(email)}&no_hp=${encodeURIComponent(phone)}`
+        );
+        const result = await response.json();
+        
+        if (result.isDuplicate) {
+          duplicateAlert.classList.add('active');
+          submitBtn.disabled = true;
+        } else {
+          duplicateAlert.classList.remove('active');
+          submitBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error('Error checking duplicate:', error);
+      }
+    }
+  }, 800);
+}
+
+// Handle form submission
+async function submitForm(event) {
+  event.preventDefault();
+  
+  // Validate OTP
+  if (!isOTPVerified) {
+    alert(messages.verifyOtpFirst[lang]);
+    otpInput.focus();
+    return;
+  }
+  
+  // Validate nationality
+  const selectedNationality = kebangsaanSelect.value;
+  if (!selectedNationality) {
+    alert(messages.selectNationality[lang]);
+    kebangsaanSelect.focus();
+    return;
+  }
+  
+  // Validate other nationality
+  if (selectedNationality === 'Lainnya') {
+    const otherNationality = kebangsaanLainnyaInput.value.trim();
+    if (!otherNationality) {
+      alert(messages.fillOtherNationality[lang]);
+      kebangsaanLainnyaInput.focus();
+      return;
+    }
+  }
+  
+  // Disable submit button and show loading
+  const originalText = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = `<span>${messages.processing[lang]}</span>`;
+  
+  // Prepare form data
+  const formData = new FormData(registrationForm);
+  formData.append('action', 'register');
+  formData.append('lang', lang);
+  
+  // Generate ID
+  const now = new Date();
+  const datePart = now.getDate().toString().padStart(2, '0') + (now.getMonth() + 1).toString().padStart(2, '0');
+  const randomPart = Math.random().toString(36).substring(2, 5).toUpperCase();
+  const registrationId = `EID-${datePart}-${randomPart}`;
+  formData.append('id', registrationId);
+  
+  // Handle children field
+  const denganAnak = document.querySelector('input[name="dengan_anak"]:checked');
+  if (!denganAnak || denganAnak.value !== 'Ya') {
+    formData.set('jumlah_anak', '0');
+  }
+  
+  // Handle other nationality
+  if (selectedNationality !== 'Lainnya') {
+    formData.delete('kebangsaan_lainnya');
+  }
+  
+  // Submit to Google Apps Script
+  try {
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: formData
+    });
+    
+    const result = await response.json();
+    
+    if (result.status === 'success') {
+      // Redirect to success page
+      const params = new URLSearchParams(formData);
+      window.location.href = `success.html?${params.toString()}`;
+    } else {
+      alert(result.message || 'Terjadi kesalahan saat mendaftar');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+      initMultilingual();
+    }
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    alert('Terjadi kesalahan jaringan. Silakan coba lagi.');
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalText;
+    initMultilingual();
+  }
+}
+
+// Initialize event listeners
+function initEventListeners() {
+  // OTP button
+  sendOtpBtn.addEventListener('click', sendOTP);
+  
+  // OTP input verification
+  otpInput.addEventListener('input', verifyOTP);
+  
+  // Nationality select
+  kebangsaanSelect.addEventListener('change', function() {
+    if (this.value === 'Lainnya') {
+      otherNationalityWrapper.classList.add('active');
+      kebangsaanLainnyaInput.required = true;
+      setTimeout(() => kebangsaanLainnyaInput.focus(), 100);
+    } else {
+      otherNationalityWrapper.classList.remove('active');
+      kebangsaanLainnyaInput.required = false;
+      kebangsaanLainnyaInput.value = '';
+    }
+  });
+  
+  // Children toggle
+  denganAnakRadio.forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (this.value === 'Ya') {
+        childrenFieldWrapper.classList.add('active');
+        jumlahAnakInput.required = true;
+      } else {
+        childrenFieldWrapper.classList.remove('active');
+        jumlahAnakInput.required = false;
+        jumlahAnakInput.value = '1';
+      }
+      calculateTotal();
+    });
+  });
+  
+  // Calculate total when inputs change
+  dewasaTambahanInput.addEventListener('input', calculateTotal);
+  jumlahAnakInput.addEventListener('input', calculateTotal);
+  
+  // Duplicate check
+  emailInput.addEventListener('input', checkDuplicate);
+  noHpInput.addEventListener('input', checkDuplicate);
+  
+  // Form submission
+  registrationForm.addEventListener('submit', submitForm);
+}
+
+// Initialize the application
+function initApp() {
+  initMultilingual();
+  initEventListeners();
+  calculateTotal();
+  
+  // Set default values
+  document.getElementById('jk_l').checked = true;
+  document.getElementById('anak_tidak').checked = true;
+}
+
+// Start the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', initApp);
+</script>
 </body>
 </html>
