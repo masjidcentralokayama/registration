@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pendaftaran Sholat Idul Fitri - Okayama Central Mosque</title>
+<title>Registrasi Buka Puasa Bersama 1447 H</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 /* RESET & BASE STYLES */
@@ -17,11 +17,13 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  color: #1e293b;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: #f7f7f8;
+  color: #343541;
   line-height: 1.6;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 main {
@@ -41,32 +43,41 @@ main {
 }
 
 .header h1 {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.75rem 0;
   font-size: 1.75rem;
-  color: #065f46;
-  font-weight: 700;
+  color: #202123;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
-.header .mosque-name {
-  color: #047857;
-  font-weight: 600;
+.header .center-name {
+  color: #565869;
+  font-weight: 500;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .header .subtitle {
-  color: #64748b;
+  color: #6e6e80;
   font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 /* CARD STYLES */
 .card {
   background: #ffffff;
   padding: 2rem;
-  border-radius: 1rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* FORM FIELD STYLES */
@@ -77,9 +88,10 @@ main {
 label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.875rem;
-  color: #475569;
+  color: #374151;
+  letter-spacing: -0.01em;
 }
 
 .input-wrapper {
@@ -91,35 +103,38 @@ label {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: #9ca3af;
   font-size: 1rem;
 }
 
 input, select {
   width: 100%;
   padding: 0.875rem 1rem 0.875rem 3rem;
-  border-radius: 0.75rem;
-  border: 2px solid #e2e8f0;
-  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9375rem;
   font-family: 'Inter', sans-serif;
   background: #ffffff;
   transition: all 0.2s ease;
+  color: #374151;
 }
 
 input:focus, select:focus {
   outline: none;
-  border-color: #059669;
-  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+  border-color: #10a37f;
+  box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.1);
+  background: #ffffff;
 }
 
 /* SELECT STYLES */
 select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1.25rem;
   padding-right: 3rem;
+  cursor: pointer;
 }
 
 /* RADIO & TOGGLE BUTTON STYLES */
@@ -139,12 +154,12 @@ select {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.875rem 1rem;
-  border-radius: 0.75rem;
-  border: 2px solid #e2e8f0;
-  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #475569;
+  color: #4b5563;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-bottom: 0;
@@ -159,9 +174,9 @@ select {
 .radio-group input:checked + label,
 .toggle-group input:checked + label {
   background: #d1fae5;
-  border-color: #10b981;
+  border-color: #10a37f;
   color: #065f46;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 /* OTP CONTAINER */
@@ -177,30 +192,31 @@ select {
 
 .btn-otp {
   padding: 0.875rem 1.5rem;
-  background: #065f46;
+  background: #10a37f;
   color: white;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: 8px;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 .btn-otp:hover {
-  background: #047857;
+  background: #0d8c6d;
 }
 
 .btn-otp:disabled {
-  background: #cbd5e1;
+  background: #d1d5db;
   cursor: not-allowed;
 }
 
 /* HINT TEXT */
 .hint {
   font-size: 0.75rem;
-  color: #64748b;
+  color: #6b7280;
   margin-top: 0.375rem;
   line-height: 1.4;
 }
@@ -220,8 +236,8 @@ select {
   display: none;
   background: #f0fdf4;
   padding: 1rem;
-  border-radius: 0.75rem;
-  border: 2px dashed #10b981;
+  border-radius: 8px;
+  border: 1px dashed #10a37f;
   margin-bottom: 1.5rem;
 }
 
@@ -251,9 +267,9 @@ select {
 
 /* TOTAL SUMMARY */
 .total-summary {
-  background: #f0fdf4;
-  border: 2px solid #a7f3d0;
-  border-radius: 0.75rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
   padding: 1.5rem;
   margin-top: 1.5rem;
   text-align: center;
@@ -261,23 +277,24 @@ select {
 
 .total-number {
   font-size: 2rem;
-  font-weight: 700;
-  color: #065f46;
+  font-weight: 600;
+  color: #111827;
   margin: 0.5rem 0;
+  font-family: 'Inter', sans-serif;
 }
 
 .total-label {
   font-size: 0.875rem;
-  color: #475569;
+  color: #4b5563;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .total-label i {
-  color: #059669;
+  color: #10a37f;
 }
 
 /* CONSENT CHECKBOX */
@@ -285,9 +302,9 @@ select {
   display: flex;
   gap: 0.75rem;
   padding: 1rem;
-  background: #f0fdf4;
-  border: 2px solid #a7f3d0;
-  border-radius: 0.75rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
   margin: 1.5rem 0;
   align-items: flex-start;
 }
@@ -297,11 +314,13 @@ select {
   height: 1.25rem;
   margin-top: 0.125rem;
   flex-shrink: 0;
+  border-radius: 4px;
+  accent-color: #10a37f;
 }
 
 .consent span {
   font-size: 0.875rem;
-  color: #1e293b;
+  color: #374151;
   line-height: 1.5;
 }
 
@@ -309,22 +328,23 @@ select {
 .submit-btn {
   width: 100%;
   padding: 1rem;
-  background: #059669;
+  background: #10a37f;
   color: white;
   border: none;
-  border-radius: 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
 }
 
 .submit-btn:hover {
-  background: #047857;
+  background: #0d8c6d;
 }
 
 .submit-btn:disabled {
-  background: #cbd5e1;
+  background: #d1d5db;
   cursor: not-allowed;
 }
 
@@ -334,7 +354,7 @@ select {
   background: #fef2f2;
   color: #dc2626;
   padding: 1rem;
-  border-radius: 0.75rem;
+  border-radius: 8px;
   border: 1px solid #fecaca;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -348,17 +368,17 @@ select {
 /* FOOTER */
 footer {
   text-align: center;
-  color: #94a3b8;
+  color: #6b7280;
   font-size: 0.875rem;
   padding: 1rem 0;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #e5e7eb;
   margin-top: 2rem;
 }
 
 /* RESPONSIVE */
 @media (max-width: 640px) {
   main {
-    padding: 1rem;
+    padding: 1.5rem 1rem;
   }
   
   .card {
@@ -377,6 +397,29 @@ footer {
   .btn-otp {
     width: 100%;
   }
+  
+  input, select {
+    padding: 0.75rem 0.875rem 0.75rem 2.75rem;
+  }
+  
+  .input-wrapper i {
+    left: 0.875rem;
+  }
+}
+
+/* LOADING SPINNER */
+.loading-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 </style>
 </head>
@@ -391,16 +434,19 @@ footer {
             data-ja="すでに登録されています"></span>
     </div>
 
-    <!-- Header -->
+    <!-- Header - KONSISTEN dengan footer -->
     <div class="header">
-      <h1 data-id="Pendaftaran Sholat Idul Fitri"
-          data-en="Eid Prayer Registration"
-          data-ja="イド・アル＝フィトル礼拝 参加登録"></h1>
-      <div class="mosque-name">Okayama Central Mosque</div>
+      <h1 data-id="Registrasi Buka Puasa Bersama 1447 H"
+          data-en="Ramadan Iftar Registration 1447 AH"
+          data-ja="1447年 ラマダン・イフタール参加登録"></h1>
+      <div class="center-name" 
+           data-id="Yayasan Ibadurrahman Islamic Center"
+           data-en="Ibadurrahman Islamic Center Foundation"
+           data-ja="イバドゥッラフマン・イスラムセンター財団"></div>
       <div class="subtitle"
-           data-id="Silakan lengkapi formulir pendaftaran"
-           data-en="Please complete the registration form"
-           data-ja="登録フォームにご記入ください"></div>
+           data-id="Silakan lengkapi formulir registrasi di bawah ini"
+           data-en="Please complete the registration form below"
+           data-ja="以下の登録フォームにご記入ください"></div>
     </div>
 
     <!-- Registration Form -->
@@ -429,7 +475,7 @@ footer {
                      data-en-ph="example@email.com"
                      data-ja-ph="例: example@email.com">
             </div>
-            <button type="button" class="btn-otp" id="sendOtpBtn">
+            <button type="button" class="btn-otp" id="sendOtpBtn" aria-label="Send OTP">
               <span data-id="Kirim OTP" data-en="Send OTP" data-ja="OTP送信"></span>
             </button>
           </div>
@@ -460,7 +506,7 @@ footer {
           <label data-id="Nomor Telepon" data-en="Phone Number" data-ja="電話番号"></label>
           <div class="input-wrapper">
             <i class="fas fa-phone"></i>
-            <input type="tel" id="no_hp" name="no_hp" required
+            <input type="tel" id="no_hp" name="no_hp" required pattern="[0-9]{10,15}"
                    data-id-ph="081234567890"
                    data-en-ph="081234567890"
                    data-ja-ph="08012345678">
@@ -514,8 +560,8 @@ footer {
             <i class="fas fa-globe"></i>
             <select id="kebangsaan" name="kebangsaan" required>
               <option value="" data-id="Pilih kebangsaan" data-en="Select nationality" data-ja="国籍を選択"></option>
-              <option value="Indonesia" data-id="Indonesia" data-en="Indonesia" data-ja="インドネシア">Indonesia</option>
-              <option value="Jepang" data-id="Jepang" data-en="Japan" data-ja="日本">Japan</option>
+              <option value="Indonesia">Indonesia</option>
+              <option value="Jepang">Japan</option>
               <option value="Lainnya" data-id="Lainnya" data-en="Other" data-ja="その他">Other</option>
             </select>
           </div>
@@ -597,7 +643,7 @@ footer {
             <div class="hint" data-id="Anak usia 0-12 tahun" data-en="Children age 0-12 years" data-ja="0〜12歳のお子様"></div>
           </div>
 
-          <!-- Number of Children -->
+          <!-- Number of Children - PERBAIKAN: Default value 1 saat Ya -->
           <div class="children-field-wrapper" id="childrenFieldWrapper">
             <div class="field">
               <label data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
@@ -616,7 +662,7 @@ footer {
               <span data-id="Total yang akan hadir" data-en="Total attendees" data-ja="総参加者数"></span>
             </div>
             <div class="total-number" id="totalAttendees">1</div>
-            <div class="hint" id="totalDetail" style="color: #475569;"></div>
+            <div class="hint" id="totalDetail" style="color: #4b5563;"></div>
           </div>
           
           <!-- Hidden field for total -->
@@ -626,9 +672,9 @@ footer {
         <!-- Consent -->
         <div class="consent">
           <input type="checkbox" id="consentCheckbox" required>
-          <span data-id="Saya menyetujui bahwa data saya akan digunakan untuk keperluan administratif acara Sholat Idul Fitri ini"
-                data-en="I agree that my data will be used for administrative purposes of this Eid prayer event"
-                data-ja="個人情報がこのイド・アル＝フィトル礼拝の運営に使用されることに同意します"></span>
+          <span data-id="Saya menyetujui bahwa data ini digunakan untuk keperluan administrasi acara"
+                data-en="I agree that this data will be used for event administration purposes"
+                data-ja="個人情報がイベントの運営に使用されることに同意します"></span>
         </div>
 
         <!-- Submit Button -->
@@ -639,11 +685,13 @@ footer {
     </div>
 
     <footer>
-      <div>© 2026 — Okayama Central Mosque</div>
-      <div style="margin-top: 0.5rem; font-size: 0.75rem;">
-        <span data-id="Untuk informasi lebih lanjut: info@okayama-mosque.jp"
-              data-en="For more information: info@okayama-mosque.jp"
-              data-ja="お問い合わせ: info@okayama-mosque.jp"></span>
+      <div data-id="© 2026 — Yayasan Ibadurrahman Islamic Center"
+           data-en="© 2026 — Ibadurrahman Islamic Center Foundation"
+           data-ja="© 2026 — イバドゥッラフマン・イスラムセンター財団"></div>
+      <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #9ca3af;">
+        <span data-id="Untuk informasi lebih lanjut: info@ibadurrahman.org"
+              data-en="For more information: info@ibadurrahman.org"
+              data-ja="お問い合わせ: info@ibadurrahman.org"></span>
       </div>
     </footer>
   </div>
@@ -666,12 +714,17 @@ if (userLang.startsWith('ja')) {
 let serverOTP = '';
 let isOTPVerified = false;
 
-// Messages for multilingual
+// Messages for multilingual - DIPERBAIKI dengan pesan yang lebih lengkap
 const messages = {
   fillNameEmail: {
     id: 'Mohon isi nama dan email terlebih dahulu',
     en: 'Please fill in name and email first',
     ja: '先に名前とメールアドレスを入力してください'
+  },
+  invalidEmail: {
+    id: 'Format email tidak valid',
+    en: 'Invalid email format',
+    ja: 'メールアドレスの形式が無効です'
   },
   otpSent: {
     id: 'Kode OTP telah dikirim ke email Anda',
@@ -712,6 +765,16 @@ const messages = {
     id: 'Mengirim OTP...',
     en: 'Sending OTP...',
     ja: 'OTP送信中...'
+  },
+  networkError: {
+    id: 'Terjadi kesalahan jaringan. Silakan coba lagi.',
+    en: 'Network error. Please try again.',
+    ja: '通信エラーが発生しました。もう一度お試しください。'
+  },
+  ageValidation: {
+    id: 'Usia harus antara 1 dan 120 tahun',
+    en: 'Age must be between 1 and 120 years',
+    ja: '年齢は1歳から120歳の間で入力してください'
   }
 };
 
@@ -745,19 +808,38 @@ function initMultilingual() {
   // Update all elements with data-id attributes
   document.querySelectorAll('[data-id]').forEach(element => {
     if (element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA' && element.tagName !== 'OPTION') {
-      element.textContent = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
+      const translatedText = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
+      if (translatedText) {
+        element.textContent = translatedText;
+      }
     }
   });
   
   // Update all placeholders
   document.querySelectorAll('[data-id-ph]').forEach(element => {
-    element.placeholder = element.getAttribute(`data-${lang}-ph`) || element.getAttribute('data-id-ph');
+    const translatedPlaceholder = element.getAttribute(`data-${lang}-ph`) || element.getAttribute('data-id-ph');
+    if (translatedPlaceholder) {
+      element.placeholder = translatedPlaceholder;
+    }
   });
   
-  // Update select options
-  document.querySelectorAll('select option[data-id]').forEach(option => {
-    option.textContent = option.getAttribute(`data-${lang}`) || option.getAttribute('data-id');
-  });
+  // Update select option texts
+  const optionLainnya = kebangsaanSelect.querySelector('option[value="Lainnya"]');
+  if (optionLainnya) {
+    const translatedText = optionLainnya.getAttribute(`data-${lang}`) || optionLainnya.getAttribute('data-id');
+    if (translatedText) {
+      optionLainnya.textContent = translatedText;
+    }
+  }
+  
+  // Update placeholder option
+  const placeholderOption = kebangsaanSelect.querySelector('option[value=""]');
+  if (placeholderOption) {
+    const translatedText = placeholderOption.getAttribute(`data-${lang}`) || placeholderOption.getAttribute('data-id');
+    if (translatedText) {
+      placeholderOption.textContent = translatedText;
+    }
+  }
 }
 
 // Calculate total attendees
@@ -799,7 +881,7 @@ function calculateTotal() {
   return total;
 }
 
-// Send OTP function
+// Send OTP function - DIPERBAIKI dengan validasi email
 async function sendOTP() {
   const nama = namaLengkapInput.value.trim();
   const email = emailInput.value.trim();
@@ -810,10 +892,17 @@ async function sendOTP() {
     return;
   }
   
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert(messages.invalidEmail[lang]);
+    return;
+  }
+  
   // Disable button and show loading
   const originalText = sendOtpBtn.innerHTML;
   sendOtpBtn.disabled = true;
-  sendOtpBtn.innerHTML = `<span>${messages.sendingOtp[lang]}</span>`;
+  sendOtpBtn.innerHTML = `<span class="loading-spinner"></span> <span>${messages.sendingOtp[lang]}</span>`;
   
   try {
     const response = await fetch(
@@ -826,16 +915,22 @@ async function sendOTP() {
       
       // Show OTP field
       otpField.classList.add('active');
-      otpInput.focus();
+      
+      // Focus on OTP input
+      setTimeout(() => {
+        otpInput.focus();
+      }, 100);
       
       // Update hint
       otpHint.textContent = messages.otpSent[lang];
-      otpHint.style.color = '#059669';
+      otpHint.style.color = '#10a37f';
       
       // Reset OTP verification state
       isOTPVerified = false;
       otpInput.disabled = false;
       otpInput.value = '';
+      otpInput.style.backgroundColor = '';
+      otpInput.style.borderColor = '';
       
       // Show success message
       setTimeout(() => {
@@ -843,11 +938,11 @@ async function sendOTP() {
         otpHint.style.color = '';
       }, 3000);
     } else {
-      alert(result.message || 'Gagal mengirim OTP');
+      alert(result.message || messages.networkError[lang]);
     }
   } catch (error) {
     console.error('Error sending OTP:', error);
-    alert('Terjadi kesalahan saat mengirim OTP');
+    alert(messages.networkError[lang]);
   } finally {
     // Restore button
     sendOtpBtn.disabled = false;
@@ -864,15 +959,15 @@ function verifyOTP() {
     if (enteredOTP === serverOTP) {
       isOTPVerified = true;
       otpInput.disabled = true;
-      otpInput.style.backgroundColor = '#d1fae5';
-      otpInput.style.borderColor = '#10b981';
+      otpInput.style.backgroundColor = '#f0fdf4';
+      otpInput.style.borderColor = '#10a37f';
       
       // Update hint
-      otpHint.innerHTML = `<i class="fas fa-check-circle"></i> ${messages.otpVerified[lang]}`;
-      otpHint.style.color = '#059669';
+      otpHint.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 5px; color: #10a37f;"></i> ${messages.otpVerified[lang]}`;
+      otpHint.style.color = '#10a37f';
     } else {
       isOTPVerified = false;
-      otpHint.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${messages.invalidOtp[lang]}`;
+      otpHint.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right: 5px; color: #dc2626;"></i> ${messages.invalidOtp[lang]}`;
       otpHint.style.color = '#dc2626';
     }
   } else {
@@ -912,6 +1007,39 @@ function checkDuplicate() {
   }, 800);
 }
 
+// Validate form before submission
+function validateForm() {
+  // Validate age
+  const usia = parseInt(usiaInput.value);
+  if (usia < 1 || usia > 120) {
+    alert(messages.ageValidation[lang]);
+    usiaInput.focus();
+    return false;
+  }
+  
+  // Validate phone number pattern
+  const phoneRegex = /^[0-9]{10,15}$/;
+  if (!phoneRegex.test(noHpInput.value.trim())) {
+    alert(lang === 'id' ? 'Nomor telepon harus 10-15 digit angka' :
+          lang === 'en' ? 'Phone number must be 10-15 digits' :
+          '電話番号は10〜15桁の数字で入力してください');
+    noHpInput.focus();
+    return false;
+  }
+  
+  // Validate additional adults
+  const dewasaTambahan = parseInt(dewasaTambahanInput.value) || 0;
+  if (dewasaTambahan < 0 || dewasaTambahan > 10) {
+    alert(lang === 'id' ? 'Jumlah dewasa tambahan harus antara 0-10' :
+          lang === 'en' ? 'Additional adults must be between 0-10' :
+          '追加の大人は0〜10名で入力してください');
+    dewasaTambahanInput.focus();
+    return false;
+  }
+  
+  return true;
+}
+
 // Handle form submission
 async function submitForm(event) {
   event.preventDefault();
@@ -941,10 +1069,15 @@ async function submitForm(event) {
     }
   }
   
+  // Validate other form fields
+  if (!validateForm()) {
+    return;
+  }
+  
   // Disable submit button and show loading
   const originalText = submitBtn.innerHTML;
   submitBtn.disabled = true;
-  submitBtn.innerHTML = `<span>${messages.processing[lang]}</span>`;
+  submitBtn.innerHTML = `<span class="loading-spinner"></span> <span>${messages.processing[lang]}</span>`;
   
   // Prepare form data
   const formData = new FormData(registrationForm);
@@ -955,7 +1088,7 @@ async function submitForm(event) {
   const now = new Date();
   const datePart = now.getDate().toString().padStart(2, '0') + (now.getMonth() + 1).toString().padStart(2, '0');
   const randomPart = Math.random().toString(36).substring(2, 5).toUpperCase();
-  const registrationId = `EID-${datePart}-${randomPart}`;
+  const registrationId = `IFTAR-${datePart}-${randomPart}`;
   formData.append('id', registrationId);
   
   // Handle children field
@@ -983,14 +1116,14 @@ async function submitForm(event) {
       const params = new URLSearchParams(formData);
       window.location.href = `success.html?${params.toString()}`;
     } else {
-      alert(result.message || 'Terjadi kesalahan saat mendaftar');
+      alert(result.message || messages.networkError[lang]);
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
       initMultilingual();
     }
   } catch (error) {
     console.error('Error submitting form:', error);
-    alert('Terjadi kesalahan jaringan. Silakan coba lagi.');
+    alert(messages.networkError[lang]);
     submitBtn.disabled = false;
     submitBtn.innerHTML = originalText;
     initMultilingual();
@@ -1018,16 +1151,17 @@ function initEventListeners() {
     }
   });
   
-  // Children toggle
+  // Children toggle - DIPERBAIKI: Set default value 1 saat memilih Ya
   denganAnakRadio.forEach(radio => {
     radio.addEventListener('change', function() {
       if (this.value === 'Ya') {
         childrenFieldWrapper.classList.add('active');
         jumlahAnakInput.required = true;
+        jumlahAnakInput.value = '1';
       } else {
         childrenFieldWrapper.classList.remove('active');
         jumlahAnakInput.required = false;
-        jumlahAnakInput.value = '1';
+        jumlahAnakInput.value = '0';
       }
       calculateTotal();
     });
