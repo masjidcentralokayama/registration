@@ -553,15 +553,15 @@ footer {
           </div>
         </div>
 
-        <!-- Nationality -->
+         <!-- Nationality - DIPERBAIKI: Semua opsi multilingual -->
         <div class="field">
           <label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
           <div class="input-wrapper">
             <i class="fas fa-globe"></i>
             <select id="kebangsaan" name="kebangsaan" required>
               <option value="" data-id="Pilih kebangsaan" data-en="Select nationality" data-ja="国籍を選択"></option>
-              <option value="Indonesia">Indonesia</option>
-              <option value="Jepang">Japan</option>
+              <option value="Indonesia" data-id="Indonesia" data-en="Indonesia" data-ja="インドネシア">Indonesia</option>
+              <option value="Jepang" data-id="Jepang" data-en="Japan" data-ja="日本">Japan</option>
               <option value="Lainnya" data-id="Lainnya" data-en="Other" data-ja="その他">Other</option>
             </select>
           </div>
@@ -573,7 +573,8 @@ footer {
               <input type="text" id="kebangsaan_lainnya" name="kebangsaan_lainnya"
                      data-id-ph="Masukkan kebangsaan Anda"
                      data-en-ph="Enter your nationality"
-                     data-ja-ph="国籍を入力してください">
+                     data-ja-ph="国籍を入力してください"
+                     autocapitalize="words">
             </div>
           </div>
         </div>
