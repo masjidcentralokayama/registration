@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Registrasi Buka Puasa Bersama 1447 H</title>
 
+<!-- Apps Script Deployment URL -->
+<meta name="script-url" content="https://script.google.com/macros/s/AKfycbwvLVMIbhBThHJ8l3d4Rppo1GvDbgeVjELq8_zOtzD7WHaWIaEHhVqHqyVJpgiaiDzp/exec">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -1167,12 +1170,15 @@ footer .contact a:hover {
   </div>
 </main>
 
-<!-- JavaScript remains the same as in the previous version -->
 <script>
-// Configuration
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby48Hjn9XQM5wTebKcA4mFJLdA-XJqHyIbQsZSL5knqSJTUa8Fub0gyUy7zNsHvehDJng/exec";
+// ============================================
+// KONFIGURASI SISTEM
+// ============================================
 
-// Detect language
+// GANTI dengan URL Apps Script deployment Anda
+const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+
+// Deteksi bahasa
 const userLang = navigator.language || navigator.userLanguage;
 let lang = 'id';
 if (userLang.startsWith('ja')) { 
@@ -1257,6 +1263,11 @@ const messages = {
     id: 'Terlalu banyak percobaan OTP. Silakan refresh halaman.',
     en: 'Too many OTP attempts. Please refresh the page.',
     ja: 'OTP試行回数が多すぎます。ページを更新してください。'
+  },
+  emailConfirmed: {
+    id: 'Email sudah terkonfirmasi',
+    en: 'Email already confirmed',
+    ja: 'メールは既に確認済みです'
   }
 };
 
@@ -1283,12 +1294,16 @@ const submitBtn = document.getElementById('submitBtn');
 const duplicateAlert = document.getElementById('duplicateAlert');
 const infoMessage = document.getElementById('infoMessage');
 
+// ============================================
+// FUNGSI UTILITAS
+// ============================================
+
 // Initialize multilingual text
 function initMultilingual() {
   document.querySelectorAll('[data-id]').forEach(element => {
     const text = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
     if (text && element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA' && element.tagName !== 'SELECT' && element.tagName !== 'OPTION') {
-      element.innerHTML = text; // Use innerHTML for consent text with strong tag
+      element.innerHTML = text;
     }
   });
   
@@ -1306,7 +1321,7 @@ function initMultilingual() {
   });
 }
 
-// Calculate total
+// Calculate total attendees
 function calculateTotal() {
   const registrant = 1;
   const additionalAdults = parseInt(dewasaTambahanInput.value) || 0;
@@ -1330,6 +1345,10 @@ function calculateTotal() {
   
   return total;
 }
+
+// ============================================
+// FUNGSI OTP
+// ============================================
 
 // Send OTP
 async function sendOTP() {
@@ -1364,8 +1383,9 @@ async function sendOTP() {
         otpInput.focus();
       }, 100);
       
-      // Reset OTP attempts when sending new OTP
       otpAttempts = 0;
+    } else {
+      alert(result.error || messages.networkError[lang]);
     }
   } catch (e) { 
     alert(messages.networkError[lang]); 
@@ -1432,9 +1452,12 @@ function resetOTPState() {
   otpHint.style.color = '';
 }
 
-// Check for duplicate registration (only when OTP is verified)
+// ============================================
+// FUNGSI CHECK DUPLICATE
+// ============================================
+
 let duplicateCheckTimeout;
-function checkDuplicate() {
+async function checkDuplicate() {
   // Only check duplicates after OTP is verified
   if (!isOTPVerified) return;
   
@@ -1463,7 +1486,10 @@ function checkDuplicate() {
   }, 500);
 }
 
-// Event Listeners
+// ============================================
+// EVENT LISTENERS
+// ============================================
+
 document.addEventListener('DOMContentLoaded', () => {
   initMultilingual();
   calculateTotal();
@@ -1549,13 +1575,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = `<span class="loading-spinner"></span> ${messages.processing[lang]}`;
 
-    // Prepare form data with trimmed values
+    // Prepare form data
     const formData = new FormData(registrationForm);
-    
-    // Konversi FormData ke URLSearchParams agar lebih mudah diterima Apps Script
     const params = new URLSearchParams();
     
-    // Process all form fields with trimming and normalization
+    // Process all form fields
     for (const [key, value] of formData) {
       let processedValue = value.toString().trim();
       
@@ -1572,7 +1596,7 @@ document.addEventListener('DOMContentLoaded', () => {
         processedValue = processedValue.toLowerCase();
       }
       
-      // Calculate total attendees on server side (don't trust client-side calculation)
+      // Calculate total attendees
       if (key === 'jumlah_orang_total') {
         processedValue = calculateTotal().toString();
       }
@@ -1580,39 +1604,29 @@ document.addEventListener('DOMContentLoaded', () => {
       params.append(key, processedValue);
     }
     
-    // Tambahkan action dan info bahasa yang digunakan saat mendaftar
+    // Add action and language
     params.append('action', 'register');
     params.append('lang_used', lang);
-    // Server harus memverifikasi ulang OTP berdasarkan email (tidak mengirim OTP lagi)
 
     try {
-      // Mengirim data menggunakan metode POST ke SCRIPT_URL
+      // Use POST with proper headers
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // Untuk menghindari isu CORS dengan Google Apps Script
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
         body: params
       });
-
-      // Karena mode: 'no-cors', kita tidak bisa membaca isi JSON respon secara langsung
-      // Tampilkan pesan bahwa user akan menerima email konfirmasi
-      alert(messages.success[lang]);
       
-      // Reset form setelah berhasil
-      registrationForm.reset();
-      isOTPVerified = false;
-      otpAttempts = 0;
-      otpField.classList.remove('active');
-      otpInput.value = '';
-      otpInput.disabled = false;
-      otpInput.style.borderColor = '';
-      otpInput.style.backgroundColor = '';
+      const result = await response.json();
       
-      // Reset duplicate alert
-      duplicateAlert.classList.remove('active');
-      
-      // Reset language text and recalculate
-      initMultilingual();
-      calculateTotal();
+      if (result.success) {
+        // Redirect to success page
+        alert(messages.success[lang]);
+        window.location.href = result.redirect_url;
+      } else {
+        alert(result.error || messages.networkError[lang]);
+      }
       
     } catch (error) {
       console.error('Submission error:', error);
