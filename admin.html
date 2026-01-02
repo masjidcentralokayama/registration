@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboard Admin - Buka Puasa Bersama 1447 H</title>
+<title>Dashboard Kehadiran - Buka Puasa Bersama 1447 H</title>
 
 <!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Dashboard Admin - Buka Puasa Bersama 1447 H">
-<meta property="og:description" content="Sistem monitoring real-time kehadiran jamaah">
+<meta property="og:title" content="Dashboard Kehadiran - Buka Puasa Bersama 1447 H">
+<meta property="og:description" content="Sistem pendataan dan monitoring kehadiran jamaah">
 <meta property="og:image" content="https://example.com/og-image.png">
 <meta property="og:url" content="">
 <meta property="og:type" content="website">
@@ -62,7 +62,7 @@ body {
   background: linear-gradient(135deg, var(--accent-green), var(--accent-teal)); 
   clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%); 
   z-index: 1;
-  opacity: 0.65;
+  opacity: 0.65; /* Lebih redup */
 }
 
 .ornament-bottom {
@@ -74,7 +74,7 @@ body {
   background: linear-gradient(135deg, var(--accent-teal), var(--accent-green));
   clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
   z-index: 1;
-  opacity: 0.65;
+  opacity: 0.65; /* Lebih redup */
 }
 
 .islamic-pattern {
@@ -622,7 +622,7 @@ body {
 .dashboard-footer {
   text-align: center;
   padding: 1.5rem;
-  color: #94a3b8;
+  color: #64748b;
   font-size: 0.8rem;
   border-top: 1px solid #e2e8f0;
   margin-top: 2rem;
@@ -693,35 +693,6 @@ body {
   .data-table td {
     padding: 0.75rem;
   }
-}
-
-/* Animasi untuk notifikasi */
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideOut {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 </style>
 </head>
@@ -1684,11 +1655,38 @@ setInterval(() => {
 // INISIALISASI
 // ============================================
 
-console.log("Dashboard Admin/Panitia Iftar 1447 H telah dimuat!");
-console.log("Kredensial login:");
-console.log("- Admin: username 'admin', password 'musazain'");
-console.log("- Panitia: username 'panitia', password 'bukbermco'");
-console.log("Data disimpan di localStorage dengan key 'iftarParticipants'");
+// Tambahkan CSS untuk animasi notifikasi
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+`;
+document.head.appendChild(style);
 </script>
 </body>
 </html>
