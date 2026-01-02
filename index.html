@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Registrasi Buka Puasa Bersama 1447 H</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -14,6 +14,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -24,10 +25,13 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
 }
 
 main {
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
+  min-height: calc(100vh - 100px);
 }
 
 .container {
@@ -38,13 +42,13 @@ main {
 /* HEADER STYLES */
 .header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   padding: 0 0.5rem;
 }
 
 .header h1 {
   margin: 0 0 0.75rem 0;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   color: #202123;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -54,42 +58,37 @@ main {
 .header .center-name {
   color: #565869;
   font-weight: 500;
-  font-size: 1rem;
-  margin-bottom: 0.75rem;
+  font-size: 0.9375rem;
+  margin-bottom: 0.5rem;
 }
 
 .header .subtitle {
   color: #6e6e80;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 /* CARD STYLES */
 .card {
   background: #ffffff;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
   border: 1px solid #e5e5e5;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  transition: all 0.2s ease;
-}
-
-.card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
 }
 
 /* FORM FIELD STYLES */
 .field {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: #374151;
   letter-spacing: -0.01em;
 }
@@ -105,6 +104,7 @@ label {
   transform: translateY(-50%);
   color: #9ca3af;
   font-size: 1rem;
+  z-index: 1;
 }
 
 input, select {
@@ -112,11 +112,14 @@ input, select {
   padding: 0.875rem 1rem 0.875rem 3rem;
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-family: 'Inter', sans-serif;
   background: #ffffff;
   transition: all 0.2s ease;
   color: #374151;
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 16px; /* Mencegah zoom di iOS */
 }
 
 input:focus, select:focus {
@@ -128,7 +131,6 @@ input:focus, select:focus {
 
 /* SELECT STYLES */
 select {
-  appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
@@ -163,6 +165,7 @@ select {
   cursor: pointer;
   transition: all 0.2s ease;
   margin-bottom: 0;
+  touch-action: manipulation;
 }
 
 .radio-group label i, .toggle-group label i {
@@ -191,7 +194,7 @@ select {
 }
 
 .btn-otp {
-  padding: 0.875rem 1.5rem;
+  padding: 0.875rem 1.25rem;
   background: #10a37f;
   color: white;
   border: none;
@@ -202,6 +205,8 @@ select {
   white-space: nowrap;
   transition: all 0.2s ease;
   font-family: 'Inter', sans-serif;
+  touch-action: manipulation;
+  min-height: 48px;
 }
 
 .btn-otp:hover {
@@ -211,6 +216,25 @@ select {
 .btn-otp:disabled {
   background: #d1d5db;
   cursor: not-allowed;
+}
+
+/* OTP INPUT KHUSUS UNTUK MOBILE */
+.otp-input-mobile {
+  font-size: 24px !important;
+  letter-spacing: 8px;
+  text-align: center;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  height: 56px;
+  font-weight: 600;
+  font-family: 'Inter', monospace;
+  caret-color: #10a37f;
+}
+
+.otp-input-mobile::placeholder {
+  letter-spacing: normal;
+  font-size: 16px;
+  font-weight: normal;
 }
 
 /* HINT TEXT */
@@ -270,13 +294,13 @@ select {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1.25rem;
   margin-top: 1.5rem;
   text-align: center;
 }
 
 .total-number {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: #111827;
   margin: 0.5rem 0;
@@ -284,7 +308,7 @@ select {
 }
 
 .total-label {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: #4b5563;
   display: flex;
   align-items: center;
@@ -319,7 +343,7 @@ select {
 }
 
 .consent span {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: #374151;
   line-height: 1.5;
 }
@@ -332,11 +356,14 @@ select {
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: 'Inter', sans-serif;
+  touch-action: manipulation;
+  min-height: 52px;
+  font-size: 17px; /* Ukuran font optimal untuk mobile */
 }
 
 .submit-btn:hover {
@@ -358,7 +385,7 @@ select {
   border: 1px solid #fecaca;
   margin-bottom: 1.5rem;
   text-align: center;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
 }
 
 .alert.active {
@@ -369,20 +396,26 @@ select {
 footer {
   text-align: center;
   color: #6b7280;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   padding: 1rem 0;
   border-top: 1px solid #e5e7eb;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE FOR MOBILE */
 @media (max-width: 640px) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
   main {
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.75rem;
   }
   
   .card {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    border-radius: 10px;
   }
   
   .row {
@@ -396,14 +429,75 @@ footer {
   
   .btn-otp {
     width: 100%;
+    min-height: 48px;
+    font-size: 16px;
   }
   
   input, select {
-    padding: 0.75rem 0.875rem 0.75rem 2.75rem;
+    padding: 0.875rem 0.875rem 0.875rem 2.75rem;
+    font-size: 16px; /* Mencegah zoom di iOS */
+    min-height: 48px;
   }
   
   .input-wrapper i {
     left: 0.875rem;
+    font-size: 0.9375rem;
+  }
+  
+  .header h1 {
+    font-size: 1.375rem;
+  }
+  
+  .header .center-name {
+    font-size: 0.875rem;
+  }
+  
+  .header .subtitle {
+    font-size: 0.75rem;
+  }
+  
+  /* Ukuran font yang lebih besar untuk mobile */
+  input[type="number"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="text"] {
+    font-size: 16px !important;
+  }
+  
+  /* Tombol radio/toggle lebih besar di mobile */
+  .radio-group label,
+  .toggle-group label {
+    padding: 0.875rem 0.5rem;
+    font-size: 0.8125rem;
+    min-height: 48px;
+  }
+  
+  /* OTP input lebih besar di mobile */
+  .otp-input-mobile {
+    font-size: 28px !important;
+    letter-spacing: 10px;
+    height: 60px;
+    min-height: 60px;
+  }
+  
+  .total-number {
+    font-size: 1.5rem;
+  }
+  
+  .submit-btn {
+    min-height: 56px;
+    font-size: 18px;
+  }
+}
+
+/* Responsive untuk tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    max-width: 600px;
+  }
+  
+  .card {
+    padding: 2rem;
   }
 }
 
@@ -421,6 +515,25 @@ footer {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* HIDE NUMBER INPUT SPINNERS */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* FOCUS STATE FOR TOUCH DEVICES */
+@media (hover: none) and (pointer: coarse) {
+  input:focus, select:focus, button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.3);
+  }
+}
 </style>
 </head>
 
@@ -434,7 +547,7 @@ footer {
             data-ja="すでに登録されています"></span>
     </div>
 
-    <!-- Header - KONSISTEN dengan footer -->
+    <!-- Header -->
     <div class="header">
       <h1 data-id="Registrasi Buka Puasa Bersama 1447 H"
           data-en="Ramadan Iftar Registration 1447 AH"
@@ -460,7 +573,8 @@ footer {
             <input type="text" id="nama_lengkap" name="nama_lengkap" required
                    data-id-ph="Nama sesuai identitas"
                    data-en-ph="Name as shown on ID"
-                   data-ja-ph="身分証通りの氏名">
+                   data-ja-ph="身分証通りの氏名"
+                   autocapitalize="words">
           </div>
         </div>
 
@@ -473,7 +587,8 @@ footer {
               <input type="email" id="email" name="email" required
                      data-id-ph="contoh@email.com"
                      data-en-ph="example@email.com"
-                     data-ja-ph="例: example@email.com">
+                     data-ja-ph="例: example@email.com"
+                     inputmode="email">
             </div>
             <button type="button" class="btn-otp" id="sendOtpBtn" aria-label="Send OTP">
               <span data-id="Kirim OTP" data-en="Send OTP" data-ja="OTP送信"></span>
@@ -485,15 +600,21 @@ footer {
                data-ja="OTPコードはこのメールに送信されます"></div>
         </div>
 
-        <!-- OTP Field -->
+        <!-- OTP Field - INPUT KHUSUS MOBILE -->
         <div class="otp-field" id="otpField">
-          <label data-id="Kode OTP" data-en="OTP Code" data-ja="OTPコード"></label>
+          <label data-id="Kode OTP (6 digit)" data-en="OTP Code (6 digits)" data-ja="OTPコード（6桁）"></label>
           <div class="input-wrapper">
             <i class="fas fa-key"></i>
-            <input type="text" id="otp_input" maxlength="6"
-                   data-id-ph="Masukkan 6 digit kode"
-                   data-en-ph="Enter 6-digit code"
-                   data-ja-ph="6桁のコードを入力">
+            <input type="text" 
+                   id="otp_input" 
+                   maxlength="6"
+                   pattern="[0-9]*"
+                   inputmode="numeric"
+                   class="otp-input-mobile"
+                   data-id-ph="123456"
+                   data-en-ph="123456"
+                   data-ja-ph="123456"
+                   autocomplete="one-time-code">
           </div>
           <div class="hint" id="otpHint"
                data-id="Periksa inbox atau spam folder email Anda"
@@ -509,7 +630,8 @@ footer {
             <input type="tel" id="no_hp" name="no_hp" required pattern="[0-9]{10,15}"
                    data-id-ph="081234567890"
                    data-en-ph="081234567890"
-                   data-ja-ph="08012345678">
+                   data-ja-ph="08012345678"
+                   inputmode="tel">
           </div>
           <div class="hint"
                data-id="Gunakan nomor aktif yang dapat dihubungi"
@@ -525,7 +647,8 @@ footer {
             <input type="text" id="domisili" name="domisili" list="neighborhoods" required
                    data-id-ph="Cari nama kelurahan/kecamatan"
                    data-en-ph="Search for neighborhood/district"
-                   data-ja-ph="町名・地区名を検索">
+                   data-ja-ph="町名・地区名を検索"
+                   autocapitalize="words">
             <datalist id="neighborhoods">
               <option value="Okayama-shi, Kita-ku, Kaminakano">
               <option value="Okayama-shi, Kita-ku, Ima">
@@ -553,15 +676,15 @@ footer {
           </div>
         </div>
 
-        <!-- Nationality -->
+        <!-- Nationality - DIPERBAIKI: Semua opsi multilingual -->
         <div class="field">
           <label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
           <div class="input-wrapper">
             <i class="fas fa-globe"></i>
             <select id="kebangsaan" name="kebangsaan" required>
               <option value="" data-id="Pilih kebangsaan" data-en="Select nationality" data-ja="国籍を選択"></option>
-              <option value="Indonesia">Indonesia</option>
-              <option value="Jepang">Japan</option>
+              <option value="Indonesia" data-id="Indonesia" data-en="Indonesia" data-ja="インドネシア">Indonesia</option>
+              <option value="Jepang" data-id="Jepang" data-en="Japan" data-ja="日本">Japan</option>
               <option value="Lainnya" data-id="Lainnya" data-en="Other" data-ja="その他">Other</option>
             </select>
           </div>
@@ -573,7 +696,8 @@ footer {
               <input type="text" id="kebangsaan_lainnya" name="kebangsaan_lainnya"
                      data-id-ph="Masukkan kebangsaan Anda"
                      data-en-ph="Enter your nationality"
-                     data-ja-ph="国籍を入力してください">
+                     data-ja-ph="国籍を入力してください"
+                     autocapitalize="words">
             </div>
           </div>
         </div>
@@ -587,7 +711,8 @@ footer {
               <input type="number" id="usia" name="usia" min="1" max="120" required
                      data-id-ph="Usia saat ini"
                      data-en-ph="Current age"
-                     data-ja-ph="現在の年齢">
+                     data-ja-ph="現在の年齢"
+                     inputmode="numeric">
             </div>
           </div>
 
@@ -620,7 +745,8 @@ footer {
               <input type="number" id="dewasa_tambahan" name="dewasa_tambahan" min="0" max="10" value="0"
                      data-id-ph="Jumlah dewasa selain Anda"
                      data-en-ph="Number of adults besides you"
-                     data-ja-ph="ご本人以外の大人の人数">
+                     data-ja-ph="ご本人以外の大人の人数"
+                     inputmode="numeric">
             </div>
             <div class="hint" data-id="Usia 13 tahun ke atas" data-en="Age 13 and above" data-ja="13歳以上"></div>
           </div>
@@ -643,13 +769,14 @@ footer {
             <div class="hint" data-id="Anak usia 0-12 tahun" data-en="Children age 0-12 years" data-ja="0〜12歳のお子様"></div>
           </div>
 
-          <!-- Number of Children - PERBAIKAN: Default value 1 saat Ya -->
+          <!-- Number of Children -->
           <div class="children-field-wrapper" id="childrenFieldWrapper">
             <div class="field">
               <label data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
               <div class="input-wrapper">
                 <i class="fas fa-baby"></i>
-                <input type="number" id="jumlah_anak" name="jumlah_anak" min="1" max="10" value="1">
+                <input type="number" id="jumlah_anak" name="jumlah_anak" min="1" max="10" value="1"
+                       inputmode="numeric">
               </div>
               <div class="hint" data-id="Usia maksimal 12 tahun" data-en="Maximum age: 12 years" data-ja="最大12歳まで"></div>
             </div>
@@ -710,11 +837,15 @@ if (userLang.startsWith('ja')) {
   lang = 'en';
 }
 
+// Detect if mobile device
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
 // Application State
 let serverOTP = '';
 let isOTPVerified = false;
 
-// Messages for multilingual - DIPERBAIKI dengan pesan yang lebih lengkap
+// Messages for multilingual - DIPERBAIKI dengan terjemahan Jepang yang lebih baik
 const messages = {
   fillNameEmail: {
     id: 'Mohon isi nama dan email terlebih dahulu',
@@ -824,21 +955,49 @@ function initMultilingual() {
   });
   
   // Update select option texts
-  const optionLainnya = kebangsaanSelect.querySelector('option[value="Lainnya"]');
-  if (optionLainnya) {
-    const translatedText = optionLainnya.getAttribute(`data-${lang}`) || optionLainnya.getAttribute('data-id');
+  document.querySelectorAll('select option[data-id]').forEach(option => {
+    const translatedText = option.getAttribute(`data-${lang}`) || option.getAttribute('data-id');
     if (translatedText) {
-      optionLainnya.textContent = translatedText;
+      option.textContent = translatedText;
     }
-  }
-  
-  // Update placeholder option
-  const placeholderOption = kebangsaanSelect.querySelector('option[value=""]');
-  if (placeholderOption) {
-    const translatedText = placeholderOption.getAttribute(`data-${lang}`) || placeholderOption.getAttribute('data-id');
-    if (translatedText) {
-      placeholderOption.textContent = translatedText;
-    }
+  });
+}
+
+// Optimize OTP input for mobile
+function optimizeOTPInput() {
+  if (isMobile) {
+    // Set input attributes for better mobile experience
+    otpInput.setAttribute('inputmode', 'numeric');
+    otpInput.setAttribute('pattern', '[0-9]*');
+    otpInput.setAttribute('autocomplete', 'one-time-code');
+    
+    // Add paste event for OTP
+    otpInput.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+      const numbersOnly = pastedText.replace(/\D/g, '').substring(0, 6);
+      otpInput.value = numbersOnly;
+      
+      // Trigger verification if we have 6 digits
+      if (numbersOnly.length === 6) {
+        otpInput.dispatchEvent(new Event('input'));
+      }
+    });
+    
+    // Auto-advance to next field (for future multi-input OTP)
+    otpInput.addEventListener('input', (e) => {
+      const value = e.target.value.replace(/\D/g, '');
+      e.target.value = value.substring(0, 6);
+      
+      // Auto-submit if 6 digits entered
+      if (value.length === 6) {
+        verifyOTP();
+        // Hide virtual keyboard on mobile after 6 digits
+        if (isMobile) {
+          otpInput.blur();
+        }
+      }
+    });
   }
 }
 
@@ -881,7 +1040,7 @@ function calculateTotal() {
   return total;
 }
 
-// Send OTP function - DIPERBAIKI dengan validasi email
+// Send OTP function
 async function sendOTP() {
   const nama = namaLengkapInput.value.trim();
   const email = emailInput.value.trim();
@@ -916,10 +1075,14 @@ async function sendOTP() {
       // Show OTP field
       otpField.classList.add('active');
       
-      // Focus on OTP input
+      // Focus on OTP input with delay for mobile
       setTimeout(() => {
         otpInput.focus();
-      }, 100);
+        // On mobile, ensure virtual keyboard shows numeric keypad
+        if (isMobile) {
+          otpInput.click();
+        }
+      }, 300);
       
       // Update hint
       otpHint.textContent = messages.otpSent[lang];
@@ -953,7 +1116,7 @@ async function sendOTP() {
 
 // Verify OTP on input
 function verifyOTP() {
-  const enteredOTP = otpInput.value.trim();
+  const enteredOTP = otpInput.value.replace(/\D/g, '');
   
   if (enteredOTP.length === 6) {
     if (enteredOTP === serverOTP) {
@@ -965,10 +1128,21 @@ function verifyOTP() {
       // Update hint
       otpHint.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 5px; color: #10a37f;"></i> ${messages.otpVerified[lang]}`;
       otpHint.style.color = '#10a37f';
+      
+      // Auto-focus on submit button for better UX
+      setTimeout(() => {
+        submitBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 500);
     } else {
       isOTPVerified = false;
       otpHint.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right: 5px; color: #dc2626;"></i> ${messages.invalidOtp[lang]}`;
       otpHint.style.color = '#dc2626';
+      
+      // Shake animation for wrong OTP
+      otpInput.style.animation = 'none';
+      setTimeout(() => {
+        otpInput.style.animation = 'shake 0.5s';
+      }, 10);
     }
   } else {
     isOTPVerified = false;
@@ -1135,8 +1309,34 @@ function initEventListeners() {
   // OTP button
   sendOtpBtn.addEventListener('click', sendOTP);
   
-  // OTP input verification
-  otpInput.addEventListener('input', verifyOTP);
+  // OTP input verification - DIPERBAIKI untuk mobile
+  otpInput.addEventListener('input', function(e) {
+    // Allow only numbers
+    this.value = this.value.replace(/\D/g, '');
+    
+    // Limit to 6 digits
+    if (this.value.length > 6) {
+      this.value = this.value.substring(0, 6);
+    }
+    
+    // Auto verify when 6 digits entered
+    if (this.value.length === 6) {
+      verifyOTP();
+    }
+  });
+  
+  // OTP input on paste event
+  otpInput.addEventListener('paste', function(e) {
+    e.preventDefault();
+    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+    const numbersOnly = pastedText.replace(/\D/g, '').substring(0, 6);
+    this.value = numbersOnly;
+    
+    // Auto verify if we have 6 digits
+    if (numbersOnly.length === 6) {
+      verifyOTP();
+    }
+  });
   
   // Nationality select
   kebangsaanSelect.addEventListener('change', function() {
@@ -1151,7 +1351,7 @@ function initEventListeners() {
     }
   });
   
-  // Children toggle - DIPERBAIKI: Set default value 1 saat memilih Ya
+  // Children toggle
   denganAnakRadio.forEach(radio => {
     radio.addEventListener('change', function() {
       if (this.value === 'Ya') {
@@ -1177,17 +1377,53 @@ function initEventListeners() {
   
   // Form submission
   registrationForm.addEventListener('submit', submitForm);
+  
+  // Add shake animation for CSS
+  if (!document.querySelector('#shake-animation')) {
+    const style = document.createElement('style');
+    style.id = 'shake-animation';
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 }
 
 // Initialize the application
 function initApp() {
   initMultilingual();
   initEventListeners();
+  optimizeOTPInput();
   calculateTotal();
   
   // Set default values
   document.getElementById('jk_l').checked = true;
   document.getElementById('anak_tidak').checked = true;
+  
+  // Adjust for iOS devices
+  if (isIOS) {
+    document.body.classList.add('ios-device');
+    // Fix for iOS form zoom
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+      el.addEventListener('focus', () => {
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
+      });
+    });
+  }
+  
+  // Prevent form zoom on iOS
+  if (isIOS) {
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+    }
+  }
 }
 
 // Start the application when DOM is loaded
