@@ -6,10 +6,18 @@
 <title>Registrasi Buka Puasa Bersama 1447 H</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 /* RESET & BASE STYLES */
+:root {
+  --accent-green: #10a37f;
+  --accent-gold: #d4af37;
+  --accent-teal: #0f766e;
+  --accent-dark: #1e293b;
+  --accent-light: #f8fafc;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,9 +25,9 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background: #f7f7f8;
-  color: #343541;
+  font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: linear-gradient(135deg, #f7f7f8 0%, #f0f9ff 100%);
+  color: var(--accent-dark);
   line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -28,74 +36,263 @@ body {
 
 main {
   padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .container {
-  max-width: 500px;
+  max-width: 520px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* DECORATIVE ELEMENTS */
+.ornament-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-teal) 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.ornament-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-green) 100%);
+  clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+  z-index: 0;
+  opacity: 0.9;
+}
+
+.islamic-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(16, 163, 127, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 0;
 }
 
 /* HEADER STYLES */
 .header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   padding: 0 0.5rem;
+  position: relative;
+}
+
+.header-icon {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(16, 163, 127, 0.15);
+  border: 2px solid var(--accent-gold);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-icon i {
+  font-size: 2.5rem;
+  color: var(--accent-green);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .header h1 {
-  margin: 0 0 0.75rem 0;
-  font-size: 1.75rem;
-  color: #202123;
-  font-weight: 600;
+  margin: 0 0 1rem 0;
+  font-size: 1.9rem;
+  color: var(--accent-dark);
+  font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+  display: inline-block;
+}
+
+.header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  border-radius: 2px;
 }
 
 .header .center-name {
-  color: #565869;
-  font-weight: 500;
-  font-size: 1rem;
-  margin-bottom: 0.75rem;
+  color: var(--accent-teal);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .header .subtitle {
-  color: #6e6e80;
-  font-size: 0.875rem;
+  color: #64748b;
+  font-size: 0.95rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.event-purpose {
+  background: linear-gradient(135deg, rgba(16, 163, 127, 0.08) 0%, rgba(15, 118, 110, 0.08) 100%);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem auto 0;
+  max-width: 480px;
+  border-left: 4px solid var(--accent-gold);
+  font-size: 0.9rem;
+  color: var(--accent-teal);
+  line-height: 1.6;
+  font-style: italic;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(16, 163, 127, 0.1);
+}
+
+.islamic-divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.islamic-divider::before,
+.islamic-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+}
+
+.islamic-divider::before {
+  left: 0;
+}
+
+.islamic-divider::after {
+  right: 0;
+}
+
+.islamic-divider span {
+  color: var(--accent-gold);
+  font-size: 1.2rem;
+  letter-spacing: 8px;
+  display: inline-block;
+  padding: 0 10px;
+  background: var(--accent-light);
 }
 
 /* CARD STYLES */
 .card {
   background: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid #e5e5e5;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  transition: all 0.2s ease;
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 32px rgba(16, 163, 127, 0.08);
+  margin-bottom: 2.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent-green), var(--accent-gold));
 }
 
 .card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(16, 163, 127, 0.12);
+  transform: translateY(-2px);
+}
+
+/* SECTION TITLES */
+.section-title {
+  font-size: 0.95rem;
+  color: var(--accent-teal);
+  border-left: 3px solid var(--accent-gold);
+  padding-left: 1rem;
+  margin: 2.5rem 0 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.section-title:first-child {
+  margin-top: 0;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent-green), var(--accent-gold));
+  border-radius: 2px;
 }
 
 /* FORM FIELD STYLES */
 .field {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+  position: relative;
 }
 
 label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  color: #374151;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--accent-dark);
   letter-spacing: -0.01em;
+  font-family: 'Poppins', sans-serif;
 }
 
 .input-wrapper {
   position: relative;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper:hover {
+  transform: translateY(-1px);
 }
 
 .input-wrapper i {
@@ -103,33 +300,40 @@ label {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #9ca3af;
+  color: #94a3b8;
   font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+input:focus + i,
+select:focus + i {
+  color: var(--accent-green);
 }
 
 input, select {
   width: 100%;
-  padding: 0.875rem 1rem 0.875rem 3rem;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  font-size: 0.9375rem;
+  padding: 1rem 1rem 1rem 3rem;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 0.95rem;
   font-family: 'Inter', sans-serif;
   background: #ffffff;
-  transition: all 0.2s ease;
-  color: #374151;
+  transition: all 0.3s ease;
+  color: var(--accent-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 input:focus, select:focus {
   outline: none;
-  border-color: #10a37f;
-  box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.1);
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.15);
   background: #ffffff;
 }
 
 /* SELECT STYLES */
 select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1.25rem;
@@ -153,15 +357,15 @@ select {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.875rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  background: #f9fafb;
-  font-size: 0.875rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.9rem;
   font-weight: 500;
-  color: #4b5563;
+  color: #475569;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   margin-bottom: 0;
 }
 
@@ -173,10 +377,11 @@ select {
 
 .radio-group input:checked + label,
 .toggle-group input:checked + label {
-  background: #d1fae5;
-  border-color: #10a37f;
-  color: #065f46;
-  font-weight: 500;
+  background: rgba(16, 163, 127, 0.1);
+  border-color: var(--accent-green);
+  color: var(--accent-teal);
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(16, 163, 127, 0.1);
 }
 
 /* OTP CONTAINER */
@@ -191,35 +396,41 @@ select {
 }
 
 .btn-otp {
-  padding: 0.875rem 1.5rem;
-  background: #10a37f;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-teal) 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
-  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
   min-width: 120px;
+  box-shadow: 0 4px 12px rgba(16, 163, 127, 0.2);
 }
 
 .btn-otp:hover {
-  background: #0d8c6d;
+  background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-green) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 163, 127, 0.3);
 }
 
 .btn-otp:disabled {
-  background: #d1d5db;
+  background: #cbd5e1;
+  transform: none;
+  box-shadow: none;
   cursor: not-allowed;
 }
 
 /* HINT TEXT */
 .hint {
-  font-size: 0.75rem;
-  color: #6b7280;
-  margin-top: 0.375rem;
-  line-height: 1.4;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+  padding-left: 0.25rem;
 }
 
 /* ROW LAYOUT */
@@ -235,21 +446,52 @@ select {
 /* OTP FIELD */
 .otp-field {
   display: none;
-  background: #f0fdf4;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px dashed #10a37f;
-  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, rgba(16, 163, 127, 0.05) 0%, rgba(15, 118, 110, 0.05) 100%);
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1.5px dashed var(--accent-green);
+  margin-bottom: 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.otp-field::before {
+  content: '✓';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--accent-green);
+  font-size: 1.2rem;
+  font-weight: bold;
+  opacity: 0.3;
 }
 
 .otp-field.active {
   display: block;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* OTHER NATIONALITY FIELD */
 .other-nationality-wrapper {
   display: none;
-  margin-top: 0.75rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .other-nationality-wrapper.active {
@@ -259,7 +501,8 @@ select {
 /* CHILDREN FIELD */
 .children-field-wrapper {
   display: none;
-  margin-top: 0.75rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.3s ease;
 }
 
 .children-field-wrapper.active {
@@ -268,112 +511,227 @@ select {
 
 /* TOTAL SUMMARY */
 .total-summary {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin-top: 2rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.total-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-gold), var(--accent-teal));
 }
 
 .total-number {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #111827;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-teal);
   margin: 0.5rem 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .total-label {
-  font-size: 0.875rem;
-  color: #4b5563;
+  font-size: 0.9rem;
+  color: var(--accent-dark);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-weight: 500;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
 }
 
 .total-label i {
-  color: #10a37f;
+  color: var(--accent-green);
+  font-size: 1.2rem;
 }
 
 /* CONSENT CHECKBOX */
 .consent {
   display: flex;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  margin: 1.5rem 0;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(16, 163, 127, 0.05) 0%, rgba(15, 118, 110, 0.05) 100%);
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  margin: 2rem 0;
   align-items: flex-start;
+  transition: all 0.3s ease;
+}
+
+.consent:hover {
+  border-color: var(--accent-green);
+  background: linear-gradient(135deg, rgba(16, 163, 127, 0.08) 0%, rgba(15, 118, 110, 0.08) 100%);
 }
 
 .consent input {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
   margin-top: 0.125rem;
   flex-shrink: 0;
-  border-radius: 4px;
-  accent-color: #10a37f;
+  border-radius: 6px;
+  accent-color: var(--accent-green);
+  cursor: pointer;
 }
 
 .consent span {
-  font-size: 0.875rem;
-  color: #374151;
-  line-height: 1.5;
+  font-size: 0.9rem;
+  color: var(--accent-dark);
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.consent span strong {
+  color: var(--accent-teal);
+  font-weight: 600;
 }
 
 /* BUTTON */
 .submit-btn {
   width: 100%;
-  padding: 1rem;
-  background: #10a37f;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-teal) 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  font-weight: 500;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 6px 20px rgba(16, 163, 127, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .submit-btn:hover {
-  background: #0d8c6d;
+  background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-green) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 163, 127, 0.3);
+}
+
+.submit-btn:hover::before {
+  left: 100%;
 }
 
 .submit-btn:disabled {
-  background: #d1d5db;
+  background: #cbd5e1;
+  transform: none;
+  box-shadow: none;
   cursor: not-allowed;
+}
+
+.submit-btn:disabled::before {
+  display: none;
 }
 
 /* ALERT */
 .alert {
   display: none;
-  background: #fef2f2;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
   color: #dc2626;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #fecaca;
-  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1.5px solid #fecaca;
+  margin-bottom: 1.75rem;
   text-align: center;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  animation: slideDown 0.3s ease;
 }
 
 .alert.active {
   display: block;
 }
 
+/* INFO MESSAGE */
+.info-message {
+  display: none;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0369a1;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1.5px solid #bae6fd;
+  margin-bottom: 1.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  animation: slideDown 0.3s ease;
+}
+
+.info-message.active {
+  display: block;
+}
+
 /* FOOTER */
 footer {
   text-align: center;
-  color: #6b7280;
-  font-size: 0.875rem;
-  padding: 1rem 0;
-  border-top: 1px solid #e5e7eb;
-  margin-top: 2rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 3rem;
+  position: relative;
+}
+
+.prayer-message {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(16, 163, 127, 0.08) 100%);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin: 1rem auto 1.5rem;
+  max-width: 500px;
+  color: var(--accent-teal);
+  font-style: italic;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+footer .center-name {
+  font-weight: 600;
+  color: var(--accent-teal);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+footer .contact {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+footer .contact a {
+  color: var(--accent-green);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+footer .contact a:hover {
+  color: var(--accent-teal);
+  text-decoration: underline;
 }
 
 /* RESPONSIVE */
@@ -383,23 +741,23 @@ footer {
   }
   
   .card {
-    padding: 1.5rem;
+    padding: 1.75rem;
   }
   
   .row {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
   }
   
   .otp-container {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
     align-items: stretch;
   }
   
   .btn-otp {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.9rem;
     font-size: 0.85rem;
     min-width: unset;
   }
@@ -409,7 +767,7 @@ footer {
   }
   
   input, select {
-    padding: 0.75rem 0.875rem 0.75rem 2.75rem;
+    padding: 0.9rem 1rem 0.9rem 2.75rem;
     font-size: 0.9rem;
   }
   
@@ -419,23 +777,40 @@ footer {
   }
   
   .otp-field {
-    padding: 0.875rem;
+    padding: 1rem;
   }
   
   .total-summary {
-    padding: 1.25rem;
+    padding: 1.5rem;
   }
   
   .total-number {
-    font-size: 1.75rem;
+    font-size: 2.2rem;
+  }
+  
+  .header h1 {
+    font-size: 1.7rem;
+  }
+  
+  .header-icon {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .header-icon i {
+    font-size: 2rem;
+  }
+  
+  .section-title {
+    margin: 2rem 0 1.25rem;
   }
 }
 
 /* LOADING SPINNER */
 .loading-spinner {
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
+  width: 1.2rem;
+  height: 1.2rem;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: #fff;
@@ -449,6 +824,11 @@ footer {
 </head>
 
 <body>
+<!-- Decorative Background Elements -->
+<div class="ornament-top"></div>
+<div class="ornament-bottom"></div>
+<div class="islamic-pattern"></div>
+
 <main>
   <div class="container">
     <!-- Duplicate Alert -->
@@ -458,24 +838,54 @@ footer {
             data-ja="すでに登録されています"></span>
     </div>
 
+    <!-- Info Message -->
+    <div class="info-message" id="infoMessage">
+      <span data-id="Setelah submit, Anda akan menerima email konfirmasi jika data valid"
+            data-en="After submission, you will receive a confirmation email if the data is valid"
+            data-ja="送信後、データが有効な場合、確認メールが送信されます"></span>
+    </div>
+
     <!-- Header -->
     <div class="header">
+      <div class="header-icon">
+        <i class="fas fa-mosque"></i>
+      </div>
+      
       <h1 data-id="Registrasi Buka Puasa Bersama 1447 H"
           data-en="Ramadan Iftar Registration 1447 AH"
           data-ja="1447年 ラマダン・イフタール参加登録"></h1>
+      
       <div class="center-name" 
            data-id="Yayasan Ibadurrahman Islamic Center"
            data-en="Ibadurrahman Islamic Center Foundation"
            data-ja="イバドゥッラフマン・イスラムセンター財団"></div>
+      
       <div class="subtitle"
-           data-id="Silakan lengkapi formulir registrasi di bawah ini"
-           data-en="Please complete the registration form below"
-           data-ja="以下の登録フォームにご記入ください"></div>
+           data-id="Silakan lengkapi formulir registrasi di bawah ini dengan data yang valid"
+           data-en="Please complete the registration form below with valid data"
+           data-ja="有効なデータで以下の登録フォームにご記入ください"></div>
+      
+      <div class="event-purpose"
+           data-id="Formulir ini digunakan untuk pendataan jamaah agar pelaksanaan buka puasa bersama berjalan tertib, nyaman, dan penuh keberkahan"
+           data-en="This form is used to register congregation members so that the iftar gathering runs orderly, comfortably, and full of blessings"
+           data-ja="このフォームは集団イフタールが秩序正しく、快適に、祝福に満ちて行われるよう、礼拝者の登録に使用されます"></div>
+    </div>
+
+    <!-- Islamic Divider -->
+    <div class="islamic-divider">
+      <span>✦ ✦ ✦</span>
     </div>
 
     <!-- Registration Form -->
     <div class="card">
       <form id="registrationForm">
+        
+        <!-- Section: Data Jamaah -->
+        <h3 class="section-title" 
+            data-id="Data Jamaah"
+            data-en="Congregation Data"
+            data-ja="礼拝者データ"></h3>
+
         <!-- Full Name -->
         <div class="field">
           <label data-id="Nama Lengkap" data-en="Full Name" data-ja="氏名"></label>
@@ -651,73 +1061,82 @@ footer {
           </div>
         </div>
 
-        <!-- Attendance Details -->
-        <div class="field">
-          <label data-id="Detail Kehadiran" data-en="Attendance Details" data-ja="参加者詳細"></label>
-          
-          <!-- Additional Adults -->
-          <div class="field" style="margin-bottom: 1.25rem;">
-            <label data-id="Dewasa Tambahan" data-en="Additional Adults" data-ja="追加の大人"></label>
-            <div class="input-wrapper">
-              <i class="fas fa-user-plus"></i>
-              <input type="number" id="dewasa_tambahan" name="dewasa_tambahan" min="0" max="10" value="0"
-                     data-id-ph="Jumlah dewasa selain Anda"
-                     data-en-ph="Number of adults besides you"
-                     data-ja-ph="ご本人以外の大人の人数">
-            </div>
-            <div class="hint" data-id="Usia 13 tahun ke atas" data-en="Age 13 and above" data-ja="13歳以上"></div>
-          </div>
+        <!-- Section: Informasi Kehadiran -->
+        <h3 class="section-title" 
+            data-id="Informasi Kehadiran"
+            data-en="Attendance Information"
+            data-ja="参加情報"></h3>
 
-          <!-- Children -->
-          <div class="field">
-            <label data-id="Datang dengan Anak?" data-en="Coming with Children?" data-ja="お子様と一緒ですか？"></label>
-            <div class="toggle-group">
-              <input type="radio" id="anak_tidak" name="dengan_anak" value="Tidak" checked>
-              <label for="anak_tidak">
-                <i class="fas fa-times"></i>
-                <span data-id="Tidak" data-en="No" data-ja="いいえ"></span>
-              </label>
-              <input type="radio" id="anak_ya" name="dengan_anak" value="Ya">
-              <label for="anak_ya">
-                <i class="fas fa-child"></i>
-                <span data-id="Ya" data-en="Yes" data-ja="はい"></span>
-              </label>
-            </div>
-            <div class="hint" data-id="Anak usia 0-12 tahun" data-en="Children age 0-12 years" data-ja="0〜12歳のお子様"></div>
+        <!-- Additional Adults -->
+        <div class="field" style="margin-bottom: 1.5rem;">
+          <label data-id="Dewasa Tambahan" data-en="Additional Adults" data-ja="追加の大人"></label>
+          <div class="input-wrapper">
+            <i class="fas fa-user-plus"></i>
+            <input type="number" id="dewasa_tambahan" name="dewasa_tambahan" min="0" max="10" value="0"
+                   data-id-ph="Jumlah dewasa selain Anda"
+                   data-en-ph="Number of adults besides you"
+                   data-ja-ph="ご本人以外の大人の人数">
           </div>
-
-          <!-- Number of Children -->
-          <div class="children-field-wrapper" id="childrenFieldWrapper">
-            <div class="field">
-              <label data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
-              <div class="input-wrapper">
-                <i class="fas fa-baby"></i>
-                <input type="number" id="jumlah_anak" name="jumlah_anak" min="1" max="10" value="1">
-              </div>
-              <div class="hint" data-id="Usia maksimal 12 tahun" data-en="Maximum age: 12 years" data-ja="最大12歳まで"></div>
-            </div>
-          </div>
-
-          <!-- Total Summary -->
-          <div class="total-summary">
-            <div class="total-label">
-              <i class="fas fa-users"></i>
-              <span data-id="Total yang akan hadir" data-en="Total attendees" data-ja="総参加者数"></span>
-            </div>
-            <div class="total-number" id="totalAttendees">1</div>
-            <div class="hint" id="totalDetail" style="color: #4b5563;"></div>
-          </div>
-          
-          <!-- Hidden field for total -->
-          <input type="hidden" id="jumlah_orang_total" name="jumlah_orang_total" value="1">
+          <div class="hint" data-id="Usia 13 tahun ke atas" data-en="Age 13 and above" data-ja="13歳以上"></div>
         </div>
+
+        <!-- Children -->
+        <div class="field">
+          <label data-id="Datang dengan Anak?" data-en="Coming with Children?" data-ja="お子様と一緒ですか？"></label>
+          <div class="toggle-group">
+            <input type="radio" id="anak_tidak" name="dengan_anak" value="Tidak" checked>
+            <label for="anak_tidak">
+              <i class="fas fa-times"></i>
+              <span data-id="Tidak" data-en="No" data-ja="いいえ"></span>
+            </label>
+            <input type="radio" id="anak_ya" name="dengan_anak" value="Ya">
+            <label for="anak_ya">
+              <i class="fas fa-child"></i>
+              <span data-id="Ya" data-en="Yes" data-ja="はい"></span>
+            </label>
+          </div>
+          <div class="hint" data-id="Anak usia 0-12 tahun" data-en="Children age 0-12 years" data-ja="0〜12歳のお子様"></div>
+        </div>
+
+        <!-- Number of Children -->
+        <div class="children-field-wrapper" id="childrenFieldWrapper">
+          <div class="field">
+            <label data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
+            <div class="input-wrapper">
+              <i class="fas fa-baby"></i>
+              <input type="number" id="jumlah_anak" name="jumlah_anak" min="1" max="10" value="1">
+            </div>
+            <div class="hint" data-id="Usia maksimal 12 tahun" data-en="Maximum age: 12 years" data-ja="最大12歳まで"></div>
+          </div>
+        </div>
+
+        <!-- Total Summary -->
+        <div class="total-summary">
+          <div class="total-label">
+            <i class="fas fa-users"></i>
+            <span data-id="Total yang akan hadir" data-en="Total attendees" data-ja="総参加者数"></span>
+          </div>
+          <div class="total-number" id="totalAttendees">1</div>
+          <div class="hint" id="totalDetail" style="color: #475569;"></div>
+        </div>
+
+        <!-- Section: Persetujuan -->
+        <h3 class="section-title" 
+            data-id="Persetujuan"
+            data-en="Consent"
+            data-ja="同意"></h3>
 
         <!-- Consent -->
         <div class="consent">
           <input type="checkbox" id="consentCheckbox" required>
-          <span data-id="Saya menyetujui bahwa data ini digunakan untuk keperluan administrasi acara"
-                data-en="I agree that this data will be used for event administration purposes"
-                data-ja="個人情報がイベントの運営に使用されることに同意します"></span>
+          <span data-id="<strong>Data jamaah</strong> digunakan semata-mata untuk keperluan pendataan dan kelancaran pelaksanaan acara buka puasa bersama. Kami menjamin kerahasiaan data Anda."
+                data-en="<strong>Congregation data</strong> is used solely for registration purposes and the smooth implementation of the iftar gathering. We guarantee the confidentiality of your data."
+                data-ja="<strong>礼拝者のデータ</strong>は、登録目的と集団イフタールの円滑な実施のためにのみ使用されます。お客様のデータの機密性を保証します。"></span>
+        </div>
+
+        <!-- Islamic Divider inside card -->
+        <div class="islamic-divider" style="margin: 2rem 0 1.5rem;">
+          <span style="font-size: 1rem;">✿ ✿ ✿</span>
         </div>
 
         <!-- Submit Button -->
@@ -727,19 +1146,28 @@ footer {
       </form>
     </div>
 
+    <!-- Footer with prayer message -->
     <footer>
+      <div class="prayer-message"
+           data-id="Semoga Allah menerima amal ibadah kita di bulan Ramadan yang mulia ini"
+           data-en="May Allah accept our worship in this blessed month of Ramadan"
+           data-ja="アッラーがこの尊いラマダン月における私たちの礼拝をお受け入れくださいますように"></div>
+      
       <div data-id="© 2026 — Yayasan Ibadurrahman Islamic Center"
            data-en="© 2026 — Ibadurrahman Islamic Center Foundation"
            data-ja="© 2026 — イバドゥッラフマン・イスラムセンター財団"></div>
-      <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #9ca3af;">
-        <span data-id="Untuk informasi lebih lanjut: info@ibadurrahman.org"
-              data-en="For more information: info@ibadurrahman.org"
-              data-ja="お問い合わせ: info@ibadurrahman.org"></span>
+      
+      <div class="contact" style="margin-top: 0.75rem;">
+        <span data-id="Untuk informasi lebih lanjut:"
+              data-en="For more information:"
+              data-ja="詳細については："></span>
+        <a href="mailto:info@ibadurrahman.org">info@ibadurrahman.org</a>
       </div>
     </footer>
   </div>
 </main>
 
+<!-- JavaScript remains the same as in the previous version -->
 <script>
 // Configuration
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvLVMIbhBThHJ8l3d4Rppo1GvDbgeVjELq8_zOtzD7WHaWIaEHhVqHqyVJpgiaiDzp/exec";
@@ -755,6 +1183,8 @@ if (userLang.startsWith('ja')) {
 
 // Application State
 let isOTPVerified = false;
+let otpAttempts = 0;
+const MAX_OTP_ATTEMPTS = 5;
 
 // Messages for multilingual
 const messages = {
@@ -799,14 +1229,14 @@ const messages = {
     ja: 'OTP送信中...' 
   },
   success: { 
-    id: 'Registrasi Berhasil!', 
-    en: 'Registration Successful!', 
-    ja: '登録が完了しました！' 
+    id: 'Pendaftaran berhasil! Anda akan menerima email konfirmasi.', 
+    en: 'Registration successful! You will receive a confirmation email.', 
+    ja: '登録が完了しました！確認メールが送信されます。' 
   },
   networkError: { 
-    id: 'Terjadi kesalahan jaringan.', 
-    en: 'Network error.', 
-    ja: '通信エラーが発生しました。' 
+    id: 'Terjadi kesalahan jaringan. Silakan coba lagi.', 
+    en: 'Network error. Please try again.', 
+    ja: '通信エラーが発生しました。もう一度お試しください。' 
   },
   selectNationality: {
     id: 'Mohon pilih kebangsaan',
@@ -822,6 +1252,11 @@ const messages = {
     id: 'Harap setujui persetujuan data',
     en: 'Please agree to the data consent',
     ja: 'データ同意に同意してください'
+  },
+  tooManyAttempts: {
+    id: 'Terlalu banyak percobaan OTP. Silakan refresh halaman.',
+    en: 'Too many OTP attempts. Please refresh the page.',
+    ja: 'OTP試行回数が多すぎます。ページを更新してください。'
   }
 };
 
@@ -843,17 +1278,17 @@ const childrenFieldWrapper = document.getElementById('childrenFieldWrapper');
 const jumlahAnakInput = document.getElementById('jumlah_anak');
 const totalAttendeesSpan = document.getElementById('totalAttendees');
 const totalDetailSpan = document.getElementById('totalDetail');
-const jumlahOrangTotalInput = document.getElementById('jumlah_orang_total');
 const consentCheckbox = document.getElementById('consentCheckbox');
 const submitBtn = document.getElementById('submitBtn');
 const duplicateAlert = document.getElementById('duplicateAlert');
+const infoMessage = document.getElementById('infoMessage');
 
 // Initialize multilingual text
 function initMultilingual() {
   document.querySelectorAll('[data-id]').forEach(element => {
     const text = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
     if (text && element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA' && element.tagName !== 'SELECT' && element.tagName !== 'OPTION') {
-      element.textContent = text;
+      element.innerHTML = text; // Use innerHTML for consent text with strong tag
     }
   });
   
@@ -884,7 +1319,6 @@ function calculateTotal() {
   
   const total = registrant + additionalAdults + children;
   totalAttendeesSpan.textContent = total;
-  jumlahOrangTotalInput.value = total;
 
   if (lang === 'id') {
     totalDetailSpan.textContent = `${registrant} pendaftar, ${additionalAdults} dewasa, ${children} anak`;
@@ -893,6 +1327,8 @@ function calculateTotal() {
   } else {
     totalDetailSpan.textContent = `登録者${registrant}名、大人${additionalAdults}名、子供${children}名`;
   }
+  
+  return total;
 }
 
 // Send OTP
@@ -916,7 +1352,7 @@ async function sendOTP() {
   sendOtpBtn.innerHTML = `<span class="loading-spinner"></span> ${messages.sendingOtp[lang]}`;
 
   try {
-    const response = await fetch(`${SCRIPT_URL}?action=send_otp&email=${encodeURIComponent(email)}&nama=${encodeURIComponent(nama)}&lang=${lang}`);
+    const response = await fetch(`${SCRIPT_URL}?action=send_otp&email=${encodeURIComponent(email.toLowerCase())}&nama=${encodeURIComponent(nama)}&lang=${lang}`);
     const result = await response.json();
     
     if (result.status === 'sent') {
@@ -927,6 +1363,9 @@ async function sendOTP() {
       setTimeout(() => {
         otpInput.focus();
       }, 100);
+      
+      // Reset OTP attempts when sending new OTP
+      otpAttempts = 0;
     }
   } catch (e) { 
     alert(messages.networkError[lang]); 
@@ -937,46 +1376,72 @@ async function sendOTP() {
   }
 }
 
-// Verify OTP
-otpInput.addEventListener('input', async () => {
-  if (otpInput.value.length === 6) {
-    try {
-      const response = await fetch(`${SCRIPT_URL}?action=verify_otp&email=${encodeURIComponent(emailInput.value)}&otp=${otpInput.value}`);
-      const result = await response.json();
-      
-      if (result.verified) {
-        isOTPVerified = true;
-        otpInput.disabled = true;
-        otpInput.style.borderColor = '#10a37f';
-        otpInput.style.backgroundColor = '#f0fdf4';
-        otpHint.textContent = messages.otpVerified[lang];
-        otpHint.style.color = '#10a37f';
-      } else {
-        isOTPVerified = false;
-        otpInput.style.borderColor = '#dc2626';
-        otpInput.style.backgroundColor = '#fef2f2';
-        otpHint.textContent = messages.invalidOtp[lang];
-        otpHint.style.color = '#dc2626';
-      }
-    } catch (e) { 
-      console.error('OTP verification error:', e); 
-      alert(messages.networkError[lang]);
-    }
-  } else {
-    // Reset hint if OTP is not 6 digits
+// Verify OTP with rate limiting
+async function verifyOTP() {
+  if (otpInput.value.length !== 6) {
     const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
     otpHint.textContent = defaultHint;
     otpHint.style.color = '';
+    return;
   }
-});
 
-// Check for duplicate registration
+  // Rate limiting check
+  if (otpAttempts >= MAX_OTP_ATTEMPTS) {
+    alert(messages.tooManyAttempts[lang]);
+    otpInput.disabled = true;
+    return;
+  }
+
+  otpAttempts++;
+
+  try {
+    const response = await fetch(`${SCRIPT_URL}?action=verify_otp&email=${encodeURIComponent(emailInput.value.toLowerCase())}&otp=${otpInput.value}`);
+    const result = await response.json();
+    
+    if (result.verified) {
+      isOTPVerified = true;
+      otpInput.disabled = true;
+      otpInput.style.borderColor = '#10a37f';
+      otpInput.style.backgroundColor = '#f0fdf4';
+      otpHint.textContent = messages.otpVerified[lang];
+      otpHint.style.color = '#10a37f';
+    } else {
+      isOTPVerified = false;
+      otpInput.style.borderColor = '#dc2626';
+      otpInput.style.backgroundColor = '#fef2f2';
+      otpHint.textContent = messages.invalidOtp[lang];
+      otpHint.style.color = '#dc2626';
+    }
+  } catch (e) { 
+    console.error('OTP verification error:', e); 
+    alert(messages.networkError[lang]);
+  }
+}
+
+// Reset OTP state when email changes
+function resetOTPState() {
+  isOTPVerified = false;
+  otpInput.value = '';
+  otpInput.disabled = false;
+  otpInput.style.borderColor = '';
+  otpInput.style.backgroundColor = '';
+  otpField.classList.remove('active');
+  
+  const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
+  otpHint.textContent = defaultHint;
+  otpHint.style.color = '';
+}
+
+// Check for duplicate registration (only when OTP is verified)
 let duplicateCheckTimeout;
 function checkDuplicate() {
+  // Only check duplicates after OTP is verified
+  if (!isOTPVerified) return;
+  
   clearTimeout(duplicateCheckTimeout);
   
   duplicateCheckTimeout = setTimeout(async () => {
-    const email = emailInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
     const phone = noHpInput.value.trim();
     
     if (email && phone && phone.length >= 10) {
@@ -1002,8 +1467,25 @@ function checkDuplicate() {
 document.addEventListener('DOMContentLoaded', () => {
   initMultilingual();
   calculateTotal();
+  
+  // Show info message about email confirmation
+  infoMessage.classList.add('active');
 
   sendOtpBtn.addEventListener('click', sendOTP);
+  
+  // Reset OTP state when email changes
+  emailInput.addEventListener('input', () => {
+    resetOTPState();
+  });
+  
+  // Verify OTP on input (with debounce)
+  let otpVerifyTimeout;
+  otpInput.addEventListener('input', () => {
+    clearTimeout(otpVerifyTimeout);
+    otpVerifyTimeout = setTimeout(() => {
+      verifyOTP();
+    }, 300);
+  });
   
   kebangsaanSelect.addEventListener('change', (e) => {
     otherNationalityWrapper.classList.toggle('active', e.target.value === 'Lainnya');
@@ -1024,11 +1506,11 @@ document.addEventListener('DOMContentLoaded', () => {
   dewasaTambahanInput.addEventListener('input', calculateTotal);
   jumlahAnakInput.addEventListener('input', calculateTotal);
   
-  // Duplicate check
+  // Duplicate check (only triggers on input when OTP is verified)
   emailInput.addEventListener('input', checkDuplicate);
   noHpInput.addEventListener('input', checkDuplicate);
 
-  // Bagian submit yang diperbaiki untuk menghindari isu CORS umum di Apps Script
+  // Form submission
   registrationForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -1067,41 +1549,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = `<span class="loading-spinner"></span> ${messages.processing[lang]}`;
 
+    // Prepare form data with trimmed values
     const formData = new FormData(registrationForm);
     
     // Konversi FormData ke URLSearchParams agar lebih mudah diterima Apps Script
     const params = new URLSearchParams();
+    
+    // Process all form fields with trimming and normalization
     for (const [key, value] of formData) {
-      // Logika khusus untuk kebangsaan lainnya
+      let processedValue = value.toString().trim();
+      
+      // Special handling for nationality field
       if (key === 'kebangsaan' && value === 'Lainnya') {
-        params.append(key, document.getElementById('kebangsaan_lainnya').value);
-      } else if (key !== 'kebangsaan_lainnya') {
-        params.append(key, value);
+        processedValue = kebangsaanLainnyaInput.value.trim();
       }
+      
+      // Skip kebangsaan_lainnya field as it's already handled
+      if (key === 'kebangsaan_lainnya') continue;
+      
+      // Normalize email to lowercase
+      if (key === 'email') {
+        processedValue = processedValue.toLowerCase();
+      }
+      
+      // Calculate total attendees on server side (don't trust client-side calculation)
+      if (key === 'jumlah_orang_total') {
+        processedValue = calculateTotal().toString();
+      }
+      
+      params.append(key, processedValue);
     }
     
     // Tambahkan action dan info bahasa yang digunakan saat mendaftar
     params.append('action', 'register');
     params.append('lang_used', lang);
-    
-    // Tambahkan OTP untuk verifikasi ulang di server (keamanan tambahan)
-    params.append('otp_verification', otpInput.value);
+    // Server harus memverifikasi ulang OTP berdasarkan email (tidak mengirim OTP lagi)
 
     try {
       // Mengirim data menggunakan metode POST ke SCRIPT_URL
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // Penting untuk Google Apps Script
+        mode: 'no-cors', // Untuk menghindari isu CORS dengan Google Apps Script
         body: params
       });
 
       // Karena mode: 'no-cors', kita tidak bisa membaca isi JSON respon secara langsung
-      // Namun, kita bisa berasumsi jika tidak ada error network, data terkirim
+      // Tampilkan pesan bahwa user akan menerima email konfirmasi
       alert(messages.success[lang]);
       
       // Reset form setelah berhasil
       registrationForm.reset();
       isOTPVerified = false;
+      otpAttempts = 0;
       otpField.classList.remove('active');
       otpInput.value = '';
       otpInput.disabled = false;
@@ -1110,15 +1609,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Reset duplicate alert
       duplicateAlert.classList.remove('active');
-      submitBtn.disabled = false;
       
-      // Reset language text
+      // Reset language text and recalculate
       initMultilingual();
       calculateTotal();
       
     } catch (error) {
       console.error('Submission error:', error);
       alert(messages.networkError[lang]);
+    } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
       initMultilingual();
