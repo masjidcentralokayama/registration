@@ -8,7 +8,7 @@
 <title>Registrasi Buka Puasa Bersama 1447 H</title>
 
 <!-- Apps Script Deployment URL -->
-<meta name="script-url" content="https://script.google.com/macros/s/AKfycbwvLVMIbhBThHJ8l3d4Rppo1GvDbgeVjELq8_zOtzD7WHaWIaEHhVqHqyVJpgiaiDzp/exec">
+<meta name="script-url" content="https://script.google.com/macros/s/AKfycbwPj9XrJc1xzg6W5UG0nj1jZnIccYiTBTOvg9oONQKFCZxXQMnaKy1dY_aI5SqIx0XtJg/exec">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1349,7 +1349,7 @@ function calculateTotal() {
 }
 
 // ============================================
-// FUNGSI OTP - PERBAIKAN UTAMA
+// FUNGSI OTP - PERBAIKAN UTAMA (VERIFIKASI YANG LEBIH BAIK)
 // ============================================
 
 // Send OTP
@@ -1398,37 +1398,26 @@ async function sendOTP() {
   }
 }
 
-// Verify OTP with improved feedback
+// Verify OTP with improved error handling and cache prevention
 async function verifyOTP() {
   const otpVal = otpInput.value.trim();
-  if (otpVal.length !== 6) {
-    const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
-    otpHint.textContent = defaultHint;
-    otpHint.style.color = '';
-    return;
-  }
+  // Hanya proses jika sudah 6 digit
+  if (otpVal.length !== 6) return;
 
-  // Rate limiting check
   if (otpAttempts >= MAX_OTP_ATTEMPTS) {
     alert(messages.tooManyAttempts[lang]);
     otpInput.disabled = true;
     return;
   }
 
-  otpAttempts++;
-
-  // Visual feedback saat verifikasi
-  otpInput.style.opacity = "0.5";
-  otpInput.disabled = true;
-
   try {
-    const response = await fetch(`${SCRIPT_URL}?action=verify_otp&email=${encodeURIComponent(emailInput.value.toLowerCase())}&otp=${otpVal}`);
+    // Tambahkan parameter unik (timestamp) agar browser tidak mengambil data dari cache (penting!)
+    const response = await fetch(`${SCRIPT_URL}?action=verify_otp&email=${encodeURIComponent(emailInput.value.toLowerCase())}&otp=${otpVal}&t=${new Date().getTime()}`);
+    
+    // Pastikan responsnya adalah JSON
     const result = await response.json();
     
-    otpInput.style.opacity = "1";
-    otpInput.disabled = false;
-
-    // Support both response formats
+    // Cek berbagai kemungkinan format respons dari server
     if (result.status === 'verified' || result.verified === true) {
       isOTPVerified = true;
       otpInput.disabled = true;
@@ -1438,19 +1427,16 @@ async function verifyOTP() {
       otpHint.style.color = '#10a37f';
       otpAttempts = 0;
     } else {
+      otpAttempts++;
       isOTPVerified = false;
       otpInput.style.borderColor = '#dc2626';
       otpInput.style.backgroundColor = '#fef2f2';
       otpHint.textContent = messages.invalidOtp[lang] + ` (${otpAttempts}/${MAX_OTP_ATTEMPTS})`;
       otpHint.style.color = '#dc2626';
-      otpInput.value = ''; // Kosongkan jika salah agar user input ulang
-      setTimeout(() => otpInput.focus(), 100);
     }
   } catch (e) { 
-    otpInput.style.opacity = "1";
-    otpInput.disabled = false;
-    console.error('OTP verification error:', e); 
-    alert(messages.networkError[lang]);
+    console.error('Terjadi kesalahan saat verifikasi:', e);
+    alert("Gagal terhubung ke server. Pastikan koneksi internet stabil.");
   }
 }
 
@@ -1461,7 +1447,6 @@ function resetOTPState() {
   otpInput.disabled = false;
   otpInput.style.borderColor = '';
   otpInput.style.backgroundColor = '';
-  otpInput.style.opacity = "1";
   otpField.classList.remove('active');
   
   const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
@@ -1615,11 +1600,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Normalize email to lowercase
       if (key === 'email') {
         processedValue = processedValue.toLowerCase();
-      }
-      
-      // Calculate total attendees
-      if (key === 'total_kehadiran') {
-        processedValue = calculateTotal().toString();
       }
       
       params.append(key, processedValue);
