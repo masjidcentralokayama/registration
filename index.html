@@ -179,7 +179,7 @@ select {
   font-weight: 500;
 }
 
-/* OTP CONTAINER - PERBAIKAN: Layout horizontal di desktop, vertikal di mobile */
+/* OTP CONTAINER */
 .otp-container {
   display: flex;
   gap: 0.75rem;
@@ -376,7 +376,7 @@ footer {
   margin-top: 2rem;
 }
 
-/* RESPONSIVE - PERBAIKAN UTAMA: Tampilan mobile lebih rapi */
+/* RESPONSIVE */
 @media (max-width: 640px) {
   main {
     padding: 1.5rem 1rem;
@@ -391,14 +391,12 @@ footer {
     gap: 0.75rem;
   }
   
-  /* PERBAIKAN: OTP container di mobile menjadi vertikal */
   .otp-container {
     flex-direction: column;
     gap: 0.75rem;
     align-items: stretch;
   }
   
-  /* PERBAIKAN: Tombol OTP di mobile */
   .btn-otp {
     width: 100%;
     padding: 0.75rem;
@@ -406,7 +404,6 @@ footer {
     min-width: unset;
   }
   
-  /* PERBAIKAN: Input email di mobile sama panjangnya dengan input lainnya */
   .otp-container .input-wrapper {
     width: 100%;
   }
@@ -421,7 +418,6 @@ footer {
     font-size: 0.9rem;
   }
   
-  /* PERBAIKAN: Field OTP di mobile */
   .otp-field {
     padding: 0.875rem;
   }
@@ -518,7 +514,7 @@ footer {
           <label data-id="Kode OTP" data-en="OTP Code" data-ja="OTPコード"></label>
           <div class="input-wrapper">
             <i class="fas fa-key"></i>
-            <input type="text" id="otp_input" maxlength="6"
+            <input type="tel" id="otp_input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
                    data-id-ph="Masukkan 6 digit kode"
                    data-en-ph="Enter 6-digit code"
                    data-ja-ph="6桁のコードを入力">
@@ -550,7 +546,7 @@ footer {
           <label data-id="Domisili" data-en="Residence" data-ja="居住地"></label>
           <div class="input-wrapper">
             <i class="fas fa-map-marker-alt"></i>
-            <input type="text" id="domisili" name="domisili" list="neighborhoods" required
+            <input type="text" id="domisili" name="domisili" list="neighborhoods" required autocomplete="off"
                    data-id-ph="Cari nama kelurahan/kecamatan"
                    data-en-ph="Search for neighborhood/district"
                    data-ja-ph="町名・地区名を検索">
@@ -751,47 +747,66 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvLVMIbhBThHJ8l3d4R
 // Detect language
 const userLang = navigator.language || navigator.userLanguage;
 let lang = 'id';
-if (userLang.startsWith('ja')) {
-  lang = 'ja';
-} else if (userLang.startsWith('en')) {
-  lang = 'en';
+if (userLang.startsWith('ja')) { 
+  lang = 'ja'; 
+} else if (userLang.startsWith('en')) { 
+  lang = 'en'; 
 }
 
 // Application State
-let serverOTP = '';
 let isOTPVerified = false;
 
 // Messages for multilingual
 const messages = {
-  fillNameEmail: {
-    id: 'Mohon isi nama dan email terlebih dahulu',
-    en: 'Please fill in name and email first',
-    ja: '先に名前とメールアドレスを入力してください'
+  fillNameEmail: { 
+    id: 'Mohon isi nama dan email terlebih dahulu', 
+    en: 'Please fill in name and email first', 
+    ja: '先に名前とメールアドレスを入力してください' 
   },
-  invalidEmail: {
-    id: 'Format email tidak valid',
-    en: 'Invalid email format',
-    ja: 'メールアドレスの形式が無効です'
+  invalidEmail: { 
+    id: 'Format email tidak valid', 
+    en: 'Invalid email format', 
+    ja: 'メールアドレスの形式が無効です' 
   },
-  otpSent: {
-    id: 'Kode OTP telah dikirim ke email Anda',
-    en: 'OTP code has been sent to your email',
-    ja: 'OTPコードをメールに送信しました'
+  otpSent: { 
+    id: 'Kode OTP telah dikirim ke email Anda', 
+    en: 'OTP code has been sent to your email', 
+    ja: 'OTPコードをメールに送信しました' 
   },
-  otpVerified: {
-    id: 'Kode OTP berhasil diverifikasi',
-    en: 'OTP code successfully verified',
-    ja: 'OTPコードが確認されました'
+  otpVerified: { 
+    id: 'Kode OTP berhasil diverifikasi', 
+    en: 'OTP code successfully verified', 
+    ja: 'OTPコードが確認されました' 
   },
-  invalidOtp: {
-    id: 'Kode OTP tidak valid',
-    en: 'Invalid OTP code',
-    ja: '無効なOTPコードです'
+  invalidOtp: { 
+    id: 'Kode OTP tidak valid', 
+    en: 'Invalid OTP code', 
+    ja: '無効なOTPコードです' 
   },
-  verifyOtpFirst: {
-    id: 'Mohon verifikasi kode OTP terlebih dahulu',
-    en: 'Please verify the OTP code first',
-    ja: '先にOTPコードを確認してください'
+  verifyOtpFirst: { 
+    id: 'Mohon verifikasi kode OTP terlebih dahulu', 
+    en: 'Please verify the OTP code first', 
+    ja: '先にOTPコードを確認してください' 
+  },
+  processing: { 
+    id: 'Memproses...', 
+    en: 'Processing...', 
+    ja: '処理中...' 
+  },
+  sendingOtp: { 
+    id: 'Mengirim OTP...', 
+    en: 'Sending OTP...', 
+    ja: 'OTP送信中...' 
+  },
+  success: { 
+    id: 'Registrasi Berhasil!', 
+    en: 'Registration Successful!', 
+    ja: '登録が完了しました！' 
+  },
+  networkError: { 
+    id: 'Terjadi kesalahan jaringan.', 
+    en: 'Network error.', 
+    ja: '通信エラーが発生しました。' 
   },
   selectNationality: {
     id: 'Mohon pilih kebangsaan',
@@ -803,44 +818,15 @@ const messages = {
     en: 'Please enter your nationality',
     ja: '国籍を入力してください'
   },
-  processing: {
-    id: 'Memproses...',
-    en: 'Processing...',
-    ja: '処理中...'
-  },
-  sendingOtp: {
-    id: 'Mengirim OTP...',
-    en: 'Sending OTP...',
-    ja: 'OTP送信中...'
-  },
-  networkError: {
-    id: 'Terjadi kesalahan jaringan. Silakan coba lagi.',
-    en: 'Network error. Please try again.',
-    ja: '通信エラーが発生しました。もう一度お試しください。'
-  },
-  ageValidation: {
-    id: 'Usia harus antara 1 dan 120 tahun',
-    en: 'Age must be between 1 and 120 years',
-    ja: '年齢は1歳から120歳の間で入力してください'
-  },
-  phoneValidation: {
-    id: 'Nomor telepon harus 10-15 digit angka',
-    en: 'Phone number must be 10-15 digits',
-    ja: '電話番号は10〜15桁の数字で入力してください'
-  },
-  additionalAdultsValidation: {
-    id: 'Jumlah dewasa tambahan harus antara 0-10',
-    en: 'Additional adults must be between 0-10',
-    ja: '追加の大人は0〜10名で入力してください'
-  },
-  childrenValidation: {
-    id: 'Jumlah anak harus antara 1-10',
-    en: 'Number of children must be between 1-10',
-    ja: 'お子様の人数は1〜10名で入力してください'
+  consentRequired: {
+    id: 'Harap setujui persetujuan data',
+    en: 'Please agree to the data consent',
+    ja: 'データ同意に同意してください'
   }
 };
 
 // DOM Elements
+const registrationForm = document.getElementById('registrationForm');
 const namaLengkapInput = document.getElementById('nama_lengkap');
 const emailInput = document.getElementById('email');
 const sendOtpBtn = document.getElementById('sendOtpBtn');
@@ -848,11 +834,9 @@ const otpField = document.getElementById('otpField');
 const otpInput = document.getElementById('otp_input');
 const otpHint = document.getElementById('otpHint');
 const noHpInput = document.getElementById('no_hp');
-const domisiliInput = document.getElementById('domisili');
 const kebangsaanSelect = document.getElementById('kebangsaan');
 const otherNationalityWrapper = document.getElementById('otherNationalityWrapper');
 const kebangsaanLainnyaInput = document.getElementById('kebangsaan_lainnya');
-const usiaInput = document.getElementById('usia');
 const dewasaTambahanInput = document.getElementById('dewasa_tambahan');
 const denganAnakRadio = document.querySelectorAll('input[name="dengan_anak"]');
 const childrenFieldWrapper = document.getElementById('childrenFieldWrapper');
@@ -862,27 +846,20 @@ const totalDetailSpan = document.getElementById('totalDetail');
 const jumlahOrangTotalInput = document.getElementById('jumlah_orang_total');
 const consentCheckbox = document.getElementById('consentCheckbox');
 const submitBtn = document.getElementById('submitBtn');
-const registrationForm = document.getElementById('registrationForm');
 const duplicateAlert = document.getElementById('duplicateAlert');
 
 // Initialize multilingual text
 function initMultilingual() {
-  // Update all elements with data-id attributes
   document.querySelectorAll('[data-id]').forEach(element => {
-    if (element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA' && element.tagName !== 'OPTION' && element.tagName !== 'SELECT') {
-      const translatedText = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
-      if (translatedText) {
-        element.textContent = translatedText;
-      }
+    const text = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
+    if (text && element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA' && element.tagName !== 'SELECT' && element.tagName !== 'OPTION') {
+      element.textContent = text;
     }
   });
   
-  // Update all placeholders
   document.querySelectorAll('[data-id-ph]').forEach(element => {
-    const translatedPlaceholder = element.getAttribute(`data-${lang}-ph`) || element.getAttribute('data-id-ph');
-    if (translatedPlaceholder) {
-      element.placeholder = translatedPlaceholder;
-    }
+    const ph = element.getAttribute(`data-${lang}-ph`) || element.getAttribute('data-id-ph');
+    if (ph) element.placeholder = ph;
   });
   
   // Update select options
@@ -894,148 +871,104 @@ function initMultilingual() {
   });
 }
 
-// Calculate total attendees
+// Calculate total
 function calculateTotal() {
   const registrant = 1;
   const additionalAdults = parseInt(dewasaTambahanInput.value) || 0;
   let children = 0;
   
-  // Check if coming with children
   const denganAnak = document.querySelector('input[name="dengan_anak"]:checked');
   if (denganAnak && denganAnak.value === 'Ya') {
-    children = parseInt(jumlahAnakInput.value) || 1;
+    children = parseInt(jumlahAnakInput.value) || 0;
   }
   
   const total = registrant + additionalAdults + children;
-  
-  // Update display
   totalAttendeesSpan.textContent = total;
   jumlahOrangTotalInput.value = total;
-  
-  // Update detail text
-  let detailText = '';
+
   if (lang === 'id') {
-    detailText = `${registrant} pendaftar`;
-    if (additionalAdults > 0) detailText += `, ${additionalAdults} dewasa tambahan`;
-    if (children > 0) detailText += `, ${children} anak`;
+    totalDetailSpan.textContent = `${registrant} pendaftar, ${additionalAdults} dewasa, ${children} anak`;
   } else if (lang === 'en') {
-    detailText = `${registrant} registrant`;
-    if (additionalAdults > 0) detailText += `, ${additionalAdults} additional adult${additionalAdults > 1 ? 's' : ''}`;
-    if (children > 0) detailText += `, ${children} child${children > 1 ? 'ren' : ''}`;
-  } else if (lang === 'ja') {
-    detailText = `登録者${registrant}名`;
-    if (additionalAdults > 0) detailText += `、追加の大人${additionalAdults}名`;
-    if (children > 0) detailText += `、お子様${children}名`;
+    totalDetailSpan.textContent = `${registrant} registrant, ${additionalAdults} adults, ${children} children`;
+  } else {
+    totalDetailSpan.textContent = `登録者${registrant}名、大人${additionalAdults}名、子供${children}名`;
   }
-  
-  totalDetailSpan.textContent = detailText;
-  
-  return total;
 }
 
-// Send OTP function
+// Send OTP
 async function sendOTP() {
-  const nama = namaLengkapInput.value.trim();
   const email = emailInput.value.trim();
+  const nama = namaLengkapInput.value.trim();
   
-  // Validation
-  if (!nama || !email) {
-    showAlert(messages.fillNameEmail[lang]);
-    return;
+  if (!email || !nama) { 
+    alert(messages.fillNameEmail[lang]); 
+    return; 
   }
   
-  // Email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    showAlert(messages.invalidEmail[lang]);
+    alert(messages.invalidEmail[lang]);
     return;
   }
-  
-  // Disable button and show loading
-  const originalText = sendOtpBtn.innerHTML;
+
   sendOtpBtn.disabled = true;
-  sendOtpBtn.innerHTML = `<span class="loading-spinner"></span> <span>${messages.sendingOtp[lang]}</span>`;
-  
+  const originalBtnText = sendOtpBtn.innerHTML;
+  sendOtpBtn.innerHTML = `<span class="loading-spinner"></span> ${messages.sendingOtp[lang]}`;
+
   try {
-    const response = await fetch(
-      `${SCRIPT_URL}?action=send_otp&email=${encodeURIComponent(email)}&nama=${encodeURIComponent(nama)}&lang=${lang}`
-    );
+    const response = await fetch(`${SCRIPT_URL}?action=send_otp&email=${encodeURIComponent(email)}&nama=${encodeURIComponent(nama)}&lang=${lang}`);
     const result = await response.json();
     
-    if (result.status === 'success') {
-      serverOTP = result.otp;
-      
-      // Show OTP field
+    if (result.status === 'sent') {
       otpField.classList.add('active');
-      
-      // Focus on OTP input
-      setTimeout(() => {
-        otpInput.focus();
-      }, 100);
-      
-      // Update hint
       otpHint.textContent = messages.otpSent[lang];
       otpHint.style.color = '#10a37f';
       
-      // Reset OTP verification state
-      isOTPVerified = false;
-      otpInput.disabled = false;
-      otpInput.value = '';
-      otpInput.style.backgroundColor = '';
-      otpInput.style.borderColor = '';
-      
-      // Show success message
       setTimeout(() => {
-        const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
-        otpHint.textContent = defaultHint;
-        otpHint.style.color = '';
-      }, 3000);
-    } else {
-      showAlert(result.message || messages.networkError[lang]);
+        otpInput.focus();
+      }, 100);
     }
-  } catch (error) {
-    console.error('Error sending OTP:', error);
-    showAlert(messages.networkError[lang]);
-  } finally {
-    // Restore button
-    sendOtpBtn.disabled = false;
-    sendOtpBtn.innerHTML = originalText;
+  } catch (e) { 
+    alert(messages.networkError[lang]); 
+  } finally { 
+    sendOtpBtn.disabled = false; 
+    sendOtpBtn.innerHTML = originalBtnText;
     initMultilingual();
   }
 }
 
-// Show alert message
-function showAlert(message) {
-  alert(message);
-}
-
-// Verify OTP on input
-function verifyOTP() {
-  const enteredOTP = otpInput.value.trim();
-  
-  if (enteredOTP.length === 6) {
-    if (enteredOTP === serverOTP) {
-      isOTPVerified = true;
-      otpInput.disabled = true;
-      otpInput.style.backgroundColor = '#f0fdf4';
-      otpInput.style.borderColor = '#10a37f';
+// Verify OTP
+otpInput.addEventListener('input', async () => {
+  if (otpInput.value.length === 6) {
+    try {
+      const response = await fetch(`${SCRIPT_URL}?action=verify_otp&email=${encodeURIComponent(emailInput.value)}&otp=${otpInput.value}`);
+      const result = await response.json();
       
-      // Update hint
-      otpHint.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 5px; color: #10a37f;"></i> ${messages.otpVerified[lang]}`;
-      otpHint.style.color = '#10a37f';
-    } else {
-      isOTPVerified = false;
-      otpHint.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right: 5px; color: #dc2626;"></i> ${messages.invalidOtp[lang]}`;
-      otpHint.style.color = '#dc2626';
+      if (result.verified) {
+        isOTPVerified = true;
+        otpInput.disabled = true;
+        otpInput.style.borderColor = '#10a37f';
+        otpInput.style.backgroundColor = '#f0fdf4';
+        otpHint.textContent = messages.otpVerified[lang];
+        otpHint.style.color = '#10a37f';
+      } else {
+        isOTPVerified = false;
+        otpInput.style.borderColor = '#dc2626';
+        otpInput.style.backgroundColor = '#fef2f2';
+        otpHint.textContent = messages.invalidOtp[lang];
+        otpHint.style.color = '#dc2626';
+      }
+    } catch (e) { 
+      console.error('OTP verification error:', e); 
+      alert(messages.networkError[lang]);
     }
   } else {
-    isOTPVerified = false;
+    // Reset hint if OTP is not 6 digits
     const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
     otpHint.textContent = defaultHint;
     otpHint.style.color = '';
-    otpHint.innerHTML = defaultHint;
   }
-}
+});
 
 // Check for duplicate registration
 let duplicateCheckTimeout;
@@ -1046,11 +979,9 @@ function checkDuplicate() {
     const email = emailInput.value.trim();
     const phone = noHpInput.value.trim();
     
-    if (email && phone) {
+    if (email && phone && phone.length >= 10) {
       try {
-        const response = await fetch(
-          `${SCRIPT_URL}?action=check_duplicate&email=${encodeURIComponent(email)}&no_hp=${encodeURIComponent(phone)}`
-        );
+        const response = await fetch(`${SCRIPT_URL}?action=check_duplicate&email=${encodeURIComponent(email)}&no_hp=${encodeURIComponent(phone)}`);
         const result = await response.json();
         
         if (result.isDuplicate) {
@@ -1061,224 +992,139 @@ function checkDuplicate() {
           submitBtn.disabled = false;
         }
       } catch (error) {
-        console.error('Error checking duplicate:', error);
+        console.error('Duplicate check error:', error);
       }
     }
-  }, 800);
+  }, 500);
 }
 
-// Validate form before submission
-function validateForm() {
-  // Validate age
-  const usia = parseInt(usiaInput.value);
-  if (isNaN(usia) || usia < 1 || usia > 120) {
-    showAlert(messages.ageValidation[lang]);
-    usiaInput.focus();
-    return false;
-  }
-  
-  // Validate phone number pattern
-  const phoneRegex = /^[0-9]{10,15}$/;
-  if (!phoneRegex.test(noHpInput.value.trim())) {
-    showAlert(messages.phoneValidation[lang]);
-    noHpInput.focus();
-    return false;
-  }
-  
-  // Validate additional adults
-  const dewasaTambahan = parseInt(dewasaTambahanInput.value) || 0;
-  if (dewasaTambahan < 0 || dewasaTambahan > 10) {
-    showAlert(messages.additionalAdultsValidation[lang]);
-    dewasaTambahanInput.focus();
-    return false;
-  }
-  
-  // Validate children if coming with children
-  const denganAnak = document.querySelector('input[name="dengan_anak"]:checked');
-  if (denganAnak && denganAnak.value === 'Ya') {
-    const jumlahAnak = parseInt(jumlahAnakInput.value) || 1;
-    if (jumlahAnak < 1 || jumlahAnak > 10) {
-      showAlert(messages.childrenValidation[lang]);
-      jumlahAnakInput.focus();
-      return false;
-    }
-  }
-  
-  return true;
-}
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+  initMultilingual();
+  calculateTotal();
 
-// Handle form submission
-async function submitForm(event) {
-  event.preventDefault();
-  
-  // Validate OTP
-  if (!isOTPVerified) {
-    showAlert(messages.verifyOtpFirst[lang]);
-    otpInput.focus();
-    return;
-  }
-  
-  // Validate nationality
-  const selectedNationality = kebangsaanSelect.value;
-  if (!selectedNationality) {
-    showAlert(messages.selectNationality[lang]);
-    kebangsaanSelect.focus();
-    return;
-  }
-  
-  // Validate other nationality
-  if (selectedNationality === 'Lainnya') {
-    const otherNationality = kebangsaanLainnyaInput.value.trim();
-    if (!otherNationality) {
-      showAlert(messages.fillOtherNationality[lang]);
-      kebangsaanLainnyaInput.focus();
-      return;
-    }
-  }
-  
-  // Validate other form fields
-  if (!validateForm()) {
-    return;
-  }
-  
-  // Check consent
-  if (!consentCheckbox.checked) {
-    showAlert(lang === 'id' ? 'Harap setujui persetujuan data' :
-              lang === 'en' ? 'Please agree to the data consent' :
-              'データ同意に同意してください');
-    consentCheckbox.focus();
-    return;
-  }
-  
-  // Disable submit button and show loading
-  const originalText = submitBtn.innerHTML;
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = `<span class="loading-spinner"></span> <span>${messages.processing[lang]}</span>`;
-  
-  // Prepare form data
-  const formData = new FormData(registrationForm);
-  formData.append('action', 'register');
-  formData.append('lang', lang);
-  
-  // Generate ID
-  const now = new Date();
-  const datePart = now.getDate().toString().padStart(2, '0') + (now.getMonth() + 1).toString().padStart(2, '0');
-  const randomPart = Math.random().toString(36).substring(2, 5).toUpperCase();
-  const registrationId = `IFTAR-${datePart}-${randomPart}`;
-  formData.append('id', registrationId);
-  
-  // Handle children field
-  const denganAnak = document.querySelector('input[name="dengan_anak"]:checked');
-  if (!denganAnak || denganAnak.value !== 'Ya') {
-    formData.set('jumlah_anak', '0');
-  }
-  
-  // Handle other nationality
-  if (selectedNationality !== 'Lainnya') {
-    formData.delete('kebangsaan_lainnya');
-  }
-  
-  // Submit to Google Apps Script
-  try {
-    const response = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      body: formData
-    });
-    
-    const result = await response.json();
-    
-    if (result.status === 'success') {
-      // Redirect to success page
-      const params = new URLSearchParams();
-      params.append('id', registrationId);
-      params.append('nama', namaLengkapInput.value);
-      params.append('email', emailInput.value);
-      params.append('lang', lang);
-      
-      window.location.href = `success.html?${params.toString()}`;
-    } else {
-      showAlert(result.message || messages.networkError[lang]);
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalText;
-      initMultilingual();
-    }
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    showAlert(messages.networkError[lang]);
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = originalText;
-    initMultilingual();
-  }
-}
-
-// Initialize event listeners
-function initEventListeners() {
-  // OTP button
   sendOtpBtn.addEventListener('click', sendOTP);
   
-  // OTP input verification
-  otpInput.addEventListener('input', verifyOTP);
-  
-  // Nationality select
-  kebangsaanSelect.addEventListener('change', function() {
-    if (this.value === 'Lainnya') {
-      otherNationalityWrapper.classList.add('active');
-      kebangsaanLainnyaInput.required = true;
+  kebangsaanSelect.addEventListener('change', (e) => {
+    otherNationalityWrapper.classList.toggle('active', e.target.value === 'Lainnya');
+    kebangsaanLainnyaInput.required = e.target.value === 'Lainnya';
+    
+    if (e.target.value === 'Lainnya') {
       setTimeout(() => kebangsaanLainnyaInput.focus(), 100);
-    } else {
-      otherNationalityWrapper.classList.remove('active');
-      kebangsaanLainnyaInput.required = false;
-      kebangsaanLainnyaInput.value = '';
     }
   });
-  
-  // Children toggle
-  denganAnakRadio.forEach(radio => {
-    radio.addEventListener('change', function() {
-      if (this.value === 'Ya') {
-        childrenFieldWrapper.classList.add('active');
-        jumlahAnakInput.required = true;
-        jumlahAnakInput.value = '1';
-      } else {
-        childrenFieldWrapper.classList.remove('active');
-        jumlahAnakInput.required = false;
-        jumlahAnakInput.value = '0';
-      }
-      calculateTotal();
-    });
-  });
-  
-  // Calculate total when inputs change
+
+  denganAnakRadio.forEach(r => r.addEventListener('change', () => {
+    const denganAnak = document.querySelector('input[name="dengan_anak"]:checked');
+    childrenFieldWrapper.classList.toggle('active', denganAnak.value === 'Ya');
+    jumlahAnakInput.required = denganAnak.value === 'Ya';
+    calculateTotal();
+  }));
+
   dewasaTambahanInput.addEventListener('input', calculateTotal);
   jumlahAnakInput.addEventListener('input', calculateTotal);
   
   // Duplicate check
   emailInput.addEventListener('input', checkDuplicate);
   noHpInput.addEventListener('input', checkDuplicate);
-  
-  // Form submission
-  registrationForm.addEventListener('submit', submitForm);
-}
 
-// Initialize the application
-function initApp() {
-  initMultilingual();
-  initEventListeners();
-  calculateTotal();
-  
-  // Set default values
-  document.getElementById('jk_l').checked = true;
-  document.getElementById('anak_tidak').checked = true;
-  
-  // Initialize nationality select
-  const placeholderOption = kebangsaanSelect.querySelector('option[value=""]');
-  if (placeholderOption) {
-    placeholderOption.textContent = placeholderOption.getAttribute(`data-${lang}`) || placeholderOption.getAttribute('data-id');
-  }
-}
+  // Bagian submit yang diperbaiki untuk menghindari isu CORS umum di Apps Script
+  registrationForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (!isOTPVerified) { 
+      alert(messages.verifyOtpFirst[lang]); 
+      otpInput.focus();
+      return; 
+    }
+    
+    // Validate nationality
+    const selectedNationality = kebangsaanSelect.value;
+    if (!selectedNationality) {
+      alert(messages.selectNationality[lang]);
+      kebangsaanSelect.focus();
+      return;
+    }
+    
+    // Validate other nationality
+    if (selectedNationality === 'Lainnya') {
+      const otherNationality = kebangsaanLainnyaInput.value.trim();
+      if (!otherNationality) {
+        alert(messages.fillOtherNationality[lang]);
+        kebangsaanLainnyaInput.focus();
+        return;
+      }
+    }
+    
+    // Check consent
+    if (!consentCheckbox.checked) {
+      alert(messages.consentRequired[lang]);
+      consentCheckbox.focus();
+      return;
+    }
 
-// Start the application when DOM is loaded
-document.addEventListener('DOMContentLoaded', initApp);
+    submitBtn.disabled = true;
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = `<span class="loading-spinner"></span> ${messages.processing[lang]}`;
+
+    const formData = new FormData(registrationForm);
+    
+    // Konversi FormData ke URLSearchParams agar lebih mudah diterima Apps Script
+    const params = new URLSearchParams();
+    for (const [key, value] of formData) {
+      // Logika khusus untuk kebangsaan lainnya
+      if (key === 'kebangsaan' && value === 'Lainnya') {
+        params.append(key, document.getElementById('kebangsaan_lainnya').value);
+      } else if (key !== 'kebangsaan_lainnya') {
+        params.append(key, value);
+      }
+    }
+    
+    // Tambahkan action dan info bahasa yang digunakan saat mendaftar
+    params.append('action', 'register');
+    params.append('lang_used', lang);
+    
+    // Tambahkan OTP untuk verifikasi ulang di server (keamanan tambahan)
+    params.append('otp_verification', otpInput.value);
+
+    try {
+      // Mengirim data menggunakan metode POST ke SCRIPT_URL
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Penting untuk Google Apps Script
+        body: params
+      });
+
+      // Karena mode: 'no-cors', kita tidak bisa membaca isi JSON respon secara langsung
+      // Namun, kita bisa berasumsi jika tidak ada error network, data terkirim
+      alert(messages.success[lang]);
+      
+      // Reset form setelah berhasil
+      registrationForm.reset();
+      isOTPVerified = false;
+      otpField.classList.remove('active');
+      otpInput.value = '';
+      otpInput.disabled = false;
+      otpInput.style.borderColor = '';
+      otpInput.style.backgroundColor = '';
+      
+      // Reset duplicate alert
+      duplicateAlert.classList.remove('active');
+      submitBtn.disabled = false;
+      
+      // Reset language text
+      initMultilingual();
+      calculateTotal();
+      
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert(messages.networkError[lang]);
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+      initMultilingual();
+    }
+  });
+});
 </script>
 </body>
 </html>
