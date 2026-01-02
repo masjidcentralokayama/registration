@@ -849,6 +849,16 @@ function initMultilingual() {
     }
   });
   
+  // Update all options in nationality select
+  const nationalityOptions = kebangsaanSelect.querySelectorAll('option');
+  nationalityOptions.forEach(option => {
+    const translatedText = option.getAttribute(`data-${lang}`) || option.getAttribute('data-id');
+    if (translatedText) {
+      option.textContent = translatedText;
+    }
+  });
+}  
+  
   // Update select option texts
   const optionLainnya = kebangsaanSelect.querySelector('option[value="Lainnya"]');
   if (optionLainnya) {
