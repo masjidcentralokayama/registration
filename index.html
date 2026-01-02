@@ -434,7 +434,7 @@ footer {
             data-ja="すでに登録されています"></span>
     </div>
 
-    <!-- Header - KONSISTEN dengan footer -->
+    <!-- Header -->
     <div class="header">
       <h1 data-id="Registrasi Buka Puasa Bersama 1447 H"
           data-en="Ramadan Iftar Registration 1447 AH"
@@ -553,56 +553,49 @@ footer {
           </div>
         </div>
 
-<!-- Nationality -->
-<div class="field">
-  <label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
-  <div class="input-wrapper">
-    <i class="fas fa-globe"></i>
-    <select id="kebangsaan" name="kebangsaan" required>
-      <option value=""
-              data-id="Pilih kebangsaan"
-              data-en="Select nationality"
-              data-ja="国籍を選択">
-        Pilih kebangsaan
-      </option>
+        <!-- Nationality -->
+        <div class="field">
+          <label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
+          <div class="input-wrapper">
+            <i class="fas fa-globe"></i>
+            <select id="kebangsaan" name="kebangsaan" required>
+              <option value=""
+                      data-id="Pilih kebangsaan"
+                      data-en="Select nationality"
+                      data-ja="国籍を選択">
+              </option>
+              <option value="Indonesia"
+                      data-id="Indonesia"
+                      data-en="Indonesia"
+                      data-ja="インドネシア">
+              </option>
+              <option value="Jepang"
+                      data-id="Jepang"
+                      data-en="Japan"
+                      data-ja="日本">
+              </option>
+              <option value="Lainnya"
+                      data-id="Lainnya"
+                      data-en="Other"
+                      data-ja="その他">
+              </option>
+            </select>
+          </div>
 
-      <option value="Indonesia"
-              data-id="Indonesia"
-              data-en="Indonesia"
-              data-ja="インドネシア">
-        Indonesia
-      </option>
-
-      <option value="Jepang"
-              data-id="Jepang"
-              data-en="Japan"
-              data-ja="日本">
-        Jepang
-      </option>
-
-      <option value="Lainnya"
-              data-id="Lainnya"
-              data-en="Other"
-              data-ja="その他">
-        Lainnya
-      </option>
-    </select>
-  </div>
-
-  <!-- Other Nationality Input -->
-  <div class="other-nationality-wrapper" id="otherNationalityWrapper">
-    <div class="input-wrapper">
-      <i class="fas fa-edit"></i>
-      <input type="text"
-             id="kebangsaan_lainnya"
-             name="kebangsaan_lainnya"
-             data-id-ph="Masukkan kebangsaan Anda"
-             data-en-ph="Enter your nationality"
-             data-ja-ph="国籍を入力してください"
-             autocapitalize="words">
-    </div>
-  </div>
-</div>
+          <!-- Other Nationality Input -->
+          <div class="other-nationality-wrapper" id="otherNationalityWrapper">
+            <div class="input-wrapper">
+              <i class="fas fa-edit"></i>
+              <input type="text"
+                     id="kebangsaan_lainnya"
+                     name="kebangsaan_lainnya"
+                     data-id-ph="Masukkan kebangsaan Anda"
+                     data-en-ph="Enter your nationality"
+                     data-ja-ph="国籍を入力してください"
+                     autocapitalize="words">
+            </div>
+          </div>
+        </div>
 
         <!-- Age & Gender -->
         <div class="row">
@@ -669,7 +662,7 @@ footer {
             <div class="hint" data-id="Anak usia 0-12 tahun" data-en="Children age 0-12 years" data-ja="0〜12歳のお子様"></div>
           </div>
 
-          <!-- Number of Children - PERBAIKAN: Default value 1 saat Ya -->
+          <!-- Number of Children -->
           <div class="children-field-wrapper" id="childrenFieldWrapper">
             <div class="field">
               <label data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
@@ -740,7 +733,7 @@ if (userLang.startsWith('ja')) {
 let serverOTP = '';
 let isOTPVerified = false;
 
-// Messages for multilingual - DIPERBAIKI dengan pesan yang lebih lengkap
+// Messages for multilingual
 const messages = {
   fillNameEmail: {
     id: 'Mohon isi nama dan email terlebih dahulu',
@@ -801,6 +794,21 @@ const messages = {
     id: 'Usia harus antara 1 dan 120 tahun',
     en: 'Age must be between 1 and 120 years',
     ja: '年齢は1歳から120歳の間で入力してください'
+  },
+  phoneValidation: {
+    id: 'Nomor telepon harus 10-15 digit angka',
+    en: 'Phone number must be 10-15 digits',
+    ja: '電話番号は10〜15桁の数字で入力してください'
+  },
+  additionalAdultsValidation: {
+    id: 'Jumlah dewasa tambahan harus antara 0-10',
+    en: 'Additional adults must be between 0-10',
+    ja: '追加の大人は0〜10名で入力してください'
+  },
+  childrenValidation: {
+    id: 'Jumlah anak harus antara 1-10',
+    en: 'Number of children must be between 1-10',
+    ja: 'お子様の人数は1〜10名で入力してください'
   }
 };
 
@@ -833,7 +841,7 @@ const duplicateAlert = document.getElementById('duplicateAlert');
 function initMultilingual() {
   // Update all elements with data-id attributes
   document.querySelectorAll('[data-id]').forEach(element => {
-    if (element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA' && element.tagName !== 'OPTION') {
+    if (element.tagName !== 'INPUT' && element.tagName !== 'TEXTAREA' && element.tagName !== 'OPTION' && element.tagName !== 'SELECT') {
       const translatedText = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
       if (translatedText) {
         element.textContent = translatedText;
@@ -849,33 +857,13 @@ function initMultilingual() {
     }
   });
   
-  // Update all options in nationality select
-  const nationalityOptions = kebangsaanSelect.querySelectorAll('option');
-  nationalityOptions.forEach(option => {
+  // Update select options
+  document.querySelectorAll('option').forEach(option => {
     const translatedText = option.getAttribute(`data-${lang}`) || option.getAttribute('data-id');
-    if (translatedText) {
+    if (translatedText && option.textContent !== '') {
       option.textContent = translatedText;
     }
   });
-}  
-  
-  // Update select option texts
-  const optionLainnya = kebangsaanSelect.querySelector('option[value="Lainnya"]');
-  if (optionLainnya) {
-    const translatedText = optionLainnya.getAttribute(`data-${lang}`) || optionLainnya.getAttribute('data-id');
-    if (translatedText) {
-      optionLainnya.textContent = translatedText;
-    }
-  }
-  
-  // Update placeholder option
-  const placeholderOption = kebangsaanSelect.querySelector('option[value=""]');
-  if (placeholderOption) {
-    const translatedText = placeholderOption.getAttribute(`data-${lang}`) || placeholderOption.getAttribute('data-id');
-    if (translatedText) {
-      placeholderOption.textContent = translatedText;
-    }
-  }
 }
 
 // Calculate total attendees
@@ -917,21 +905,21 @@ function calculateTotal() {
   return total;
 }
 
-// Send OTP function - DIPERBAIKI dengan validasi email
+// Send OTP function
 async function sendOTP() {
   const nama = namaLengkapInput.value.trim();
   const email = emailInput.value.trim();
   
   // Validation
   if (!nama || !email) {
-    alert(messages.fillNameEmail[lang]);
+    showAlert(messages.fillNameEmail[lang]);
     return;
   }
   
   // Email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    alert(messages.invalidEmail[lang]);
+    showAlert(messages.invalidEmail[lang]);
     return;
   }
   
@@ -970,21 +958,27 @@ async function sendOTP() {
       
       // Show success message
       setTimeout(() => {
-        otpHint.textContent = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
+        const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
+        otpHint.textContent = defaultHint;
         otpHint.style.color = '';
       }, 3000);
     } else {
-      alert(result.message || messages.networkError[lang]);
+      showAlert(result.message || messages.networkError[lang]);
     }
   } catch (error) {
     console.error('Error sending OTP:', error);
-    alert(messages.networkError[lang]);
+    showAlert(messages.networkError[lang]);
   } finally {
     // Restore button
     sendOtpBtn.disabled = false;
     sendOtpBtn.innerHTML = originalText;
     initMultilingual();
   }
+}
+
+// Show alert message
+function showAlert(message) {
+  alert(message);
 }
 
 // Verify OTP on input
@@ -1008,8 +1002,10 @@ function verifyOTP() {
     }
   } else {
     isOTPVerified = false;
-    otpHint.textContent = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
+    const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
+    otpHint.textContent = defaultHint;
     otpHint.style.color = '';
+    otpHint.innerHTML = defaultHint;
   }
 }
 
@@ -1047,8 +1043,8 @@ function checkDuplicate() {
 function validateForm() {
   // Validate age
   const usia = parseInt(usiaInput.value);
-  if (usia < 1 || usia > 120) {
-    alert(messages.ageValidation[lang]);
+  if (isNaN(usia) || usia < 1 || usia > 120) {
+    showAlert(messages.ageValidation[lang]);
     usiaInput.focus();
     return false;
   }
@@ -1056,9 +1052,7 @@ function validateForm() {
   // Validate phone number pattern
   const phoneRegex = /^[0-9]{10,15}$/;
   if (!phoneRegex.test(noHpInput.value.trim())) {
-    alert(lang === 'id' ? 'Nomor telepon harus 10-15 digit angka' :
-          lang === 'en' ? 'Phone number must be 10-15 digits' :
-          '電話番号は10〜15桁の数字で入力してください');
+    showAlert(messages.phoneValidation[lang]);
     noHpInput.focus();
     return false;
   }
@@ -1066,11 +1060,20 @@ function validateForm() {
   // Validate additional adults
   const dewasaTambahan = parseInt(dewasaTambahanInput.value) || 0;
   if (dewasaTambahan < 0 || dewasaTambahan > 10) {
-    alert(lang === 'id' ? 'Jumlah dewasa tambahan harus antara 0-10' :
-          lang === 'en' ? 'Additional adults must be between 0-10' :
-          '追加の大人は0〜10名で入力してください');
+    showAlert(messages.additionalAdultsValidation[lang]);
     dewasaTambahanInput.focus();
     return false;
+  }
+  
+  // Validate children if coming with children
+  const denganAnak = document.querySelector('input[name="dengan_anak"]:checked');
+  if (denganAnak && denganAnak.value === 'Ya') {
+    const jumlahAnak = parseInt(jumlahAnakInput.value) || 1;
+    if (jumlahAnak < 1 || jumlahAnak > 10) {
+      showAlert(messages.childrenValidation[lang]);
+      jumlahAnakInput.focus();
+      return false;
+    }
   }
   
   return true;
@@ -1082,7 +1085,7 @@ async function submitForm(event) {
   
   // Validate OTP
   if (!isOTPVerified) {
-    alert(messages.verifyOtpFirst[lang]);
+    showAlert(messages.verifyOtpFirst[lang]);
     otpInput.focus();
     return;
   }
@@ -1090,7 +1093,7 @@ async function submitForm(event) {
   // Validate nationality
   const selectedNationality = kebangsaanSelect.value;
   if (!selectedNationality) {
-    alert(messages.selectNationality[lang]);
+    showAlert(messages.selectNationality[lang]);
     kebangsaanSelect.focus();
     return;
   }
@@ -1099,7 +1102,7 @@ async function submitForm(event) {
   if (selectedNationality === 'Lainnya') {
     const otherNationality = kebangsaanLainnyaInput.value.trim();
     if (!otherNationality) {
-      alert(messages.fillOtherNationality[lang]);
+      showAlert(messages.fillOtherNationality[lang]);
       kebangsaanLainnyaInput.focus();
       return;
     }
@@ -1107,6 +1110,15 @@ async function submitForm(event) {
   
   // Validate other form fields
   if (!validateForm()) {
+    return;
+  }
+  
+  // Check consent
+  if (!consentCheckbox.checked) {
+    showAlert(lang === 'id' ? 'Harap setujui persetujuan data' :
+              lang === 'en' ? 'Please agree to the data consent' :
+              'データ同意に同意してください');
+    consentCheckbox.focus();
     return;
   }
   
@@ -1149,17 +1161,22 @@ async function submitForm(event) {
     
     if (result.status === 'success') {
       // Redirect to success page
-      const params = new URLSearchParams(formData);
+      const params = new URLSearchParams();
+      params.append('id', registrationId);
+      params.append('nama', namaLengkapInput.value);
+      params.append('email', emailInput.value);
+      params.append('lang', lang);
+      
       window.location.href = `success.html?${params.toString()}`;
     } else {
-      alert(result.message || messages.networkError[lang]);
+      showAlert(result.message || messages.networkError[lang]);
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
       initMultilingual();
     }
   } catch (error) {
     console.error('Error submitting form:', error);
-    alert(messages.networkError[lang]);
+    showAlert(messages.networkError[lang]);
     submitBtn.disabled = false;
     submitBtn.innerHTML = originalText;
     initMultilingual();
@@ -1187,7 +1204,7 @@ function initEventListeners() {
     }
   });
   
-  // Children toggle - DIPERBAIKI: Set default value 1 saat memilih Ya
+  // Children toggle
   denganAnakRadio.forEach(radio => {
     radio.addEventListener('change', function() {
       if (this.value === 'Ya') {
@@ -1224,6 +1241,12 @@ function initApp() {
   // Set default values
   document.getElementById('jk_l').checked = true;
   document.getElementById('anak_tidak').checked = true;
+  
+  // Initialize nationality select
+  const placeholderOption = kebangsaanSelect.querySelector('option[value=""]');
+  if (placeholderOption) {
+    placeholderOption.textContent = placeholderOption.getAttribute(`data-${lang}`) || placeholderOption.getAttribute('data-id');
+  }
 }
 
 // Start the application when DOM is loaded
