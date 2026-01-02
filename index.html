@@ -1,3 +1,5 @@
+[file name]: index.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -912,7 +914,7 @@ footer .contact a:hover {
                      data-en-ph="example@email.com"
                      data-ja-ph="例: example@email.com">
             </div>
-            <button type="button" class="btn-otp" id="sendOtpBtn" aria-label="Send OTP">
+            <button type="button" class="btn-otp" id="sendOtpBtn" aria-label="Send OTP" disabled>
               <span data-id="Kirim OTP" data-en="Send OTP" data-ja="OTP送信"></span>
             </button>
           </div>
@@ -943,7 +945,7 @@ footer .contact a:hover {
           <label data-id="Nomor Telepon" data-en="Phone Number" data-ja="電話番号"></label>
           <div class="input-wrapper">
             <i class="fas fa-phone"></i>
-            <input type="tel" id="no_hp" name="no_hp" required pattern="[0-9]{10,15}"
+            <input type="tel" id="no_hp" name="no_hp" required pattern="[0-9]{10,15}" inputmode="numeric"
                    data-id-ph="081234567890"
                    data-en-ph="081234567890"
                    data-ja-ph="08012345678">
@@ -1040,7 +1042,7 @@ footer .contact a:hover {
             <label data-id="Usia" data-en="Age" data-ja="年齢"></label>
             <div class="input-wrapper">
               <i class="fas fa-birthday-cake"></i>
-              <input type="number" id="usia" name="usia" min="1" max="120" required
+              <input type="number" id="usia" name="usia" min="1" max="120" required inputmode="numeric"
                      data-id-ph="Usia saat ini"
                      data-en-ph="Current age"
                      data-ja-ph="現在の年齢">
@@ -1347,7 +1349,7 @@ function calculateTotal() {
 }
 
 // ============================================
-// FUNGSI OTP
+// FUNGSI OTP - PERBAIKAN UTAMA
 // ============================================
 
 // Send OTP
@@ -1396,9 +1398,10 @@ async function sendOTP() {
   }
 }
 
-// Verify OTP with rate limiting
+// Verify OTP with improved feedback
 async function verifyOTP() {
-  if (otpInput.value.length !== 6) {
+  const otpVal = otpInput.value.trim();
+  if (otpVal.length !== 6) {
     const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
     otpHint.textContent = defaultHint;
     otpHint.style.color = '';
@@ -1414,25 +1417,38 @@ async function verifyOTP() {
 
   otpAttempts++;
 
+  // Visual feedback saat verifikasi
+  otpInput.style.opacity = "0.5";
+  otpInput.disabled = true;
+
   try {
-    const response = await fetch(`${SCRIPT_URL}?action=verify_otp&email=${encodeURIComponent(emailInput.value.toLowerCase())}&otp=${otpInput.value}`);
+    const response = await fetch(`${SCRIPT_URL}?action=verify_otp&email=${encodeURIComponent(emailInput.value.toLowerCase())}&otp=${otpVal}`);
     const result = await response.json();
     
-    if (result.verified) {
+    otpInput.style.opacity = "1";
+    otpInput.disabled = false;
+
+    // Support both response formats
+    if (result.status === 'verified' || result.verified === true) {
       isOTPVerified = true;
       otpInput.disabled = true;
       otpInput.style.borderColor = '#10a37f';
       otpInput.style.backgroundColor = '#f0fdf4';
       otpHint.textContent = messages.otpVerified[lang];
       otpHint.style.color = '#10a37f';
+      otpAttempts = 0;
     } else {
       isOTPVerified = false;
       otpInput.style.borderColor = '#dc2626';
       otpInput.style.backgroundColor = '#fef2f2';
-      otpHint.textContent = messages.invalidOtp[lang];
+      otpHint.textContent = messages.invalidOtp[lang] + ` (${otpAttempts}/${MAX_OTP_ATTEMPTS})`;
       otpHint.style.color = '#dc2626';
+      otpInput.value = ''; // Kosongkan jika salah agar user input ulang
+      setTimeout(() => otpInput.focus(), 100);
     }
   } catch (e) { 
+    otpInput.style.opacity = "1";
+    otpInput.disabled = false;
     console.error('OTP verification error:', e); 
     alert(messages.networkError[lang]);
   }
@@ -1445,6 +1461,7 @@ function resetOTPState() {
   otpInput.disabled = false;
   otpInput.style.borderColor = '';
   otpInput.style.backgroundColor = '';
+  otpInput.style.opacity = "1";
   otpField.classList.remove('active');
   
   const defaultHint = otpHint.getAttribute(`data-${lang}`) || otpHint.getAttribute('data-id');
@@ -1497,12 +1514,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show info message about email confirmation
   infoMessage.classList.add('active');
 
-  sendOtpBtn.addEventListener('click', sendOTP);
-  
-  // Reset OTP state when email changes
+  // Add email validation for OTP button
   emailInput.addEventListener('input', () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    sendOtpBtn.disabled = !emailRegex.test(emailInput.value.trim());
+    
+    // Reset OTP state when email changes
     resetOTPState();
   });
+  
+  sendOtpBtn.addEventListener('click', sendOTP);
   
   // Verify OTP on input (with debounce)
   let otpVerifyTimeout;
@@ -1597,12 +1618,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Calculate total attendees
-      if (key === 'jumlah_orang_total') {
+      if (key === 'total_kehadiran') {
         processedValue = calculateTotal().toString();
       }
       
       params.append(key, processedValue);
     }
+    
+    // Add total_kehadiran parameter
+    params.append('total_kehadiran', calculateTotal().toString());
     
     // Add action and language
     params.append('action', 'register');
@@ -1621,9 +1645,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
       
       if (result.success) {
-        // Redirect to success page
+        // Show success message and redirect
         alert(messages.success[lang]);
-        window.location.href = result.redirect_url;
+        if (result.redirect_url) {
+          window.location.href = result.redirect_url;
+        }
       } else {
         alert(result.error || messages.networkError[lang]);
       }
@@ -1641,3 +1667,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+[file content end]
