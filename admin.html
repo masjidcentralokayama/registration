@@ -1,143 +1,1694 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Real-Time - OCM</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; margin: 0; background: #f1f5f9; color: #1e293b; }
-        .navbar { background: #064e3b; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
-        
-        /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: white; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; text-align: center; }
-        .stat-card i { font-size: 24px; color: #059669; margin-bottom: 10px; }
-        .stat-card h3 { margin: 5px 0; font-size: 28px; color: #0f172a; }
-        .stat-card p { margin: 0; color: #64748b; font-size: 13px; font-weight: 600; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Admin - Buka Puasa Bersama 1447 H</title>
 
-        /* Table */
-        .data-table { background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th { background: #f8fafc; padding: 15px; text-align: left; color: #64748b; border-bottom: 1px solid #e2e8f0; }
-        td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
-        .status-pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
-        .pill-hadir { background: #dcfce7; color: #15803d; }
-        .pill-belum { background: #fef2f2; color: #b91c1c; }
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Dashboard Admin - Buka Puasa Bersama 1447 H">
+<meta property="og:description" content="Sistem monitoring real-time kehadiran jamaah">
+<meta property="og:image" content="https://example.com/og-image.png">
+<meta property="og:url" content="">
+<meta property="og:type" content="website">
 
-        /* Login */
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #064e3b; z-index: 999; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: white; padding: 30px; border-radius: 20px; text-align: center; width: 300px; }
-        input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; text-align: center; }
-        button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #059669; color: white; font-weight: bold; cursor: pointer; }
-    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* CSS dengan tema konsisten */
+:root {
+  --accent-green: #10a37f;
+  --accent-green-dark: #0d8465;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f0e6c5;
+  --accent-teal: #0f766e;
+  --accent-dark: #1e293b;
+  --accent-light: #f8fafc;
+  --danger: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f7f7f8 0%, #f0f9ff 100%);
+  color: var(--accent-dark);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ornament & Pattern */
+.ornament-top { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  height: 80px; 
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal)); 
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%); 
+  z-index: 1;
+  opacity: 0.65;
+}
+
+.ornament-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(135deg, var(--accent-teal), var(--accent-green));
+  clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+  z-index: 1;
+  opacity: 0.65;
+}
+
+.islamic-pattern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(16, 163, 127, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 0;
+}
+
+/* Login Container */
+.login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.login-box {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  position: relative;
+}
+
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-gold), var(--accent-teal));
+  border-radius: 20px 20px 0 0;
+}
+
+/* Dekorasi Islami di Login */
+.login-decoration {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 2rem;
+  color: rgba(16, 163, 127, 0.1);
+  z-index: 0;
+}
+
+.login-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  box-shadow: 0 10px 20px rgba(16, 163, 127, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  color: var(--accent-dark);
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.login-subtitle {
+  color: #64748b;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--accent-teal);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+}
+
+.btn-login {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(16, 163, 127, 0.3);
+}
+
+.btn-login:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  color: var(--danger);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  display: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  display: none;
+  padding: 1rem;
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+/* Header Dashboard */
+.dashboard-header {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+}
+
+.dashboard-header-content h1 {
+  color: var(--accent-teal);
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.dashboard-header-content p {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-role {
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-logout {
+  background: white;
+  color: var(--accent-teal);
+  border: 2px solid var(--accent-teal);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-logout:hover {
+  background: var(--accent-teal);
+  color: white;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.tab {
+  flex: 1;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Scanner Tab */
+.scanner-container {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.scanner-title {
+  color: var(--accent-teal);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#video-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--accent-gold-light);
+}
+
+#video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#scan-result {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--accent-light);
+  border-radius: 10px;
+  border-left: 4px solid var(--accent-gold);
+}
+
+.scan-success {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.scan-error {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* Stats Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.stat-icon.registered { background: linear-gradient(135deg, var(--info), #2563eb); }
+.stat-icon.attended { background: linear-gradient(135deg, var(--success), #059669); }
+.stat-icon.pending { background: linear-gradient(135deg, var(--warning), #d97706); }
+.stat-icon.children { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.stat-icon.male { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.stat-icon.female { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+.stat-content h3 {
+  font-size: 2rem;
+  color: var(--accent-dark);
+  margin-bottom: 0.25rem;
+}
+
+.stat-content p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Data Table */
+.data-container {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+.data-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.data-header h3 {
+  color: var(--accent-teal);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-box {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  width: 250px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background: var(--accent-light);
+  color: var(--accent-teal);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.data-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.data-table tr:hover {
+  background: #f8fafc;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.status-present {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-waiting {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.gender-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.gender-male {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.gender-female {
+  background: #fce7f3;
+  color: #9d174d;
+}
+
+.btn-action {
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btn-whatsapp {
+  background: #10b981;
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.btn-whatsapp:hover {
+  background: #059669;
+}
+
+.btn-checkin {
+  background: var(--accent-green);
+  color: white;
+}
+
+.btn-checkin:hover {
+  background: var(--accent-green-dark);
+}
+
+.btn-checkin:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Chart Container */
+.chart-container {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+.chart-container h3 {
+  color: var(--accent-teal);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Footer Dashboard */
+.dashboard-footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 2rem;
+  background: white;
+  border-radius: 15px;
+}
+
+.dashboard-footer p {
+  margin-bottom: 0.25rem;
+}
+
+.dashboard-footer .prayer-message {
+  font-style: italic;
+  color: var(--accent-teal);
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.contact-info {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.contact-info a {
+  color: var(--accent-green);
+  text-decoration: none;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .user-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tabs {
+    flex-direction: column;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .data-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .search-box {
+    width: 100%;
+  }
+  
+  .table-container {
+    font-size: 0.8rem;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 0.75rem;
+  }
+}
+
+/* Animasi untuk notifikasi */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+</style>
 </head>
 <body>
 
-<div id="login-overlay">
-    <div class="login-box">
-        <h3>Admin Dashboard</h3>
-        <input type="password" id="pass" placeholder="Password Admin">
-        <button onclick="login()">Buka Dashboard</button>
+<div class="ornament-top"></div>
+<div class="ornament-bottom"></div>
+<div class="islamic-pattern"></div>
+
+<!-- Login Section -->
+<div class="login-container" id="loginContainer">
+  <div class="login-box">
+    <div class="login-decoration">
+      <i class="fas fa-mosque"></i>
     </div>
+    
+    <div class="login-icon">
+      <i class="fas fa-mosque"></i>
+    </div>
+    <h1 class="login-title">Sistem Pendataan Jamaah</h1>
+    <p class="login-subtitle">Akses terbatas untuk panitia dan pengelola acara</p>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username"><i class="fas fa-user"></i> Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
+      </div>
+      
+      <button type="submit" class="btn-login" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i> Masuk ke Sistem
+      </button>
+      
+      <div class="error-message" id="loginError">
+        <i class="fas fa-exclamation-circle"></i> Username atau password tidak valid
+      </div>
+    </form>
+  </div>
 </div>
 
-<div class="navbar">
-    <span style="font-weight: 800; font-size: 18px;">🕌 Pantau Peserta Bukber 2026</span>
-    <button onclick="loadData()" style="background:rgba(255,255,255,0.2); border:none; color:white; padding:5px 12px; border-radius:5px; cursor:pointer;">
-        <i class="fas fa-sync-alt"></i> Refresh
+<!-- Dashboard Section -->
+<div class="dashboard-container" id="dashboardContainer">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="dashboard-header-content">
+      <h1><i class="fas fa-mosque"></i> Dashboard Kehadiran Jamaah Iftar 1447 H</h1>
+      <p>Sistem pendataan dan monitoring kehadiran jamaah</p>
+    </div>
+    <div class="user-info">
+      <div class="user-role" id="userRole">Panitia</div>
+      <button class="btn-logout" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i> Keluar
+      </button>
+    </div>
+  </div>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="scanner">
+      <i class="fas fa-qrcode"></i> Pemindai QR
     </button>
-</div>
-
-<div class="container">
-    <div class="stats-grid">
-        <div class="stat-card">
-            <i class="fas fa-users"></i>
-            <h3 id="stat-total-pendaftar">0</h3>
-            <p>TOTAL GRUP/KELUARGA</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-user-check"></i>
-            <h3 id="stat-total-hadir">0</h3>
-            <p>GRUP SUDAH SCAN</p>
-        </div>
-        <div class="stat-card" style="border-bottom: 4px solid #dc2626;">
-            <i class="fas fa-user-clock" style="color: #dc2626;"></i>
-            <h3 id="stat-belum-hadir" style="color: #dc2626;">0</h3>
-            <p>JEMAAH BELUM SCAN</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-mosque"></i>
-            <h3 id="stat-total-orang">0</h3>
-            <p>HADIR / TOTAL (ORANG)</p>
-        </div>
+    <button class="tab" data-tab="data">
+      <i class="fas fa-database"></i> Data Jamaah
+    </button>
+    <button class="tab" data-tab="stats" id="statsTab">
+      <i class="fas fa-chart-pie"></i> Statistik
+    </button>
+  </div>
+  
+  <!-- Tab Content: Scanner -->
+  <div class="tab-content active" id="scannerTab">
+    <div class="scanner-container">
+      <h2 class="scanner-title"><i class="fas fa-qrcode"></i> Pemindai QR Code Jamaah</h2>
+      <p style="color: #64748b; margin-bottom: 1.5rem;">Arahkan kamera ke QR Code pada kartu akses jamaah</p>
+      
+      <div id="video-container">
+        <video id="video" width="400" height="300" playsinline></video>
+      </div>
+      
+      <div id="scan-result" style="display: none;">
+        <h3 style="color: var(--accent-teal); margin-bottom: 0.5rem;">Hasil Pemindaian:</h3>
+        <div id="scan-result-content"></div>
+      </div>
+      
+      <div style="margin-top: 1.5rem; text-align: center;">
+        <button id="startScanner" class="btn-login" style="max-width: 200px;">
+          <i class="fas fa-play"></i> Mulai Pemindaian
+        </button>
+        <button id="stopScanner" class="btn-logout" style="max-width: 200px; margin-left: 1rem;">
+          <i class="fas fa-stop"></i> Hentikan
+        </button>
+      </div>
     </div>
-
-    <h4 style="margin-bottom: 15px;">Aktivitas Kehadiran Terbaru</h4>
-    <div class="data-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nama Lengkap</th>
-                    <th>Pax</th>
-                    <th>Status</th>
-                    <th>Waktu</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-            </tbody>
+  </div>
+  
+  <!-- Tab Content: Data -->
+  <div class="tab-content" id="dataTab">
+    <!-- Stats Cards (Visible for both roles) -->
+    <div class="stats-grid" id="mainStats">
+      <div class="stat-card">
+        <div class="stat-icon registered">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content">
+          <h3 id="totalRegistered">0</h3>
+          <p>Total Pendaftar Jamaah</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon attended">
+          <i class="fas fa-user-check"></i>
+        </div>
+        <div class="stat-content">
+          <h3 id="totalPresent">0</h3>
+          <p>Jamaah Hadir</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon pending">
+          <i class="fas fa-user-clock"></i>
+        </div>
+        <div class="stat-content">
+          <h3 id="totalPending">0</h3>
+          <p>Menunggu Kehadiran</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Admin Only Stats -->
+    <div class="stats-grid" id="adminStats" style="display: none;">
+      <div class="stat-card">
+        <div class="stat-icon children">
+          <i class="fas fa-child"></i>
+        </div>
+        <div class="stat-content">
+          <h3 id="totalChildren">0</h3>
+          <p>Jamaah Anak-anak</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon male">
+          <i class="fas fa-male"></i>
+        </div>
+        <div class="stat-content">
+          <h3 id="totalMale">0</h3>
+          <p>Jamaah Laki-laki</p>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon female">
+          <i class="fas fa-female"></i>
+        </div>
+        <div class="stat-content">
+          <h3 id="totalFemale">0</h3>
+          <p>Jamaah Perempuan</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Data Table (Admin Only) -->
+    <div class="data-container" id="adminTable" style="display: none;">
+      <div class="data-header">
+        <h3><i class="fas fa-table"></i> Daftar Lengkap Jamaah</h3>
+        <input type="text" class="search-box" id="searchInput" placeholder="Cari nama atau ID jamaah...">
+      </div>
+      
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID Jamaah</th>
+              <th>Nama Lengkap</th>
+              <th>No. Telepon</th>
+              <th>Jenis Kelamin</th>
+              <th>Usia</th>
+              <th>Waktu Check-in</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="participantTableBody">
+            <!-- Data akan diisi oleh JavaScript -->
+          </tbody>
         </table>
+      </div>
+      
+      <div style="margin-top: 1rem; text-align: center; color: #64748b; font-size: 0.9rem;">
+        <i class="fas fa-info-circle"></i> Total jamaah terdaftar: <span id="totalData">0</span> orang
+      </div>
     </div>
+  </div>
+  
+  <!-- Tab Content: Stats -->
+  <div class="tab-content" id="statsTabContent">
+    <div class="chart-container">
+      <h3><i class="fas fa-chart-bar"></i> Statistik Kehadiran Jamaah</h3>
+      <canvas id="attendanceChart"></canvas>
+    </div>
+    
+    <div class="chart-container" id="genderChartContainer" style="display: none;">
+      <h3><i class="fas fa-chart-pie"></i> Distribusi Jenis Kelamin Jamaah</h3>
+      <canvas id="genderChart"></canvas>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="dashboard-footer">
+    <div>© 2026 Yayasan Ibadurrahman Islamic Center • Sistem Pendataan Kehadiran Real-time</div>
+    <div class="prayer-message">
+      "Semoga Allah memberkahi setiap amal kebaikan kita."
+    </div>
+    <div class="contact-info" style="margin-top: 0.5rem;">
+      <i class="fas fa-sync-alt"></i> <span id="lastUpdate">Terakhir update: -</span>
+    </div>
+  </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylntOq1cWcn2xZb2sNoNfKFrjx7qzWYC20WFwXwo6hIgWhBlEN1AU2S2Bhd-GTnRqcHg/exec"; 
-    const PASS_ADMIN = "ADMINmco";
+// ============================================
+// KONFIGURASI DAN DATA
+// ============================================
 
-    function login() {
-        if(document.getElementById("pass").value === PASS_ADMIN) {
-            document.getElementById("login-overlay").style.display = "none";
-            loadData();
-            setInterval(loadData, 30000); // Auto refresh setiap 30 detik
-        } else {
-            alert("Password Salah");
-        }
+// Data login yang valid
+const validCredentials = {
+  panitia: {
+    username: 'panitia',
+    password: 'bukbermco',
+    role: 'panitia',
+    name: 'Panitia Iftar'
+  },
+  admin: {
+    username: 'admin',
+    password: 'musazain',
+    role: 'admin',
+    name: 'Administrator'
+  }
+};
+
+// Data dummy jamaah (akan disimpan di localStorage)
+const initialParticipants = [
+  { id: 'IFTAR-0001', name: 'Ahmad Santoso', phone: '081234567890', gender: 'male', age: 'Dewasa', checkinTime: null, status: 'waiting' },
+  { id: 'IFTAR-0002', name: 'Siti Rahayu', phone: '081234567891', gender: 'female', age: 'Dewasa', checkinTime: '17:45', status: 'present' },
+  { id: 'IFTAR-0003', name: 'Budi Prasetyo', phone: '081234567892', gender: 'male', age: 'Dewasa', checkinTime: null, status: 'waiting' },
+  { id: 'IFTAR-0004', name: 'Dewi Anggraini', phone: '081234567893', gender: 'female', age: 'Dewasa', checkinTime: '18:15', status: 'present' },
+  { id: 'IFTAR-0005', name: 'Rina Wati', phone: '081234567894', gender: 'female', age: 'Dewasa', checkinTime: null, status: 'waiting' },
+  { id: 'IFTAR-0006', name: 'Rudi Hartono', phone: '081234567895', gender: 'male', age: 'Dewasa', checkinTime: '17:30', status: 'present' },
+  { id: 'IFTAR-0007', name: 'Ani Lestari', phone: '081234567896', gender: 'female', age: 'Anak', checkinTime: null, status: 'waiting' },
+  { id: 'IFTAR-0008', name: 'Joko Widodo', phone: '081234567897', gender: 'male', age: 'Dewasa', checkinTime: '18:00', status: 'present' },
+  { id: 'IFTAR-0009', name: 'Maya Sari', phone: '081234567898', gender: 'female', age: 'Dewasa', checkinTime: null, status: 'waiting' },
+  { id: 'IFTAR-0010', name: 'Agus Supriyadi', phone: '081234567899', gender: 'male', age: 'Dewasa', checkinTime: '18:20', status: 'present' }
+];
+
+// Simpan data ke localStorage jika belum ada
+if (!localStorage.getItem('iftarParticipants')) {
+  localStorage.setItem('iftarParticipants', JSON.stringify(initialParticipants));
+}
+
+// State aplikasi
+let currentUser = null;
+let scannerActive = false;
+let videoStream = null;
+let attendanceChart = null;
+let genderChart = null;
+let lastUpdateTime = null;
+
+// ============================================
+// FUNGSI UTILITAS
+// ============================================
+
+// Format waktu
+function formatTime(date = new Date()) {
+  return date.toLocaleTimeString('id-ID', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
+
+// Format tanggal
+function formatDate(date = new Date()) {
+  return date.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// Update waktu terakhir update
+function updateLastUpdateTime() {
+  lastUpdateTime = new Date();
+  const element = document.getElementById('lastUpdate');
+  if (element) {
+    element.textContent = `Terakhir update: ${formatTime(lastUpdateTime)}`;
+  }
+}
+
+// ============================================
+// FUNGSI LOGIN
+// ============================================
+
+// Handle form login
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const errorElement = document.getElementById('loginError');
+  
+  // Cek kredensial
+  let validUser = null;
+  for (const key in validCredentials) {
+    const user = validCredentials[key];
+    if (user.username === username && user.password === password) {
+      validUser = user;
+      break;
     }
+  }
+  
+  if (validUser) {
+    // Login berhasil
+    errorElement.style.display = 'none';
+    currentUser = validUser;
+    
+    // Simpan session
+    sessionStorage.setItem('iftarDashboardUser', JSON.stringify(validUser));
+    
+    // Tampilkan dashboard
+    showDashboard();
+    
+    // Reset form
+    document.getElementById('loginForm').reset();
+  } else {
+    // Login gagal
+    errorElement.style.display = 'block';
+    document.getElementById('password').value = '';
+    
+    // Tambahkan efek shake pada form
+    this.style.animation = 'shake 0.5s';
+    setTimeout(() => {
+      this.style.animation = '';
+    }, 500);
+  }
+});
 
-    async function loadData() {
-        try {
-            const res = await fetch(`${SCRIPT_URL}?action=getList`);
-            const json = await res.json();
-            
-            // Update Stats
-            document.getElementById("stat-total-pendaftar").innerText = json.totalPendaftar;
-            document.getElementById("stat-total-hadir").innerText = json.totalHadir;
-            document.getElementById("stat-belum-hadir").innerText = json.belumHadir; // Data grup belum hadir
-            document.getElementById("stat-total-orang").innerText = json.totalOrangHadir + " / " + json.totalOrangPendaftar;
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', function() {
+  // Hentikan scanner jika aktif
+  stopScanner();
+  
+  // Hapus session
+  sessionStorage.removeItem('iftarDashboardUser');
+  
+  // Reset state
+  currentUser = null;
+  
+  // Tampilkan login
+  showLogin();
+});
 
-            // Update Table
-            const tbody = document.getElementById("table-body");
-            tbody.innerHTML = "";
-            
-            json.data.forEach(row => {
-                const tr = document.createElement("tr");
-                const statusClass = row[9] === "Sudah Hadir" ? "pill-hadir" : "pill-belum";
-                tr.innerHTML = `
-                    <td><small>${row[0]}</small></td>
-                    <td><b>${row[2]}</b></td>
-                    <td>${row[8]}</td>
-                    <td><span class="status-pill ${statusClass}">${row[9]}</span></td>
-                    <td><small>${row[10] || '-'}</small></td>
-                `;
-                tbody.appendChild(tr);
-            });
-        } catch (e) {
-            console.log("Gagal memuat data");
+// Cek session saat load
+window.addEventListener('load', function() {
+  const savedUser = sessionStorage.getItem('iftarDashboardUser');
+  if (savedUser) {
+    currentUser = JSON.parse(savedUser);
+    showDashboard();
+  } else {
+    showLogin();
+  }
+});
+
+// ============================================
+// FUNGSI TAMPILAN
+// ============================================
+
+// Tampilkan login
+function showLogin() {
+  document.getElementById('loginContainer').style.display = 'flex';
+  document.getElementById('dashboardContainer').style.display = 'none';
+}
+
+// Tampilkan dashboard
+function showDashboard() {
+  document.getElementById('loginContainer').style.display = 'none';
+  document.getElementById('dashboardContainer').style.display = 'block';
+  
+  // Update UI berdasarkan role
+  updateUIForRole();
+  
+  // Load data awal
+  loadParticipantsData();
+  updateStats();
+  updateCharts();
+  updateLastUpdateTime();
+  
+  // Setup tabs
+  setupTabs();
+  
+  // Setup scanner
+  setupScanner();
+}
+
+// Update UI berdasarkan role user
+function updateUIForRole() {
+  const roleElement = document.getElementById('userRole');
+  const adminStats = document.getElementById('adminStats');
+  const adminTable = document.getElementById('adminTable');
+  const statsTab = document.getElementById('statsTab');
+  const genderChartContainer = document.getElementById('genderChartContainer');
+  
+  if (currentUser.role === 'admin') {
+    roleElement.textContent = 'Administrator';
+    adminStats.style.display = 'grid';
+    adminTable.style.display = 'block';
+    statsTab.style.display = 'flex';
+    genderChartContainer.style.display = 'block';
+  } else {
+    roleElement.textContent = 'Panitia';
+    adminStats.style.display = 'none';
+    adminTable.style.display = 'none';
+    statsTab.style.display = 'flex';
+    genderChartContainer.style.display = 'none';
+  }
+}
+
+// Setup tabs
+function setupTabs() {
+  const tabs = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const tabId = this.getAttribute('data-tab');
+      
+      // Update tab aktif
+      tabs.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Update konten aktif
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+        if (content.id === tabId + 'Tab') {
+          content.classList.add('active');
         }
+      });
+      
+      // Jika tab scanner aktif, mulai scanner
+      if (tabId === 'scanner' && !scannerActive) {
+        startScanner();
+      } else if (tabId !== 'scanner' && scannerActive) {
+        stopScanner();
+      }
+    });
+  });
+}
+
+// ============================================
+// FUNGSI DATA PESERTA
+// ============================================
+
+// Load data peserta dari localStorage
+function loadParticipantsData() {
+  const data = localStorage.getItem('iftarParticipants');
+  return data ? JSON.parse(data) : [];
+}
+
+// Save data peserta ke localStorage
+function saveParticipantsData(participants) {
+  localStorage.setItem('iftarParticipants', JSON.stringify(participants));
+  updateLastUpdateTime();
+}
+
+// Update statistik
+function updateStats() {
+  const participants = loadParticipantsData();
+  
+  // Hitung statistik
+  const totalRegistered = participants.length;
+  const totalPresent = participants.filter(p => p.status === 'present').length;
+  const totalWaiting = participants.filter(p => p.status === 'waiting').length;
+  const totalChildren = participants.filter(p => p.age === 'Anak').length;
+  const totalMale = participants.filter(p => p.gender === 'male').length;
+  const totalFemale = participants.filter(p => p.gender === 'female').length;
+  
+  // Update UI
+  document.getElementById('totalRegistered').textContent = totalRegistered;
+  document.getElementById('totalPresent').textContent = totalPresent;
+  document.getElementById('totalPending').textContent = totalWaiting;
+  document.getElementById('totalChildren').textContent = totalChildren;
+  document.getElementById('totalMale').textContent = totalMale;
+  document.getElementById('totalFemale').textContent = totalFemale;
+  document.getElementById('totalData').textContent = totalRegistered;
+  
+  // Update tabel jika admin
+  if (currentUser.role === 'admin') {
+    updateParticipantTable(participants);
+  }
+}
+
+// Update tabel peserta (admin only)
+function updateParticipantTable(participants) {
+  const tableBody = document.getElementById('participantTableBody');
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  
+  // Filter data berdasarkan pencarian
+  const filteredParticipants = participants.filter(p => 
+    p.name.toLowerCase().includes(searchTerm) || 
+    p.id.toLowerCase().includes(searchTerm)
+  );
+  
+  // Clear table
+  tableBody.innerHTML = '';
+  
+  // Add rows
+  filteredParticipants.forEach(participant => {
+    const row = document.createElement('tr');
+    
+    // Format waktu check-in
+    const checkinTime = participant.checkinTime || '-';
+    
+    // Status badge dengan teks yang lebih halus
+    const statusClass = participant.status === 'present' ? 'status-present' : 'status-waiting';
+    const statusIcon = participant.status === 'present' ? 'fas fa-check-circle' : 'fas fa-clock';
+    const statusText = participant.status === 'present' ? 'Hadir' : 'Menunggu Kehadiran';
+    
+    // Gender badge
+    const genderClass = participant.gender === 'male' ? 'gender-male' : 'gender-female';
+    const genderText = participant.gender === 'male' ? 'Laki-laki' : 'Perempuan';
+    const genderIcon = participant.gender === 'male' ? 'fas fa-male' : 'fas fa-female';
+    
+    // Tombol WhatsApp
+    const whatsappLink = participant.phone !== '-' ? 
+      `https://wa.me/62${participant.phone.substring(1)}?text=Assalamu'alaikum%20Warahmatullahi%20Wabarakatuh%0A%0AKepada%20Yth.%20${encodeURIComponent(participant.name)}%2C%0A%0AKami%20dari%20panitia%20Buka%20Puasa%20Bersama%20Yayasan%20Ibadurrahman%20mengingatkan%20bahwa%20acara%20akan%20segera%20dimulai%20pukul%2017.30%20WIB.%0A%0AMohon%20kesediaannya%20untuk%20segera%20hadir.%0A%0AJazakumullah%20khairan%20katsira.%0A%0AWassalamu'alaikum%20Warahmatullahi%20Wabarakatuh` : 
+      '#';
+    
+    row.innerHTML = `
+      <td><strong>${participant.id}</strong></td>
+      <td>${participant.name}</td>
+      <td>${participant.phone}</td>
+      <td><span class="gender-badge ${genderClass}"><i class="${genderIcon}"></i> ${genderText}</span></td>
+      <td>${participant.age}</td>
+      <td>${checkinTime}</td>
+      <td><span class="status-badge ${statusClass}"><i class="${statusIcon}"></i> ${statusText}</span></td>
+      <td>
+        ${participant.phone !== '-' ? 
+          `<a href="${whatsappLink}" target="_blank" class="btn-action btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> WA
+          </a>` : ''
+        }
+        ${participant.status !== 'present' ? 
+          `<button class="btn-action btn-checkin" onclick="manualCheckin('${participant.id}')">
+            <i class="fas fa-user-check"></i> Check-in
+          </button>` : 
+          '<button class="btn-action btn-checkin" disabled><i class="fas fa-check"></i> Selesai</button>'
+        }
+      </td>
+    `;
+    
+    tableBody.appendChild(row);
+  });
+}
+
+// Manual check-in (untuk admin)
+function manualCheckin(participantId) {
+  const participants = loadParticipantsData();
+  const participantIndex = participants.findIndex(p => p.id === participantId);
+  
+  if (participantIndex !== -1 && participants[participantIndex].status !== 'present') {
+    participants[participantIndex].status = 'present';
+    participants[participantIndex].checkinTime = formatTime();
+    
+    saveParticipantsData(participants);
+    updateStats();
+    updateCharts();
+    
+    // Tampilkan notifikasi
+    showNotification(`Check-in berhasil untuk jamaah ${participants[participantIndex].name}`, 'success');
+  }
+}
+
+// Handle check-in dari QR scanner
+function processCheckin(participantId) {
+  const participants = loadParticipantsData();
+  const participant = participants.find(p => p.id === participantId);
+  
+  if (!participant) {
+    showNotification(`Data jamaah tidak terdaftar di sistem`, 'error');
+    return false;
+  }
+  
+  if (participant.status === 'present') {
+    showNotification(`Jamaah ${participant.name} sudah melakukan check-in sebelumnya`, 'warning');
+    return false;
+  }
+  
+  // Update status
+  participant.status = 'present';
+  participant.checkinTime = formatTime();
+  
+  saveParticipantsData(participants);
+  updateStats();
+  updateCharts();
+  
+  // Tampilkan notifikasi sukses
+  showNotification(`Check-in berhasil untuk jamaah ${participant.name}`, 'success');
+  
+  return true;
+}
+
+// ============================================
+// FUNGSI SCANNER QR
+// ============================================
+
+// Setup scanner
+function setupScanner() {
+  const startBtn = document.getElementById('startScanner');
+  const stopBtn = document.getElementById('stopScanner');
+  
+  startBtn.addEventListener('click', startScanner);
+  stopBtn.addEventListener('click', stopScanner);
+}
+
+// Mulai scanner
+async function startScanner() {
+  if (scannerActive) return;
+  
+  try {
+    // Minta akses kamera
+    videoStream = await navigator.mediaDevices.getUserMedia({ 
+      video: { facingMode: "environment" } 
+    });
+    
+    const video = document.getElementById('video');
+    video.srcObject = videoStream;
+    
+    // Set flag
+    scannerActive = true;
+    document.getElementById('startScanner').disabled = true;
+    document.getElementById('stopScanner').disabled = false;
+    
+    // Start scanning loop
+    scanQRCode();
+    
+    showNotification('Pemindaian QR Code aktif', 'info');
+  } catch (error) {
+    console.error('Error accessing camera:', error);
+    showNotification('Tidak dapat mengakses kamera. Pastikan izin kamera diberikan.', 'error');
+    
+    // Fallback ke input manual untuk testing
+    manualQRInput();
+  }
+}
+
+// Hentikan scanner
+function stopScanner() {
+  if (!scannerActive) return;
+  
+  // Hentikan stream video
+  if (videoStream) {
+    videoStream.getTracks().forEach(track => track.stop());
+    videoStream = null;
+  }
+  
+  // Reset video element
+  const video = document.getElementById('video');
+  video.srcObject = null;
+  
+  // Reset flag
+  scannerActive = false;
+  document.getElementById('startScanner').disabled = false;
+  document.getElementById('stopScanner').disabled = true;
+  
+  // Sembunyikan hasil scan
+  document.getElementById('scan-result').style.display = 'none';
+  
+  showNotification('Pemindaian QR dihentikan', 'info');
+}
+
+// Loop scanning QR code
+function scanQRCode() {
+  if (!scannerActive) return;
+  
+  const video = document.getElementById('video');
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  
+  // Set canvas size sama dengan video
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  
+  // Gambar frame video ke canvas
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+  // Dapatkan image data
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  
+  // Scan QR code
+  const code = jsQR(imageData.data, imageData.width, imageData.height, {
+    inversionAttempts: "dontInvert",
+  });
+  
+  // Jika QR code ditemukan
+  if (code) {
+    const result = code.data;
+    showScanResult(result);
+    
+    // Proses check-in
+    const success = processCheckin(result);
+    
+    // Jika berhasil, pause scanner sebentar
+    if (success) {
+      setTimeout(() => {
+        if (scannerActive) {
+          scanQRCode();
+        }
+      }, 2000);
+      return;
     }
+  }
+  
+  // Lanjutkan scanning
+  requestAnimationFrame(scanQRCode);
+}
+
+// Tampilkan hasil scan
+function showScanResult(result) {
+  const resultElement = document.getElementById('scan-result');
+  const contentElement = document.getElementById('scan-result-content');
+  
+  // Cari data peserta
+  const participants = loadParticipantsData();
+  const participant = participants.find(p => p.id === result);
+  
+  if (participant) {
+    const statusText = participant.status === 'present' ? 'Sudah check-in sebelumnya' : 'Siap check-in';
+    const statusClass = participant.status === 'present' ? 'scan-error' : 'scan-success';
+    
+    contentElement.innerHTML = `
+      <p><strong>ID Jamaah:</strong> ${participant.id}</p>
+      <p><strong>Nama:</strong> ${participant.name}</p>
+      <p><strong>Status:</strong> <span class="${statusClass}">${statusText}</span></p>
+      ${participant.status !== 'present' ? 
+        '<p class="scan-success"><i class="fas fa-check-circle"></i> Silakan lanjutkan proses check-in</p>' : 
+        '<p class="scan-error"><i class="fas fa-exclamation-circle"></i> Jamaah sudah tercatat hadir</p>'
+      }
+    `;
+  } else {
+    contentElement.innerHTML = `
+      <p class="scan-error"><i class="fas fa-exclamation-circle"></i> Data jamaah tidak ditemukan</p>
+      <p>Pastikan QR Code valid dari sistem registrasi acara.</p>
+    `;
+  }
+  
+  resultElement.style.display = 'block';
+}
+
+// Input manual QR untuk testing (jika kamera tidak tersedia)
+function manualQRInput() {
+  const result = prompt("Masukkan ID Jamaah (untuk simulasi, tanpa kamera):");
+  if (result) {
+    showScanResult(result);
+    processCheckin(result);
+  }
+}
+
+// ============================================
+// FUNGSI CHART
+// ============================================
+
+// Update charts
+function updateCharts() {
+  updateAttendanceChart();
+  if (currentUser.role === 'admin') {
+    updateGenderChart();
+  }
+}
+
+// Update chart kehadiran
+function updateAttendanceChart() {
+  const participants = loadParticipantsData();
+  const presentCount = participants.filter(p => p.status === 'present').length;
+  const waitingCount = participants.filter(p => p.status === 'waiting').length;
+  
+  const ctx = document.getElementById('attendanceChart').getContext('2d');
+  
+  // Hancurkan chart lama jika ada
+  if (attendanceChart) {
+    attendanceChart.destroy();
+  }
+  
+  // Buat chart baru
+  attendanceChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Jamaah Hadir', 'Menunggu Kehadiran'],
+      datasets: [{
+        data: [presentCount, waitingCount],
+        backgroundColor: ['#10b981', '#f59e0b'],
+        borderColor: ['#0da271', '#d97706'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.raw || 0;
+              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+              const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+              return `${label}: ${value} jamaah (${percentage}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// Update chart gender (admin only)
+function updateGenderChart() {
+  const participants = loadParticipantsData();
+  const maleCount = participants.filter(p => p.gender === 'male').length;
+  const femaleCount = participants.filter(p => p.gender === 'female').length;
+  
+  const ctx = document.getElementById('genderChart').getContext('2d');
+  
+  // Hancurkan chart lama jika ada
+  if (genderChart) {
+    genderChart.destroy();
+  }
+  
+  // Buat chart baru
+  genderChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Jamaah Laki-laki', 'Jamaah Perempuan'],
+      datasets: [{
+        data: [maleCount, femaleCount],
+        backgroundColor: ['#3b82f6', '#ec4899'],
+        borderColor: ['#2563eb', '#db2777'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.raw || 0;
+              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+              const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+              return `${label}: ${value} jamaah (${percentage}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ============================================
+// FUNGSI NOTIFIKASI
+// ============================================
+
+function showNotification(message, type = 'info') {
+  // Buat elemen notifikasi
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    animation: slideIn 0.3s ease;
+    max-width: 300px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  `;
+  
+  // Warna berdasarkan tipe
+  switch(type) {
+    case 'success':
+      notification.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+      notification.innerHTML = `<i class="fas fa-check-circle"></i> <span>${message}</span>`;
+      break;
+    case 'error':
+      notification.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+      notification.innerHTML = `<i class="fas fa-exclamation-circle"></i> <span>${message}</span>`;
+      break;
+    case 'warning':
+      notification.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+      notification.innerHTML = `<i class="fas fa-exclamation-triangle"></i> <span>${message}</span>`;
+      break;
+    default:
+      notification.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+      notification.innerHTML = `<i class="fas fa-info-circle"></i> <span>${message}</span>`;
+  }
+  
+  // Tambahkan ke body
+  document.body.appendChild(notification);
+  
+  // Hapus setelah 3 detik
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
+
+// ============================================
+// FUNGSI PENCARIAN (ADMIN)
+// ============================================
+
+// Setup pencarian
+document.getElementById('searchInput').addEventListener('input', function() {
+  updateStats();
+});
+
+// ============================================
+// FUNGSI AUTO REFRESH
+// ============================================
+
+// Auto refresh data setiap 30 detik
+setInterval(() => {
+  if (currentUser) {
+    updateStats();
+    updateCharts();
+    updateLastUpdateTime();
+  }
+}, 30000);
+
+// ============================================
+// INISIALISASI
+// ============================================
+
+console.log("Dashboard Admin/Panitia Iftar 1447 H telah dimuat!");
+console.log("Kredensial login:");
+console.log("- Admin: username 'admin', password 'musazain'");
+console.log("- Panitia: username 'panitia', password 'bukbermco'");
+console.log("Data disimpan di localStorage dengan key 'iftarParticipants'");
 </script>
-
 </body>
 </html>
