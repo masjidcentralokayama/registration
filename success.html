@@ -23,6 +23,7 @@
   --accent-green: #10a37f;
   --accent-green-dark: #0d8465; /* Kontras lebih baik untuk teks */
   --accent-gold: #d4af37;
+  --accent-gold-light: #f0e6c5; /* Warna emas lebih terang untuk latar */
   --accent-teal: #0f766e;
   --accent-dark: #1e293b;
   --accent-light: #f8fafc;
@@ -177,6 +178,7 @@ main {
   position: relative;
   overflow: hidden;
   margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
 }
 
 .card::before {
@@ -448,7 +450,7 @@ main {
     <div class="card" id="registrationCard">
       <div class="event-header">
         <h2>Buka Puasa Bersama 1447 H</h2>
-        <p>Yayasan Ibadurrahman Islamic Center</p>
+        <p>Masjid Central Okayama</p>
       </div>
 
       <div class="qr-container">
@@ -471,11 +473,11 @@ main {
         </div>
         <div class="data-row">
           <span class="data-label">Tanggal Acara</span>
-          <span class="data-value">Sabtu, 28 Maret 2026</span>
+          <span class="data-value">Sabtu, 14 Maret 2026</span>
         </div>
         <div class="data-row">
           <span class="data-label">Waktu</span>
-          <span class="data-value">17.30 - 20.00 WIB</span>
+          <span class="data-value">17.30 - 20.00 JST</span>
         </div>
       </div>
       
@@ -588,7 +590,7 @@ function generateQRCode() {
   }
 }
 
-// 5. Fungsi Download Kartu (Screenshot) dengan Optimasi
+// 5. Fungsi Download Kartu (Screenshot) dengan Optimasi dan Efek Eksklusif
 async function downloadRegistrationCard() {
   const btn = document.getElementById('downloadBtn');
   const card = document.getElementById('registrationCard');
@@ -604,19 +606,82 @@ async function downloadRegistrationCard() {
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
 
   try {
-    // Optimasi untuk screenshot
+    // Optimasi untuk screenshot dengan efek eksklusif saat diunduh
     const canvas = await html2canvas(card, {
-      scale: 3, // High resolution untuk hasil yang tajam
+      scale: 3, // High resolution untuk hasil yang tajam (HD)
       useCORS: true,
       backgroundColor: "#ffffff",
       logging: false,
       allowTaint: true,
       onclone: function(clonedDoc) {
-        // Tambahkan kelas khusus untuk screenshot
         const clonedCard = clonedDoc.getElementById('registrationCard');
         if (clonedCard) {
-          clonedCard.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+          // Memberikan border emas tebal dan padding ekstra saat diunduh
+          // agar terlihat seperti kartu fisik premium
+          clonedCard.style.border = '3px solid var(--accent-gold)';
+          clonedCard.style.padding = '30px';
+          clonedCard.style.boxSizing = 'border-box';
+          
+          // Efek shadow yang lebih menonjol untuk kesan premium
+          clonedCard.style.boxShadow = '0 20px 50px rgba(212, 175, 55, 0.25)';
+          
+          // Background gradient yang lebih mewah untuk kartu yang diunduh
+          clonedCard.style.background = 'linear-gradient(135deg, #ffffff 0%, var(--accent-gold-light) 100%)';
+          
+          // Pastikan tidak ada transformasi yang mengganggu
           clonedCard.style.transform = 'scale(1)';
+          
+          // Tambahkan efek glow subtle pada border
+          clonedCard.style.outline = '1px solid rgba(212, 175, 55, 0.3)';
+          clonedCard.style.outlineOffset = '5px';
+          
+          // Tambahkan watermark eksklusif hanya untuk versi unduhan
+          const watermark = clonedDoc.createElement('div');
+          watermark.style.position = 'absolute';
+          watermark.style.top = '50%';
+          watermark.style.left = '50%';
+          watermark.style.transform = 'translate(-50%, -50%) rotate(-45deg)';
+          watermark.style.fontSize = '3rem';
+          watermark.style.fontWeight = 'bold';
+          watermark.style.color = 'rgba(212, 175, 55, 0.1)';
+          watermark.style.zIndex = '1';
+          watermark.style.pointerEvents = 'none';
+          watermark.style.whiteSpace = 'nowrap';
+          watermark.textContent = 'IFTAR 1447 H - RESMI';
+          
+          clonedCard.appendChild(watermark);
+          
+          // Update event header untuk versi unduhan
+          const eventHeader = clonedCard.querySelector('.event-header');
+          if (eventHeader) {
+            const eventTitle = eventHeader.querySelector('h2');
+            if (eventTitle) {
+              eventTitle.style.color = 'var(--accent-gold)';
+              eventTitle.style.fontSize = '1.4rem';
+            }
+            
+            // Tambahkan elemen khusus untuk versi unduhan
+            const exclusiveBadge = clonedDoc.createElement('div');
+            exclusiveBadge.style.background = 'linear-gradient(135deg, var(--accent-gold), #b8941f)';
+            exclusiveBadge.style.color = 'white';
+            exclusiveBadge.style.padding = '5px 15px';
+            exclusiveBadge.style.borderRadius = '20px';
+            exclusiveBadge.style.fontSize = '0.7rem';
+            exclusiveBadge.style.fontWeight = 'bold';
+            exclusiveBadge.style.marginTop = '10px';
+            exclusiveBadge.style.display = 'inline-block';
+            exclusiveBadge.style.boxShadow = '0 4px 8px rgba(212, 175, 55, 0.3)';
+            exclusiveBadge.textContent = 'KARTU AKSES EKSKLUSIF';
+            
+            eventHeader.appendChild(exclusiveBadge);
+          }
+          
+          // Update QR container untuk versi unduhan
+          const qrContainer = clonedCard.querySelector('.qr-container');
+          if (qrContainer) {
+            qrContainer.style.border = '2px solid var(--accent-gold)';
+            qrContainer.style.background = 'linear-gradient(135deg, #ffffff, #f9f5e7)';
+          }
         }
       }
     });
@@ -625,13 +690,13 @@ async function downloadRegistrationCard() {
     const imageData = canvas.toDataURL("image/png", 1.0);
     const link = document.createElement('a');
     
-    // Buat nama file yang aman
+    // Buat nama file yang aman dan deskriptif
     const cleanName = regData.nama
       .replace(/[^a-zA-Z0-9\u0600-\u06FF\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\s]/g, '')
       .replace(/\s+/g, '_')
       .substring(0, 30);
     
-    const fileName = `KARTU_IFTAR_${regData.id}_${cleanName}.png`;
+    const fileName = `KARTU_AKSES_IFTAR_${regData.id}_${cleanName}.png`;
     link.href = imageData;
     link.download = fileName;
     
@@ -641,6 +706,15 @@ async function downloadRegistrationCard() {
     document.body.removeChild(link);
     
     console.log("Card downloaded successfully:", fileName);
+    
+    // Tampilkan konfirmasi sukses
+    const originalTitle = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check-circle"></i> Berhasil!';
+    btn.style.background = 'linear-gradient(135deg, var(--accent-green), var(--accent-teal))';
+    
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+    }, 2000);
     
   } catch (err) {
     console.error("Gagal mengunduh kartu:", err);
@@ -656,10 +730,22 @@ async function downloadRegistrationCard() {
       }, 5000);
     }
     
+    // Reset button dengan efek error
+    btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Coba Lagi';
+    btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+    
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = 'linear-gradient(135deg, var(--accent-green), var(--accent-teal))';
+    }, 3000);
+    
   } finally {
-    // Reset button state
-    btn.disabled = false;
-    btn.innerHTML = originalText;
+    // Reset button state setelah delay
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+      btn.style.background = 'linear-gradient(135deg, var(--accent-green), var(--accent-teal))';
+    }, 2000);
   }
 }
 
