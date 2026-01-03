@@ -881,7 +881,7 @@ footer .contact a:hover {
 
     <!-- Registration Form -->
     <div class="card">
-      <form id="registrationForm">
+      <form id="registrationForm" autocomplete="on">
         
         <!-- Section: Data Jamaah -->
         <h3 class="section-title" 
@@ -894,7 +894,7 @@ footer .contact a:hover {
           <label data-id="Nama Lengkap" data-en="Full Name" data-ja="氏名"></label>
           <div class="input-wrapper">
             <i class="fas fa-user"></i>
-            <input type="text" id="nama_lengkap" name="nama_lengkap" required
+            <input type="text" id="nama_lengkap" name="nama_lengkap" required autocomplete="name"
                    data-id-ph="Nama sesuai identitas"
                    data-en-ph="Name as shown on ID"
                    data-ja-ph="身分証通りの氏名">
@@ -907,7 +907,7 @@ footer .contact a:hover {
           <div class="otp-container">
             <div class="input-wrapper">
               <i class="fas fa-envelope"></i>
-              <input type="email" id="email" name="email" required
+              <input type="email" id="email" name="email" required autocomplete="email"
                      data-id-ph="contoh@email.com"
                      data-en-ph="example@email.com"
                      data-ja-ph="例: example@email.com">
@@ -927,7 +927,7 @@ footer .contact a:hover {
           <label data-id="Kode OTP" data-en="OTP Code" data-ja="OTPコード"></label>
           <div class="input-wrapper">
             <i class="fas fa-key"></i>
-            <input type="tel" id="otp_input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
+            <input type="tel" id="otp_input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"
                    data-id-ph="Masukkan 6 digit kode"
                    data-en-ph="Enter 6-digit code"
                    data-ja-ph="6桁のコードを入力">
@@ -943,7 +943,7 @@ footer .contact a:hover {
           <label data-id="Nomor Telepon" data-en="Phone Number" data-ja="電話番号"></label>
           <div class="input-wrapper">
             <i class="fas fa-phone"></i>
-            <input type="tel" id="no_hp" name="no_hp" required pattern="[0-9]{10,15}" inputmode="numeric"
+            <input type="tel" id="no_hp" name="no_hp" required pattern="[0-9]{10,15}" inputmode="numeric" autocomplete="tel"
                    data-id-ph="081234567890"
                    data-en-ph="081234567890"
                    data-ja-ph="08012345678">
@@ -959,7 +959,7 @@ footer .contact a:hover {
           <label data-id="Domisili" data-en="Residence" data-ja="居住地"></label>
           <div class="input-wrapper">
             <i class="fas fa-map-marker-alt"></i>
-            <input type="text" id="domisili" name="domisili" list="neighborhoods" required autocomplete="off"
+            <input type="text" id="domisili" name="domisili" list="neighborhoods" required autocomplete="address-level2"
                    data-id-ph="Cari nama kelurahan/kecamatan"
                    data-en-ph="Search for neighborhood/district"
                    data-ja-ph="町名・地区名を検索">
@@ -995,7 +995,7 @@ footer .contact a:hover {
           <label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
           <div class="input-wrapper">
             <i class="fas fa-globe"></i>
-            <select id="kebangsaan" name="kebangsaan" required>
+            <select id="kebangsaan" name="kebangsaan" required autocomplete="country">
               <option value=""
                       data-id="Pilih kebangsaan"
                       data-en="Select nationality"
@@ -1029,7 +1029,8 @@ footer .contact a:hover {
                      data-id-ph="Masukkan kebangsaan Anda"
                      data-en-ph="Enter your nationality"
                      data-ja-ph="国籍を入力してください"
-                     autocapitalize="words">
+                     autocapitalize="words"
+                     autocomplete="country">
             </div>
           </div>
         </div>
@@ -1040,7 +1041,7 @@ footer .contact a:hover {
             <label data-id="Usia" data-en="Age" data-ja="年齢"></label>
             <div class="input-wrapper">
               <i class="fas fa-birthday-cake"></i>
-              <input type="number" id="usia" name="usia" min="1" max="120" required inputmode="numeric"
+              <input type="number" id="usia" name="usia" min="1" max="120" required inputmode="numeric" autocomplete="off"
                      data-id-ph="Usia saat ini"
                      data-en-ph="Current age"
                      data-ja-ph="現在の年齢">
@@ -1050,12 +1051,12 @@ footer .contact a:hover {
           <div class="field">
             <label data-id="Jenis Kelamin" data-en="Gender" data-ja="性別"></label>
             <div class="radio-group">
-              <input type="radio" id="jk_l" name="jk" value="Laki-laki" required checked>
+              <input type="radio" id="jk_l" name="jk" value="Laki-laki" required checked autocomplete="sex">
               <label for="jk_l">
                 <i class="fas fa-mars"></i>
                 <span data-id="Laki-laki" data-en="Male" data-ja="男性"></span>
               </label>
-              <input type="radio" id="jk_p" name="jk" value="Perempuan">
+              <input type="radio" id="jk_p" name="jk" value="Perempuan" autocomplete="sex">
               <label for="jk_p">
                 <i class="fas fa-venus"></i>
                 <span data-id="Perempuan" data-en="Female" data-ja="女性"></span>
@@ -1075,7 +1076,7 @@ footer .contact a:hover {
           <label data-id="Dewasa Tambahan" data-en="Additional Adults" data-ja="追加の大人"></label>
           <div class="input-wrapper">
             <i class="fas fa-user-plus"></i>
-            <input type="number" id="dewasa_tambahan" name="dewasa_tambahan" min="0" max="10" value="0"
+            <input type="number" id="dewasa_tambahan" name="dewasa_tambahan" min="0" max="10" value="0" autocomplete="off"
                    data-id-ph="Jumlah dewasa selain Anda"
                    data-en-ph="Number of adults besides you"
                    data-ja-ph="ご本人以外の大人の人数">
@@ -1087,12 +1088,12 @@ footer .contact a:hover {
         <div class="field">
           <label data-id="Datang dengan Anak?" data-en="Coming with Children?" data-ja="お子様と一緒ですか？"></label>
           <div class="toggle-group">
-            <input type="radio" id="anak_tidak" name="dengan_anak" value="Tidak" checked>
+            <input type="radio" id="anak_tidak" name="dengan_anak" value="Tidak" checked autocomplete="off">
             <label for="anak_tidak">
               <i class="fas fa-times"></i>
               <span data-id="Tidak" data-en="No" data-ja="いいえ"></span>
             </label>
-            <input type="radio" id="anak_ya" name="dengan_anak" value="Ya">
+            <input type="radio" id="anak_ya" name="dengan_anak" value="Ya" autocomplete="off">
             <label for="anak_ya">
               <i class="fas fa-child"></i>
               <span data-id="Ya" data-en="Yes" data-ja="はい"></span>
@@ -1107,7 +1108,7 @@ footer .contact a:hover {
             <label data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
             <div class="input-wrapper">
               <i class="fas fa-baby"></i>
-              <input type="number" id="jumlah_anak" name="jumlah_anak" min="1" max="10" value="1">
+              <input type="number" id="jumlah_anak" name="jumlah_anak" min="1" max="10" value="1" autocomplete="off">
             </div>
             <div class="hint" data-id="Usia maksimal 12 tahun" data-en="Maximum age: 12 years" data-ja="最大12歳まで"></div>
           </div>
@@ -1131,7 +1132,7 @@ footer .contact a:hover {
 
         <!-- Consent -->
         <div class="consent">
-          <input type="checkbox" id="consentCheckbox" required>
+          <input type="checkbox" id="consentCheckbox" required autocomplete="off">
           <span data-id="<strong>Data jamaah</strong> digunakan semata-mata untuk keperluan pendataan dan kelancaran pelaksanaan acara buka puasa bersama. Kami menjamin kerahasiaan data Anda."
                 data-en="<strong>Congregation data</strong> is used solely for registration purposes and the smooth implementation of the iftar gathering. We guarantee the confidentiality of your data."
                 data-ja="<strong>礼拝者のデータ</strong>は、登録目的と集団イフタールの円滑な実施のためにのみ使用されます。お客様のデータの機密性を保証します。"></span>
