@@ -891,7 +891,7 @@ footer .contact a:hover {
 
         <!-- Full Name -->
         <div class="field">
-          <label data-id="Nama Lengkap" data-en="Full Name" data-ja="氏名"></label>
+          <label for="nama_lengkap" data-id="Nama Lengkap" data-en="Full Name" data-ja="氏名"></label>
           <div class="input-wrapper">
             <i class="fas fa-user"></i>
             <input type="text" id="nama_lengkap" name="nama_lengkap" required autocomplete="name"
@@ -903,7 +903,7 @@ footer .contact a:hover {
 
         <!-- Email -->
         <div class="field">
-          <label data-id="Alamat Email" data-en="Email Address" data-ja="メールアドレス"></label>
+          <label for="email" data-id="Alamat Email" data-en="Email Address" data-ja="メールアドレス"></label>
           <div class="otp-container">
             <div class="input-wrapper">
               <i class="fas fa-envelope"></i>
@@ -924,7 +924,7 @@ footer .contact a:hover {
 
         <!-- OTP Field -->
         <div class="otp-field" id="otpField">
-          <label data-id="Kode OTP" data-en="OTP Code" data-ja="OTPコード"></label>
+          <label for="otp_input" data-id="Kode OTP" data-en="OTP Code" data-ja="OTPコード"></label>
           <div class="input-wrapper">
             <i class="fas fa-key"></i>
             <input type="tel" id="otp_input" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"
@@ -940,7 +940,7 @@ footer .contact a:hover {
 
         <!-- Phone Number -->
         <div class="field">
-          <label data-id="Nomor Telepon" data-en="Phone Number" data-ja="電話番号"></label>
+          <label for="no_hp" data-id="Nomor Telepon" data-en="Phone Number" data-ja="電話番号"></label>
           <div class="input-wrapper">
             <i class="fas fa-phone"></i>
             <input type="tel" id="no_hp" name="no_hp" required pattern="[0-9]{10,15}" inputmode="numeric" autocomplete="tel"
@@ -956,7 +956,7 @@ footer .contact a:hover {
 
         <!-- Residence -->
         <div class="field">
-          <label data-id="Domisili" data-en="Residence" data-ja="居住地"></label>
+          <label for="domisili" data-id="Domisili" data-en="Residence" data-ja="居住地"></label>
           <div class="input-wrapper">
             <i class="fas fa-map-marker-alt"></i>
             <input type="text" id="domisili" name="domisili" list="neighborhoods" required autocomplete="address-level2"
@@ -992,7 +992,7 @@ footer .contact a:hover {
 
         <!-- Nationality -->
         <div class="field">
-          <label data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
+          <label for="kebangsaan" data-id="Kebangsaan" data-en="Nationality" data-ja="国籍"></label>
           <div class="input-wrapper">
             <i class="fas fa-globe"></i>
             <select id="kebangsaan" name="kebangsaan" required autocomplete="country">
@@ -1021,6 +1021,9 @@ footer .contact a:hover {
 
           <!-- Other Nationality Input -->
           <div class="other-nationality-wrapper" id="otherNationalityWrapper">
+            <label for="kebangsaan_lainnya" class="field-label" style="display: block; margin-bottom: 0.75rem; font-weight: 600; font-size: 0.9rem; color: var(--accent-dark);">
+              <span data-id="Kebangsaan Lainnya" data-en="Other Nationality" data-ja="その他の国籍"></span>
+            </label>
             <div class="input-wrapper">
               <i class="fas fa-edit"></i>
               <input type="text"
@@ -1038,7 +1041,7 @@ footer .contact a:hover {
         <!-- Age & Gender -->
         <div class="row">
           <div class="field">
-            <label data-id="Usia" data-en="Age" data-ja="年齢"></label>
+            <label for="usia" data-id="Usia" data-en="Age" data-ja="年齢"></label>
             <div class="input-wrapper">
               <i class="fas fa-birthday-cake"></i>
               <input type="number" id="usia" name="usia" min="1" max="120" required inputmode="numeric" autocomplete="off"
@@ -1049,7 +1052,9 @@ footer .contact a:hover {
           </div>
 
           <div class="field">
-            <label data-id="Jenis Kelamin" data-en="Gender" data-ja="性別"></label>
+            <div class="field-label" style="display: block; margin-bottom: 0.75rem; font-weight: 600; font-size: 0.9rem; color: var(--accent-dark);">
+              <span data-id="Jenis Kelamin" data-en="Gender" data-ja="性別"></span>
+            </div>
             <div class="radio-group">
               <input type="radio" id="jk_l" name="jk" value="Laki-laki" required checked autocomplete="sex">
               <label for="jk_l">
@@ -1073,7 +1078,7 @@ footer .contact a:hover {
 
         <!-- Additional Adults -->
         <div class="field" style="margin-bottom: 1.5rem;">
-          <label data-id="Dewasa Tambahan" data-en="Additional Adults" data-ja="追加の大人"></label>
+          <label for="dewasa_tambahan" data-id="Dewasa Tambahan" data-en="Additional Adults" data-ja="追加の大人"></label>
           <div class="input-wrapper">
             <i class="fas fa-user-plus"></i>
             <input type="number" id="dewasa_tambahan" name="dewasa_tambahan" min="0" max="10" value="0" autocomplete="off"
@@ -1086,7 +1091,9 @@ footer .contact a:hover {
 
         <!-- Children -->
         <div class="field">
-          <label data-id="Datang dengan Anak?" data-en="Coming with Children?" data-ja="お子様と一緒ですか？"></label>
+          <div class="field-label" style="display: block; margin-bottom: 0.75rem; font-weight: 600; font-size: 0.9rem; color: var(--accent-dark);">
+            <span data-id="Datang dengan Anak?" data-en="Coming with Children?" data-ja="お子様と一緒ですか？"></span>
+          </div>
           <div class="toggle-group">
             <input type="radio" id="anak_tidak" name="dengan_anak" value="Tidak" checked autocomplete="off">
             <label for="anak_tidak">
@@ -1105,7 +1112,7 @@ footer .contact a:hover {
         <!-- Number of Children -->
         <div class="children-field-wrapper" id="childrenFieldWrapper">
           <div class="field">
-            <label data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
+            <label for="jumlah_anak" data-id="Jumlah Anak" data-en="Number of Children" data-ja="お子様の人数"></label>
             <div class="input-wrapper">
               <i class="fas fa-baby"></i>
               <input type="number" id="jumlah_anak" name="jumlah_anak" min="1" max="10" value="1" autocomplete="off">
@@ -1133,9 +1140,11 @@ footer .contact a:hover {
         <!-- Consent -->
         <div class="consent">
           <input type="checkbox" id="consentCheckbox" required autocomplete="off">
-          <span data-id="<strong>Data jamaah</strong> digunakan semata-mata untuk keperluan pendataan dan kelancaran pelaksanaan acara buka puasa bersama. Kami menjamin kerahasiaan data Anda."
-                data-en="<strong>Congregation data</strong> is used solely for registration purposes and the smooth implementation of the iftar gathering. We guarantee the confidentiality of your data."
-                data-ja="<strong>礼拝者のデータ</strong>は、登録目的と集団イフタールの円滑な実施のためにのみ使用されます。お客様のデータの機密性を保証します。"></span>
+          <label for="consentCheckbox" style="display: block; margin: 0; padding: 0; width: 100%;">
+            <span data-id="<strong>Data jamaah</strong> digunakan semata-mata untuk keperluan pendataan dan kelancaran pelaksanaan acara buka puasa bersama. Kami menjamin kerahasiaan data Anda."
+                  data-en="<strong>Congregation data</strong> is used solely for registration purposes and the smooth implementation of the iftar gathering. We guarantee the confidentiality of your data."
+                  data-ja="<strong>礼拝者のデータ</strong>は、登録目的と集団イフタールの円滑な実施のためにのみ使用されます。お客様のデータの機密性を保証します。"></span>
+          </label>
         </div>
 
         <!-- Islamic Divider inside card -->
@@ -1319,6 +1328,12 @@ function initMultilingual() {
     if (translatedText && option.textContent !== '') {
       option.textContent = translatedText;
     }
+  });
+  
+  // Update field labels for radio groups
+  document.querySelectorAll('.field-label span[data-id]').forEach(element => {
+    const text = element.getAttribute(`data-${lang}`) || element.getAttribute('data-id');
+    if (text) element.textContent = text;
   });
 }
 
