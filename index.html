@@ -5,14 +5,135 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Registrasi Buka Puasa Bersama 1447 H</title>
 
-<!-- Apps Script Deployment URL - SAMA DENGAN ADMIN -->
+<!-- Apps Script Deployment URL -->
 <meta name="api-url" content="https://script.google.com/macros/s/AKfycbywvSvP7Xjek3gXiP7emMExg8PyrbQM12L3WToov7FxwEuBMyMBQAIQ8kG9Zjce_B8c7w/exec">
+
+<script>
+// ============================================
+// KONFIGURASI SISTEM
+// ============================================
+const CONFIG = Object.freeze({
+  API_URL:
+    document.querySelector('meta[name="api-url"]')?.content || '',
+  MAX_OTP_ATTEMPTS: 3,
+  OTP_TIMEOUT: 60000,
+  RETRY_ATTEMPTS: 2,
+  ENABLE_OFFLINE: true,
+  SUPPORTED_LANGUAGES: ['id', 'en', 'ja']
+});
+
+// ============================================
+// VARIABEL STATE GLOBAL
+// ============================================
+let isOTPVerified = false;
+let otpTimer = null;
+let otpCooldownSeconds = 0;
+let registrationId = '';
+let otpAttempts = 0;
+let otpCooldownUntil = 0;
+let duplicateCheckEnabled = false; // Flag untuk mengontrol kapan checkDuplicate boleh dijalankan
+
+// ============================================
+// FUNGSI UTILITAS SECURITY & VALIDATION
+// ============================================
+
+function validatePhoneNumber(phone) {
+  if (!phone) return false;
+
+  let cleanPhone = phone.replace(/\D/g, '');
+
+  if (cleanPhone.startsWith('62')) {
+    cleanPhone = '0' + cleanPhone.slice(2);
+  } else if (cleanPhone.startsWith('81')) {
+    cleanPhone = '0' + cleanPhone.slice(2);
+  }
+
+  const japaneseRegex = /^0[789]0\d{8}$/;
+  const indonesianRegex = /^08\d{8,11}$/;
+
+  return japaneseRegex.test(cleanPhone) || indonesianRegex.test(cleanPhone);
+}
+
+function canSendOTP() {
+  const now = Date.now();
+
+  if (now < otpCooldownUntil) {
+    const remaining = Math.ceil((otpCooldownUntil - now) / 1000);
+    showNotification(`Tunggu ${remaining} detik sebelum kirim ulang`, 'warning');
+    return false;
+  }
+
+  if (otpAttempts >= CONFIG.MAX_OTP_ATTEMPTS) {
+    showNotification(
+      'Terlalu banyak permintaan OTP. Silakan tunggu beberapa saat.',
+      'error'
+    );
+    return false;
+  }
+
+  return true;
+}
+
+async function makeAPICall(action, params = {}, retryCount = 0) {
+  if (!CONFIG.API_URL) {
+    return {
+      success: false,
+      error: 'API belum dikonfigurasi'
+    };
+  }
+
+  try {
+    const response = await fetch(
+      `${CONFIG.API_URL}?action=${encodeURIComponent(action)}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+        mode: 'cors'
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+
+  } catch (error) {
+    console.error(`API call failed (${action}):`, error);
+
+    if (retryCount < CONFIG.RETRY_ATTEMPTS) {
+      console.warn(`Retry ${retryCount + 1} untuk aksi: ${action}`);
+      await new Promise(r => setTimeout(r, 1000 * (retryCount + 1)));
+      return makeAPICall(action, params, retryCount + 1);
+    }
+
+    return {
+      success: false,
+      error: 'Network error',
+      offline: CONFIG.ENABLE_OFFLINE
+    };
+  }
+}
+
+// Fungsi untuk menampilkan notifikasi (jika ada)
+function showNotification(message, type = 'info') {
+  console.log(`${type}: ${message}`);
+}
+
+// Fungsi sanitasi input
+function sanitizeInput(input) {
+  return input.trim();
+}
+</script>
 
 <!-- Open Graph Tags -->
 <meta property="og:title" content="Registrasi Buka Puasa Bersama 1447 H">
 <meta property="og:description" content="Daftar untuk menghadiri buka puasa bersama di Masjid Central Okayama">
-<meta property="og:image" content="https://example.com/iftar-og.jpg">
-<meta property="og:url" content="">
+<meta property="og:image" content="https://username.github.io/repo/iftar-og.jpg">
+<meta property="og:url" content="https://username.github.io/repo/">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -431,6 +552,7 @@ select {
   transform: none;
   box-shadow: none;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* HINT TEXT */
@@ -667,23 +789,27 @@ select {
   display: none;
 }
 
-/* ALERT */
+/* ALERT STYLES */
 .alert {
   display: none;
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  color: #dc2626;
-  padding: 1.25rem;
-  border-radius: 12px;
-  border: 1.5px solid #fecaca;
-  margin-bottom: 1.75rem;
-  text-align: center;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1.5px solid #fbbf24;
+  margin-bottom: 1.5rem;
   font-size: 0.9rem;
   font-weight: 500;
   animation: slideDown 0.3s ease;
 }
 
+.alert i {
+  margin-right: 0.5rem;
+}
+
 .alert.active {
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
 /* SUCCESS MESSAGE */
@@ -1007,10 +1133,12 @@ footer .contact a:hover {
           <label for="no_hp" id="labelNoHp">Nomor Telepon</label>
           <div class="input-wrapper">
             <i class="fas fa-phone"></i>
-            <input type="tel" id="no_hp" name="no_hp" required pattern="[0-9]{10,15}" 
-                   placeholder="081234567890" inputmode="numeric">
+            <input type="tel" id="no_hp" name="no_hp" required 
+                   placeholder="081234567890 atau 08012345678" 
+                   inputmode="numeric"
+                   maxlength="15">
           </div>
-          <div class="hint" id="hintNoHp">Gunakan nomor aktif yang dapat dihubungi</div>
+          <div class="hint" id="hintNoHp">Format Jepang (080/090/070) atau Indonesia (08)</div>
         </div>
 
         <!-- Residence -->
@@ -1204,7 +1332,7 @@ footer .contact a:hover {
 
 <script>
 // ============================================
-// KONFIGURASI SISTEM - SAMA DENGAN ADMIN
+// KONFIGURASI SISTEM
 // ============================================
 
 const API_URL = "https://script.google.com/macros/s/AKfycbywvSvP7Xjek3gXiP7emMExg8PyrbQM12L3WToov7FxwEuBMyMBQAIQ8kG9Zjce_B8c7w/exec";
@@ -1214,12 +1342,6 @@ let lang = 'id';
 const userLang = navigator.language || navigator.userLanguage;
 if (userLang.startsWith('ja')) lang = 'ja';
 else if (userLang.startsWith('en')) lang = 'en';
-
-// State aplikasi
-let isOTPVerified = false;
-let otpTimer = null;
-let otpCooldownSeconds = 0;
-let registrationId = '';
 
 // ============================================
 // TRANSLATIONS
@@ -1554,10 +1676,8 @@ function calculateTotal() {
   
   const total = registrant + additionalAdults + children;
   
-  // Update display
   document.getElementById('totalAttendees').textContent = total;
   
-  // Update details
   const t = translations[lang];
   let details = '';
   if (lang === 'id') {
@@ -1586,7 +1706,6 @@ function showAlert(type, message) {
     textSpan.textContent = message;
     alertDiv.classList.add('active');
     
-    // Auto hide after 5 seconds
     setTimeout(() => {
       alertDiv.classList.remove('active');
     }, 5000);
@@ -1615,6 +1734,7 @@ function startOTPTimer() {
 
 function resetOTPState() {
   isOTPVerified = false;
+  duplicateCheckEnabled = false; // Reset flag duplicate check
   const otpField = document.getElementById('otpField');
   const otpInput = document.getElementById('otp_input');
   
@@ -1624,7 +1744,9 @@ function resetOTPState() {
   otpInput.style.backgroundColor = '';
   document.getElementById('submitBtn').disabled = true;
   
-  // Clear timer
+  // Sembunyikan alert duplicate saat reset
+  document.getElementById('duplicateAlert').classList.remove('active');
+  
   if (otpTimer) {
     clearInterval(otpTimer);
     document.getElementById('sendOtpBtn').disabled = false;
@@ -1644,55 +1766,111 @@ function generateRegistrationId() {
 }
 
 // ============================================
+// FUNGSI CHECK DUPLICATE YANG DIPERBAIKI
+// ============================================
+
+async function checkDuplicate() {
+  // ⛔ HANYA check jika flag duplicateCheckEnabled = true
+  if (!duplicateCheckEnabled) {
+    return;
+  }
+  
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('no_hp').value.trim();
+
+  // Validasi minimal input sebelum check
+  if (!email || !phone || 
+      email.length < 5 || 
+      phone.length < 8 ||
+      !email.includes('@') ||
+      !validatePhoneNumber(phone)) {
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${CONFIG.API_URL}?action=check_duplicate&email=${encodeURIComponent(email)}&no_hp=${encodeURIComponent(phone)}`
+    );
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    const result = await response.json();
+
+    const alertEl = document.getElementById('duplicateAlert');
+
+    if (result.isDuplicate) {
+      alertEl.classList.add('active');
+      document.getElementById('submitBtn').disabled = true;
+    } else {
+      alertEl.classList.remove('active');
+      if (isOTPVerified) {
+        document.getElementById('submitBtn').disabled = false;
+      }
+    }
+
+  } catch (err) {
+    console.error('Duplicate check error:', err);
+    // Jangan tampilkan alert error agar tidak mengganggu user
+  }
+}
+
+// ============================================
 // FUNGSI API
 // ============================================
 
 async function sendOTP() {
+  if (!canSendOTP()) return;
+
   const email = document.getElementById('email').value.trim();
   const nama = document.getElementById('nama_lengkap').value.trim();
-  
+
   if (!email || !nama) {
     showAlert('alert', getTranslation('fillNameEmail'));
     return;
   }
-  
+
   if (!validateEmail(email)) {
     showAlert('alert', getTranslation('invalidEmail'));
     return;
   }
-  
+
   const btn = document.getElementById('sendOtpBtn');
+  const originalText = btn.innerHTML;
+
   btn.disabled = true;
   btn.innerHTML = `<span class="loading-spinner"></span> ${getTranslation('sendingOtp')}`;
-  
+
   try {
-    const response = await fetch(`${API_URL}?action=send_otp&email=${encodeURIComponent(email.toLowerCase())}&nama=${encodeURIComponent(nama)}&lang=${lang}`);
-    const result = await response.json();
-    
+    const result = await makeAPICall('send_otp', {
+      email: email.toLowerCase(),
+      nama,
+      lang
+    });
+
     if (result.success) {
-      // Show OTP field
       document.getElementById('otpField').classList.add('active');
       showAlert('success', getTranslation('otpSent'));
-      
-      // Start cooldown timer
+
+      otpAttempts++;
+      otpCooldownUntil = Date.now() + CONFIG.OTP_TIMEOUT;
+
       startOTPTimer();
-      
-      // Auto-focus OTP input
+
       setTimeout(() => {
         document.getElementById('otp_input').focus();
       }, 300);
-      
+
     } else {
       showAlert('alert', result.error || getTranslation('networkError'));
       btn.disabled = false;
-      btn.innerHTML = `<span id="sendOtpText">${getTranslation('sendOtp')}</span>`;
-      initMultilingual();
+      btn.innerHTML = originalText;
     }
   } catch (error) {
     showAlert('alert', getTranslation('networkError'));
     btn.disabled = false;
-    btn.innerHTML = `<span id="sendOtpText">${getTranslation('sendOtp')}</span>`;
-    initMultilingual();
+    btn.innerHTML = originalText;
   }
 }
 
@@ -1703,18 +1881,23 @@ async function verifyOTP() {
   if (otp.length !== 6) return;
   
   try {
-    const response = await fetch(`${API_URL}?action=verify_otp&email=${encodeURIComponent(email.toLowerCase())}&otp=${otp}`);
-    const result = await response.json();
+    const result = await makeAPICall('verify_otp', {
+      email: email.toLowerCase(),
+      otp: otp
+    });
     
     if (result.success) {
       isOTPVerified = true;
+      duplicateCheckEnabled = true; // ⚠️ Aktifkan duplicate check HANYA setelah OTP verified
       document.getElementById('otp_input').disabled = true;
       document.getElementById('otp_input').style.backgroundColor = '#f0fdf4';
       showAlert('success', getTranslation('otpVerified'));
       document.getElementById('submitBtn').disabled = false;
       
-      // Check for duplicate
-      await checkDuplicate();
+      // Check duplicate HANYA setelah OTP terverifikasi
+      setTimeout(() => {
+        checkDuplicate();
+      }, 500);
     } else {
       showAlert('alert', getTranslation('invalidOtp'));
     }
@@ -1723,37 +1906,13 @@ async function verifyOTP() {
   }
 }
 
-async function checkDuplicate() {
-  const email = document.getElementById('email').value.trim().toLowerCase();
-  const phone = document.getElementById('no_hp').value.trim();
-  
-  if (!email || !phone) return;
-  
-  try {
-    const response = await fetch(`${API_URL}?action=check_duplicate&email=${encodeURIComponent(email)}&no_hp=${encodeURIComponent(phone)}`);
-    const result = await response.json();
-    
-    if (result.isDuplicate) {
-      document.getElementById('duplicateAlert').classList.add('active');
-      document.getElementById('submitBtn').disabled = true;
-    } else {
-      document.getElementById('duplicateAlert').classList.remove('active');
-      document.getElementById('submitBtn').disabled = false;
-    }
-  } catch (error) {
-    console.error('Duplicate check error:', error);
-  }
-}
-
 async function submitRegistration(formData) {
   try {
-    // Generate registration ID
     registrationId = generateRegistrationId();
     formData.registration_id = registrationId;
     formData.status = 'Menunggu';
     formData.checkin_time = '';
     
-    // Submit to Google Apps Script
     const params = new URLSearchParams();
     for (const key in formData) {
       params.append(key, formData[key]);
@@ -1799,7 +1958,6 @@ async function handleFormSubmit(e) {
     return;
   }
   
-  // Validate other nationality
   if (selectedNationality === 'Lainnya') {
     const otherNationality = document.getElementById('kebangsaan_lainnya').value.trim();
     if (!otherNationality) {
@@ -1809,14 +1967,19 @@ async function handleFormSubmit(e) {
     }
   }
   
-  // Check consent
+  const phone = document.getElementById('no_hp').value;
+  if (!validatePhoneNumber(phone)) {
+    showAlert('alert', 'Nomor telepon tidak valid. Gunakan format Jepang (080/090/070) atau Indonesia (08)');
+    document.getElementById('no_hp').focus();
+    return;
+  }
+
   if (!document.getElementById('consentCheckbox').checked) {
     showAlert('alert', getTranslation('consentRequired'));
     document.getElementById('consentCheckbox').focus();
     return;
   }
   
-  // Prepare form data
   const form = document.getElementById('registrationForm');
   const formData = new FormData(form);
   const data = {};
@@ -1825,16 +1988,13 @@ async function handleFormSubmit(e) {
     data[key] = value.toString().trim();
   }
   
-  // Handle nationality
   if (data.kebangsaan === 'Lainnya') {
     data.kebangsaan = document.getElementById('kebangsaan_lainnya').value.trim();
   }
   
-  // Calculate total
   data.total_kehadiran = calculateTotal();
-  data.total = data.total_kehadiran; // For compatibility with admin
+  data.total = data.total_kehadiran;
   
-  // Show loading
   document.getElementById('submitBtn').disabled = true;
   document.getElementById('progressIndicator').classList.add('active');
   document.getElementById('submitBtn').innerHTML = `<span class="loading-spinner"></span> ${getTranslation('processing')}`;
@@ -1843,22 +2003,22 @@ async function handleFormSubmit(e) {
     const result = await submitRegistration(data);
     
     if (result.success) {
-      // Show success message
       showAlert('success', getTranslation('registrationComplete'));
-      
-      // Redirect to success page
+
       setTimeout(() => {
+        const id = registrationId || result.id || 'IFTAR-' + Date.now();
+
         const params = new URLSearchParams({
-          id: registrationId,
-          nama: encodeURIComponent(data.nama_lengkap),
-          email: encodeURIComponent(data.email),
-          total: data.total_kehadiran,
-          phone: encodeURIComponent(data.no_hp),
-          domisili: encodeURIComponent(data.domisili)
-        }).toString();
-        
-        window.location.href = `success.html?${params}`;
-      }, 2000);
+          id: id,
+          nama: data.nama_lengkap || '',
+          email: data.email || '',
+          qty: data.total_kehadiran || '1',
+          phone: data.no_hp || '',
+          domisili: data.domisili || ''
+        });
+
+        window.location.href = `success.html?${params.toString()}`;
+      }, 1200);
       
     } else {
       showAlert('alert', result.error || getTranslation('networkError'));
@@ -1886,6 +2046,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Show info message
   document.getElementById('infoMessage').classList.add('active');
+  
+  // Pastikan duplicate alert TIDAK AKTIF saat awal
+  document.getElementById('duplicateAlert').classList.remove('active');
   
   // Set initial language selector
   document.getElementById('languageSelector').value = lang;
@@ -1946,9 +2109,28 @@ function setupEventListeners() {
   document.getElementById('dewasa_tambahan').addEventListener('input', calculateTotal);
   document.getElementById('jumlah_anak').addEventListener('input', calculateTotal);
   
-  // Duplicate check
-  document.getElementById('email').addEventListener('blur', checkDuplicate);
-  document.getElementById('no_hp').addEventListener('blur', checkDuplicate);
+  // ============================================
+  // PERBAIKAN UTAMA: HANYA check duplicate saat OTP sudah terverifikasi
+  // ============================================
+  const emailInput = document.getElementById('email');
+  const phoneInput = document.getElementById('no_hp');
+  
+  // Gunakan debounce untuk mencegah terlalu banyak request
+  let duplicateDebounceTimer;
+  
+  [emailInput, phoneInput].forEach(input => {
+    input.addEventListener('input', () => {
+      // Clear previous timer
+      clearTimeout(duplicateDebounceTimer);
+      
+      // ⛔ HANYA jalankan checkDuplicate jika duplicateCheckEnabled = true
+      if (duplicateCheckEnabled) {
+        duplicateDebounceTimer = setTimeout(() => {
+          checkDuplicate();
+        }, 800); // Debounce 800ms
+      }
+    });
+  });
   
   // Form submission
   document.getElementById('registrationForm').addEventListener('submit', handleFormSubmit);
