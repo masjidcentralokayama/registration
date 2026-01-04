@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title data-id="Pendaftaran Berhasil"
+       data-en="Registration Successful"
+       data-ja="登録完了"></title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#f1f5f9;
+  color:#1e293b;
+}
+
+main{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.card{
+  width:100%;
+  max-width:460px;
+  background:#ffffff;
+  border:1px solid #e2e8f0;
+  border-radius:26px;
+  padding:36px 28px;
+  text-align:center;
+}
+
+.success-icon{
+  font-size:46px;
+  margin-bottom:14px;
+}
+
+h1{
+  margin:0;
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:-0.02em;
+}
+
+.subtitle{
+  margin-top:6px;
+  font-size:14px;
+  color:#64748b;
+  line-height:1.6;
+}
+
+.info{
+  margin-top:26px;
+  padding:22px;
+  background:#f8fafc;
+  border-radius:20px;
+  border:1px solid #f1f5f9;
+  text-align:left;
+  font-size:14px;
+}
+
+.info p{
+  margin:10px 0;
+  display:flex;
+  gap:8px;
+}
+
+.info .label{
+  width:130px;
+  color:#64748b;
+  font-weight:500;
+  flex-shrink:0;
+}
+
+.info .value{
+  color:#1e293b;
+  font-weight:500;
+  word-break:break-word;
+}
+
+.qr-container{
+  margin:26px auto 14px;
+  width:190px;
+  height:190px;
+  border-radius:18px;
+  border:1px solid #e2e8f0;
+  padding:12px;
+  background:#ffffff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.qr-container img{
+  width:100%;
+  height:100%;
+}
+
+.qr-instruction{
+  font-size:13px;
+  color:#64748b;
+  line-height:1.6;
+  margin-bottom:26px;
+}
+
+.btn-group{
+  display:flex;
+  gap:12px;
+}
+
+.btn{
+  flex:1;
+  padding:14px;
+  border-radius:14px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-decoration:none;
+}
+
+.btn-primary{
+  background:#059669;
+  color:#ffffff;
+}
+
+.btn-secondary{
+  background:#ffffff;
+  color:#64748b;
+  border:1px solid #e2e8f0;
+}
+
+footer{
+  text-align:center;
+  font-size:12px;
+  color:#94a3b8;
+  padding:28px;
+}
+
+@media(max-width:480px){
+  .btn-group{flex-direction:column-reverse}
+  .info .label{width:110px}
+}
+</style>
+</head>
+
+<body>
+
+<main>
+<div class="card">
+
+  <div class="success-icon">✅</div>
+
+  <h1 data-id="Pendaftaran Berhasil"
+      data-en="Registration Successful"
+      data-ja="登録が完了しました"></h1>
+
+  <div class="subtitle"
+       data-id="Terima kasih, pendaftaran Anda sudah kami terima."
+       data-en="Thank you, your registration has been received."
+       data-ja="お申し込みありがとうございます。"></div>
+
+  <div class="info">
+    <p><span class="label" data-id="Nama" data-en="Name" data-ja="氏名"></span><span class="value" id="resNama">-</span></p>
+    <p><span class="label" data-id="ID Peserta" data-en="Participant ID" data-ja="参加ID"></span><span class="value" id="resID">-</span></p>
+    <p><span class="label">Email</span><span class="value" id="resEmail">-</span></p>
+    <p><span class="label" data-id="Domisili" data-en="City" data-ja="居住地"></span><span class="value" id="resDomisili">-</span></p>
+    <p><span class="label" data-id="Nomor HP" data-en="Phone" data-ja="電話番号"></span><span class="value" id="resHP">-</span></p>
+    <p><span class="label" data-id="Usia" data-en="Age" data-ja="年齢"></span><span class="value" id="resUsia">-</span></p>
+    <p><span class="label" data-id="Jenis Kelamin" data-en="Gender" data-ja="性別"></span><span class="value" id="resJK">-</span></p>
+    <p><span class="label" data-id="Jumlah Orang" data-en="People" data-ja="人数"></span><span class="value" id="resJumlah">-</span></p>
+  </div>
+
+  <div class="qr-container" id="qrContainer"></div>
+
+  <div class="qr-instruction"
+       data-id="Simpan kode QR ini dan tunjukkan saat check-in di lokasi."
+       data-en="Please save this QR code and show it during check-in."
+       data-ja="受付時にこのQRコードをご提示ください。"></div>
+
+  <div class="btn-group">
+    <a href="index.html" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i>
+      <span data-id="Kembali" data-en="Back" data-ja="戻る"></span>
+    </a>
+    <button class="btn btn-primary" onclick="downloadQR()" id="downloadBtn">
+      <i class="fas fa-download"></i>
+      <span id="btnText" data-id="Simpan QR" data-en="Save QR" data-ja="QRを保存"></span>
+    </button>
+  </div>
+
+</div>
+</main>
+
+<footer>© 2026 — Masjid Central Okayama</footer>
+
+<script>
+// =================== DETEKSI BAHASA ===================
+const params = new URLSearchParams(window.location.search);
+const lang = navigator.language.startsWith("ja") ? "ja"
+           : navigator.language.startsWith("en") ? "en" : "id";
+
+// =================== TERJEMAHKAN TEKS ===================
+document.querySelectorAll("[data-id]").forEach(el => {
+  el.textContent = el.dataset[lang] || el.dataset.id;
+});
+
+// =================== ISI DATA PESERTA ===================
+const map = {
+  resNama: "nama_lengkap",
+  resID: "id",
+  resEmail: "email",
+  resDomisili: "domisili",
+  resHP: "no_hp",
+  resUsia: "usia",
+  resJK: "jk",
+  resJumlah: "jumlah_orang"
+};
+
+for (const id in map) {
+  let val = params.get(map[id]) || "-";
+
+  // Auto translate gender
+  if (id === "resJK") {
+    if (val === "Laki-laki") val = lang === "ja" ? "男性" : lang === "en" ? "Male" : val;
+    if (val === "Perempuan") val = lang === "ja" ? "女性" : lang === "en" ? "Female" : val;
+  }
+
+  document.getElementById(id).textContent = val;
+}
+
+// =================== GENERATE QR ===================
+const participantID = params.get("id") || "UNKNOWN";
+const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(participantID)}&margin=10`;
+
+document.getElementById("qrContainer").innerHTML =
+  `<img src="${qrURL}" id="qrImage" crossorigin="anonymous">`;
+
+// =================== DOWNLOAD QR (AUTO, TANPA NOTIF) ===================
+async function downloadQR() {
+  try {
+    const response = await fetch(qrURL);
+    const blob = await response.blob();
+
+    // Nama file aman & otomatis
+    const rawName = params.get("nama_lengkap") || "Peserta";
+    const safeName = rawName
+      .trim()
+      .replace(/\s+/g, "_")
+      .replace(/[^a-zA-Z0-9_]/g, "");
+
+    const fileName = `QR_EID_2026_${safeName}.png`;
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(a.href);
+  } catch (err) {
+    alert("Gagal mengunduh QR Code");
+    console.error(err);
+  }
+}
+</script>
+
+</body>
+</html>
