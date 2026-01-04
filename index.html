@@ -81,14 +81,18 @@ select {
   }
 }
 
-/* Gender Button Layout */
+/* Gender Button Layout - FIXED: radio button visibility */
 .gender-group{
   display:flex;
   gap:12px;
+  position: relative;
 }
 
 .gender-group input{
-  display:none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .gender-group label{
@@ -195,6 +199,19 @@ button:disabled{background:#cbd5e1;cursor:not-allowed}
   font-size:13px;
 }
 
+.alert-success {
+  background: #f0fdf4;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.countdown {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 4px;
+  display: block;
+}
+
 footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 
 @media(max-width:480px){
@@ -255,8 +272,10 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 <label data-id="Masukkan Kode OTP" data-en="Enter OTP Code" data-ja="OTPコードを入力"></label>
 <div class="input-wrapper">
 <i class="fas fa-key"></i>
-<input type="text" id="otp_input" maxlength="4" placeholder="1234">
+<input type="number" inputmode="numeric" pattern="[0-9]{4}" id="otp_input" maxlength="4" placeholder="1234" oninput="this.value = this.value.slice(0, 4).replace(/[^0-9]/g, '')">
 </div>
+<input type="hidden" id="otp_token" name="otp_token">
+<span class="countdown" id="otpCountdown" style="display:none;"></span>
 </div>
 
 <div class="field">
@@ -315,7 +334,7 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 <label data-id="Usia" data-en="Age" data-ja="年齢"></label>
 <div class="input-wrapper">
 <i class="fas fa-id-card"></i>
-<input type="number" name="usia" required>
+<input type="number" name="usia" min="1" max="120" required>
 </div>
 </div>
 
@@ -359,7 +378,7 @@ footer{text-align:center;font-size:12px;color:#94a3b8;padding:28px}
 </label>
 </div>
 
-<button id="submitBtn"
+<button type="submit" id="submitBtn"
  data-id="Daftar"
  data-en="Register"
  data-ja="登録"></button>
@@ -384,8 +403,20 @@ document.querySelectorAll("[data-id-ph]").forEach(el=>{
  el.placeholder=el.dataset[`${lang}Ph`]||el.dataset.idPh;
 });
 
-let serverOTP = "";
-let isVerified = false;
+// Deklarasi variabel yang diperlukan
+const sendOtpBtn = document.getElementById("sendOtpBtn");
+const email = document.getElementById("email");
+const no_hp = document.getElementById("no_hp");
+const duplicateAlert = document.getElementById("duplicateAlert");
+const registrationForm = document.getElementById("registrationForm");
+const submitBtn = document.getElementById("submitBtn");
+const otpField = document.getElementById("otpField");
+const otpInput = document.getElementById("otp_input");
+const otpToken = document.getElementById("otp_token");
+const otpCountdown = document.getElementById("otpCountdown");
+
+let otpTimer = null;
+let otpExpiry = null;
 
 const messages = {
   fillEmail: {
@@ -402,8 +433,23 @@ const messages = {
     id: "OTP terkirim ke email!",
     en: "OTP sent to your email!",
     ja: "OTPがメールに送信されました！"
+  },
+  otpExpired: {
+    id: "Kode OTP sudah kadaluarsa",
+    en: "OTP code has expired",
+    ja: "OTPコードの有効期限が切れています"
+  },
+  otpResend: {
+    id: "Kirim Ulang Kode",
+    en: "Resend Code",
+    ja: "コードを再送"
   }
 };
+
+// Reset OTP status saat email berubah
+email.addEventListener('input', () => {
+  resetOTP();
+});
 
 async function sendOTP() {
   const emailVal = email.value;
@@ -414,82 +460,183 @@ async function sendOTP() {
     return;
   }
 
+  const originalText = sendOtpBtn.innerHTML;
   sendOtpBtn.disabled = true;
-  sendOtpBtn.textContent = "...";
+  sendOtpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
   try {
     const r = await fetch(`${SCRIPT_URL}?action=send_otp&email=${encodeURIComponent(emailVal)}&nama=${encodeURIComponent(namaVal)}`);
     const j = await r.json();
+    
     if(j.status === "success") {
-      serverOTP = j.otp;
-      document.getElementById("otpField").style.display = "block";
-      alert(messages.otpSent[lang]);
+      // Simpan token OTP (bukan kode)
+      otpToken.value = j.token || "";
       
-      document.getElementById("otp_input").oninput = function() {
-        if(this.value === serverOTP) {
-          isVerified = true;
-          this.disabled = true;
-          document.getElementById("otpField").style.background = "#dcfce7";
-        }
-      };
+      // Tampilkan field OTP
+      otpField.style.display = "block";
+      otpInput.value = "";
+      otpInput.disabled = false;
+      otpInput.focus();
+      
+      // Set waktu kadaluarsa (5 menit)
+      otpExpiry = Date.now() + 5 * 60 * 1000;
+      
+      // Tampilkan countdown
+      otpCountdown.style.display = "block";
+      startCountdown();
+      
+      // Tampilkan pesan sukses
+      showAlert(messages.otpSent[lang], "success");
+      
+      // Reset tombol setelah 2 detik
+      setTimeout(() => {
+        sendOtpBtn.disabled = false;
+        sendOtpBtn.innerHTML = `<span>${messages.otpResend[lang]}</span>`;
+      }, 2000);
+    } else {
+      alert(j.message || "Error");
+      sendOtpBtn.disabled = false;
+      sendOtpBtn.innerHTML = originalText;
     }
   } catch(e) {
-    alert("Error");
+    console.error("OTP Error:", e);
+    alert("Terjadi kesalahan. Coba lagi.");
     sendOtpBtn.disabled = false;
+    sendOtpBtn.innerHTML = originalText;
   }
 }
 
-let t;
-email.oninput=no_hp.oninput=()=>{
- clearTimeout(t);
- t=setTimeout(async()=>{
-  if(email.value&&no_hp.value){
-   const r=await fetch(`${SCRIPT_URL}?action=check_duplicate&email=${email.value}&no_hp=${no_hp.value}`);
-   const j=await r.json();
-   duplicateAlert.style.display=j.isDuplicate?"block":"none";
-   submitBtn.disabled=j.isDuplicate;
+function startCountdown() {
+  if (otpTimer) clearInterval(otpTimer);
+  
+  otpTimer = setInterval(() => {
+    const now = Date.now();
+    const remaining = Math.max(0, otpExpiry - now);
+    
+    if (remaining <= 0) {
+      clearInterval(otpTimer);
+      otpCountdown.textContent = lang === 'id' ? "Kode OTP telah kadaluarsa" : 
+                                 lang === 'en' ? "OTP code has expired" : 
+                                 "OTPコードの有効期限が切れています";
+      otpInput.disabled = true;
+      return;
+    }
+    
+    const minutes = Math.floor(remaining / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+    
+    otpCountdown.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }, 1000);
+}
+
+function resetOTP() {
+  otpField.style.display = "none";
+  otpToken.value = "";
+  otpInput.value = "";
+  if (otpTimer) {
+    clearInterval(otpTimer);
+    otpTimer = null;
   }
- }, 800);
+  otpCountdown.style.display = "none";
+  otpCountdown.textContent = "";
+  
+  // Reset tombol OTP
+  sendOtpBtn.disabled = false;
+  sendOtpBtn.innerHTML = `<span data-id="Kirim Kode" data-en="Send Code" data-ja="コード送信">${messages.otpResend[lang]}</span>`;
+}
+
+function showAlert(message, type = "error") {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = `alert ${type === 'success' ? 'alert-success' : ''}`;
+  alertDiv.textContent = message;
+  alertDiv.style.display = 'block';
+  
+  const container = document.querySelector('.container');
+  container.insertBefore(alertDiv, container.firstChild);
+  
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 5000);
+}
+
+// Check duplicate dengan encode
+let checkDuplicateTimer;
+email.oninput = no_hp.oninput = () => {
+  clearTimeout(checkDuplicateTimer);
+  checkDuplicateTimer = setTimeout(async () => {
+    if(email.value && no_hp.value){
+      try {
+        const r = await fetch(`${SCRIPT_URL}?action=check_duplicate&email=${encodeURIComponent(email.value)}&no_hp=${encodeURIComponent(no_hp.value)}`);
+        const j = await r.json();
+        duplicateAlert.style.display = j.isDuplicate ? "block" : "none";
+        submitBtn.disabled = j.isDuplicate;
+        
+        if (j.isDuplicate) {
+          resetOTP();
+        }
+      } catch (error) {
+        console.error("Check duplicate error:", error);
+        // Tidak tampilkan error ke user untuk UX yang lebih baik
+      }
+    }
+  }, 800);
 };
 
-registrationForm.onsubmit=async e=>{
- e.preventDefault();
- if(!isVerified) {
-   alert(messages.verifyOtp[lang]);
-   return;
- }
- submitBtn.disabled=true;
- const processingText={id:"Sedang memproses…",en:"Processing…",ja:"処理中…"};
- const original=submitBtn.textContent;
- submitBtn.textContent=processingText[lang];
-
- const fd = new FormData(registrationForm);
-fd.append("action", "register");
-
-// Membuat ID Cantik: EID-2703-X8A (TanggalBulan-Acak)
-const now = new Date();
-const datePart = ("0" + now.getDate()).slice(-2) + ("0" + (now.getMonth() + 1)).slice(-2);
-const randomPart = Math.random().toString(36).substring(2, 5).toUpperCase();
-const cantikID = "EID-" + datePart + "-" + randomPart;
-
-fd.append("id", cantikID);
-fd.append("lang", lang); // Mengirim kode bahasa (id, en, atau ja) ke Google Script
+registrationForm.onsubmit = async e => {
+  e.preventDefault();
   
- try{
-  const r=await fetch(SCRIPT_URL,{method:"POST",body:fd});
-  const j=await r.json();
-  if(j.status==="success"){
-   window.location.href="success.html?"+new URLSearchParams(fd).toString();
-  }else{
-   alert(j.message||"Error");
-   submitBtn.textContent=original;
-   submitBtn.disabled=false;
+  // Validasi OTP wajib diisi
+  if (!otpToken.value || !otpInput.value) {
+    alert(messages.verifyOtp[lang]);
+    return;
   }
- }catch{
-  alert("Koneksi bermasalah");
-  submitBtn.textContent=original;
-  submitBtn.disabled=false;
- }
+  
+  // Validasi OTP masih berlaku
+  if (otpExpiry && Date.now() > otpExpiry) {
+    alert(messages.otpExpired[lang]);
+    return;
+  }
+  
+  submitBtn.disabled = true;
+  const processingText = {id:"Sedang memproses…",en:"Processing…",ja:"処理中…"};
+  const original = submitBtn.textContent;
+  submitBtn.textContent = processingText[lang];
+
+  const fd = new FormData(registrationForm);
+  fd.append("action", "register");
+  fd.append("otp_code", otpInput.value);
+
+  // Membuat ID Cantik: EID-2703-X8A9 (TanggalBulan-Acak 4 digit)
+  const now = new Date();
+  const datePart = ("0" + now.getDate()).slice(-2) + ("0" + (now.getMonth() + 1)).slice(-2);
+  const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
+  const cantikID = "EID-" + datePart + "-" + randomPart;
+
+  fd.append("id", cantikID);
+  fd.append("lang", lang);
+  
+  try {
+    const r = await fetch(SCRIPT_URL, {method: "POST", body: fd});
+    const j = await r.json();
+    
+    if(j.status === "success") {
+      window.location.href = "success.html?" + new URLSearchParams(fd).toString();
+    } else {
+      // Jika OTP invalid, reset OTP
+      if (j.message && j.message.toLowerCase().includes('otp')) {
+        resetOTP();
+      }
+      alert(j.message || "Error");
+      submitBtn.textContent = original;
+      submitBtn.disabled = false;
+    }
+  } catch {
+    alert(lang === 'id' ? "Koneksi bermasalah" : 
+          lang === 'en' ? "Connection problem" : 
+          "接続に問題があります");
+    submitBtn.textContent = original;
+    submitBtn.disabled = false;
+  }
 };
 </script>
 
