@@ -1,1398 +1,2361 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Konfirmasi Registrasi - Buka Puasa Bersama 1447 H</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Konfirmasi Registrasi - Buka Puasa Bersama 1447 H</title>
+    
+    <!-- =========================================== -->
+    <!-- SECURITY HEADERS & META TAGS -->
+    <!-- =========================================== -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; 
+                  script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
+                  style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; 
+                  img-src 'self' data: https:; 
+                  connect-src 'self'; 
+                  font-src 'self' https://fonts.gstatic.com;">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Konfirmasi Registrasi - Buka Puasa Bersama 1447 H">
+    <meta property="og:description" content="Simpan kartu akses Anda untuk hadir di acara Buka Puasa Bersama 1447 H">
+    <meta property="og:image" content="https://example.com/iftar-card.jpg">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Konfirmasi pendaftaran untuk acara Buka Puasa Bersama 1447 H di Masjid Central Okayama">
+    
+    <!-- SRI (Subresource Integrity) for CDN Resources -->
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600;700&display=swap" 
+          rel="stylesheet"
+          crossorigin="anonymous">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+            integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+            integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    
+    <style>
+        /* =========================================== */
+        /* CSS VARIABLES & RESET */
+        /* =========================================== */
+        :root {
+            --accent-green: #10a37f;
+            --accent-green-dark: #0d8465;
+            --accent-gold: #d4af37;
+            --accent-gold-light: #f0e6c5;
+            --accent-teal: #0f766e;
+            --accent-dark: #1e293b;
+            --accent-light: #f8fafc;
+            --error-red: #dc2626;
+            --success-green: #059669;
+            --warning-orange: #f59e0b;
+            --premium-gold: linear-gradient(45deg, #d4af37, #ffd700, #d4af37);
+            --premium-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 251, 235, 0.95) 100%);
+        }
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Konfirmasi Registrasi - Buka Puasa Bersama 1447 H">
-<meta property="og:description" content="Simpan kartu akses Anda untuk hadir di acara Buka Puasa Bersama 1447 H">
-<meta property="og:image" content="https://example.com/iftar-card.jpg">
-<meta property="og:url" content="">
-<meta property="og:type" content="website">
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        html {
+            scroll-behavior: smooth;
+        }
 
-<style>
-/* CSS dengan optimasi untuk screenshot dan aksesibilitas */
-:root {
-  --accent-green: #10a37f;
-  --accent-green-dark: #0d8465;
-  --accent-gold: #d4af37;
-  --accent-gold-light: #f0e6c5;
-  --accent-teal: #0f766e;
-  --accent-dark: #1e293b;
-  --accent-light: #f8fafc;
-}
+        body {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f7f7f8 0%, #f0f9ff 100%);
+            color: var(--accent-dark);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-* { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
-}
+        /* =========================================== */
+        /* LAYOUT STRUCTURE */
+        /* =========================================== */
+        main { 
+            padding: 2rem 1rem; 
+            position: relative; 
+            z-index: 1; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-html {
-  scroll-behavior: smooth;
-}
+        .container { 
+            max-width: 500px; 
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-body {
-  font-family: 'Poppins', 'Inter', sans-serif;
-  background: linear-gradient(135deg, #f7f7f8 0%, #f0f9ff 100%);
-  color: var(--accent-dark);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+        /* =========================================== */
+        /* ORNAMENT & BACKGROUND */
+        /* =========================================== */
+        .ornament-top { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 120px; 
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-teal)); 
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%); 
+            z-index: -1;
+            opacity: 0.9;
+        }
 
-main { 
-  padding: 2rem 1rem; 
-  position: relative; 
-  z-index: 1; 
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+        .ornament-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-green));
+            clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+            z-index: -1;
+            opacity: 0.9;
+        }
 
-.container { 
-  max-width: 500px; 
-  margin: 0 auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+        .islamic-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(16, 163, 127, 0.05) 1px, transparent 1px),
+                radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -2;
+        }
 
-/* Ornament & Pattern */
-.ornament-top { 
-  position: absolute; 
-  top: 0; 
-  left: 0; 
-  right: 0; 
-  height: 120px; 
-  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal)); 
-  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%); 
-  z-index: -1;
-  opacity: 0.9;
-}
+        /* =========================================== */
+        /* PREMIUM CARD STYLES */
+        /* =========================================== */
+        .card {
+            background: var(--premium-bg);
+            padding: 2.5rem;
+            border-radius: 25px;
+            border: 3px solid transparent;
+            border-image: var(--premium-gold) 1;
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
 
-.ornament-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background: linear-gradient(135deg, var(--accent-teal), var(--accent-green));
-  clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
-  z-index: -1;
-  opacity: 0.9;
-}
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, 
+                var(--accent-green), 
+                var(--accent-gold), 
+                var(--accent-teal),
+                var(--accent-gold));
+            z-index: 1;
+        }
 
-.islamic-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(circle at 10% 10%, rgba(16, 163, 127, 0.05) 1px, transparent 1px),
-    radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
-  background-size: 30px 30px;
-  z-index: -2;
-}
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, 
+                var(--accent-gold), 
+                var(--accent-teal),
+                var(--accent-gold),
+                var(--accent-green));
+            z-index: 1;
+        }
 
-/* Header Info */
-.brand-header { 
-  text-align: center; 
-  margin-bottom: 1.5rem; 
-}
+        .gold-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 2px, transparent 2px),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 2px, transparent 2px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
 
-.success-icon {
-  width: 80px;
-  height: 80px;
-  background: white;
-  border-radius: 50%;
-  margin: 0 auto 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(16, 163, 127, 0.15);
-  border: 3px solid var(--accent-gold);
-  animation: successPulse 2s infinite;
-}
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
 
-@keyframes successPulse {
-  0% { 
-    transform: scale(1);
-    box-shadow: 0 4px 20px rgba(16, 163, 127, 0.15);
-  }
-  50% { 
-    transform: scale(1.05);
-    box-shadow: 0 6px 25px rgba(16, 163, 127, 0.25);
-  }
-  100% { 
-    transform: scale(1);
-    box-shadow: 0 4px 20px rgba(16, 163, 127, 0.15);
-  }
-}
+        /* =========================================== */
+        /* HEADER & BRANDING */
+        /* =========================================== */
+        .brand-header { 
+            text-align: center; 
+            margin-bottom: 1.5rem; 
+        }
 
-.success-icon i {
-  font-size: 2.5rem;
-  color: var(--accent-green);
-}
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(16, 163, 127, 0.15);
+            border: 3px solid var(--accent-gold);
+            animation: successPulse 2s infinite;
+        }
 
-.brand-header h1 {
-  font-size: 1.5rem; 
-  margin-bottom: 10px; 
-  color: var(--accent-dark);
-}
+        @keyframes successPulse {
+            0% { 
+                transform: scale(1);
+                box-shadow: 0 4px 20px rgba(16, 163, 127, 0.15);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 6px 25px rgba(16, 163, 127, 0.25);
+            }
+            100% { 
+                transform: scale(1);
+                box-shadow: 0 4px 20px rgba(16, 163, 127, 0.15);
+            }
+        }
 
-.brand-header p {
-  font-size: 0.9rem; 
-  color: #64748b;
-  line-height: 1.5;
-}
+        .success-icon i {
+            font-size: 2.5rem;
+            color: var(--accent-green);
+        }
 
-.success-message {
-  background: linear-gradient(135deg, rgba(16, 163, 127, 0.1) 0%, rgba(15, 118, 110, 0.1) 100%);
-  border-radius: 12px;
-  padding: 1rem;
-  margin: 1rem auto 0;
-  max-width: 480px;
-  border-left: 4px solid var(--accent-gold);
-  font-size: 0.85rem;
-  color: var(--accent-green-dark);
-  line-height: 1.5;
-  text-align: center;
-}
+        .brand-header h1 {
+            font-size: 1.5rem; 
+            margin-bottom: 10px; 
+            color: var(--accent-dark);
+        }
 
-/* Card Style */
-.card {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 20px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
-}
+        .brand-header p {
+            font-size: 0.9rem; 
+            color: #64748b;
+            line-height: 1.5;
+        }
 
-.card::before {
-  content: ''; 
-  position: absolute; 
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 5px;
-  background: linear-gradient(90deg, var(--accent-green), var(--accent-gold), var(--accent-teal));
-}
+        .success-message {
+            background: linear-gradient(135deg, rgba(16, 163, 127, 0.1) 0%, rgba(15, 118, 110, 0.1) 100%);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem auto 0;
+            max-width: 480px;
+            border-left: 4px solid var(--accent-gold);
+            font-size: 0.85rem;
+            color: var(--accent-green-dark);
+            line-height: 1.5;
+            text-align: center;
+        }
 
-.event-header {
-  text-align: center; 
-  margin-bottom: 1.5rem;
-}
+        /* =========================================== */
+        /* EVENT HEADER */
+        /* =========================================== */
+        .event-header {
+            text-align: center; 
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
 
-.event-header h2 { 
-  font-size: 1.2rem; 
-  color: var(--accent-teal); 
-  margin-bottom: 5px; 
-}
+        .event-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+        }
 
-.event-header p { 
-  font-size: 0.8rem; 
-  color: var(--accent-gold); 
-  font-weight: 600; 
-}
+        .event-header h2 { 
+            font-size: 1.2rem; 
+            color: var(--accent-teal); 
+            margin-bottom: 5px; 
+        }
 
-/* QR Section */
-.qr-container {
-  background: #f8fafc;
-  padding: 1.5rem;
-  border-radius: 15px;
-  text-align: center;
-  margin: 1.5rem 0;
-  border: 1px dashed #cbd5e1;
-  position: relative;
-}
+        .event-header p { 
+            font-size: 0.8rem; 
+            color: var(--accent-gold); 
+            font-weight: 600; 
+        }
 
-.qr-container::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-green), var(--accent-teal));
-  border-radius: 15px 15px 0 0;
-}
+        /* =========================================== */
+        /* QR CODE SECTION */
+        /* =========================================== */
+        .qr-container {
+            background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
+            padding: 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 1.5rem 0;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
 
-#qrcode { 
-  display: inline-block; 
-  padding: 10px; 
-  background: white; 
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+        .qr-container::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), #ffd700, var(--accent-gold));
+            border-radius: 20px 20px 0 0;
+        }
 
-#qrcode img { 
-  max-width: 100%; 
-  height: auto;
-  display: block;
-}
+        .qr-container::after {
+            content: '✦';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
 
-/* Registration Details */
-.reg-id { 
-  font-weight: 700; 
-  color: var(--accent-green-dark); 
-  font-size: 1.2rem; 
-  margin-top: 10px; 
-  display: block; 
-}
+        #qrcode { 
+            display: inline-block; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            min-height: 200px;
+            position: relative;
+        }
 
-.data-row { 
-  display: flex; 
-  justify-content: space-between; 
-  padding: 10px 0; 
-  border-bottom: 1px solid #f1f5f9; 
-  font-size: 0.9rem; 
-}
+        .qr-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--accent-teal);
+        }
 
-.data-row:last-child {
-  border-bottom: none;
-}
+        .qr-loading i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
 
-.data-label { 
-  color: #64748b; 
-  font-weight: 500;
-}
+        #qrcode img { 
+            max-width: 100%; 
+            height: auto;
+            display: block;
+        }
 
-.data-value { 
-  font-weight: 600; 
-  color: var(--accent-dark); 
-  text-align: right;
-  max-width: 60%;
-  word-break: break-word;
-}
+        /* =========================================== */
+        /* REGISTRATION DATA */
+        /* =========================================== */
+        .reg-id { 
+            background: linear-gradient(90deg, var(--accent-gold-light), #fff9e6);
+            color: var(--accent-green-dark);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-top: 15px;
+            border: 1px solid var(--accent-gold);
+            box-shadow: 0 4px 8px rgba(212, 175, 55, 0.1);
+        }
 
-/* Info Box */
-.info-box {
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-  border: 1px solid #bae6fd;
-  border-radius: 10px;
-  padding: 1rem;
-  margin: 1.5rem 0 0;
-  color: var(--accent-green-dark);
-  font-size: 0.8rem;
-  line-height: 1.5;
-  text-align: center;
-}
+        .data-row { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 12px 15px; 
+            margin: 5px 0;
+            border-radius: 8px;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.03) 0%, transparent 100%);
+            border-left: 3px solid transparent;
+            border-image: linear-gradient(to bottom, var(--accent-gold), transparent) 1;
+            transition: all 0.3s ease;
+            font-size: 0.9rem; 
+        }
 
-/* Buttons */
-.btn-group { 
-  display: flex; 
-  gap: 10px; 
-  margin-top: 1.5rem;
-  margin-bottom: 2rem;
-}
+        .data-row:hover {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.08) 0%, transparent 100%);
+            transform: translateX(5px);
+        }
 
-.btn {
-  flex: 1; 
-  padding: 12px; 
-  border-radius: 10px; 
-  border: none; 
-  font-weight: 600; 
-  cursor: pointer;
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 8px; 
-  transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.9rem;
-  text-decoration: none;
-}
+        .data-row:last-child {
+            border-bottom: none;
+        }
 
-.btn-primary { 
-  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal)); 
-  color: white; 
-  box-shadow: 0 4px 12px rgba(16, 163, 127, 0.2);
-}
+        .data-label { 
+            color: var(--accent-green-dark); 
+            font-weight: 600;
+        }
 
-.btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--accent-teal), var(--accent-green));
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(16, 163, 127, 0.3);
-}
+        .data-value { 
+            font-weight: 600; 
+            color: var(--accent-dark); 
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
 
-.btn-primary:disabled { 
-  background: #94a3b8; 
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
+        /* =========================================== */
+        /* INFO BOXES */
+        /* =========================================== */
+        .info-box {
+            background: linear-gradient(135deg, 
+                rgba(240, 230, 197, 0.3) 0%, 
+                rgba(255, 249, 230, 0.3) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 1.2rem;
+            margin: 1.5rem 0 0;
+            color: var(--accent-green-dark);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-.btn-secondary { 
-  background: white; 
-  color: var(--accent-teal);
-  border: 2px solid var(--accent-teal);
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.1);
-}
+        .info-box::before {
+            content: '✦';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            color: rgba(212, 175, 55, 0.2);
+            font-size: 1rem;
+        }
 
-.btn-secondary:hover {
-  background: linear-gradient(135deg, rgba(16, 163, 127, 0.05) 0%, rgba(15, 118, 110, 0.05) 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(15, 118, 110, 0.15);
-}
+        .info-box i {
+            color: var(--accent-gold);
+        }
 
-/* Footer */
-.footer-text { 
-  text-align: center; 
-  margin-top: auto;
-  padding-top: 1.5rem;
-  color: #94a3b8; 
-  font-size: 0.8rem; 
-  border-top: 1px solid #e2e8f0;
-}
+        .info-box.warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 1px solid #fcd34d;
+            color: #92400e;
+        }
 
-.contact-info {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-}
+        .info-box.error {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
 
-.contact-info a {
-  color: var(--accent-green);
-  text-decoration: none;
-}
+        /* =========================================== */
+        /* BUTTONS */
+        /* =========================================== */
+        .btn-group { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+        }
 
-.contact-info a:hover {
-  text-decoration: underline;
-}
+        .btn {
+            flex: 1; 
+            padding: 12px; 
+            border-radius: 10px; 
+            border: none; 
+            font-weight: 600; 
+            cursor: pointer;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
 
-/* Error Message */
-.error-message {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
-  border: 1px solid #fecaca;
-  border-radius: 10px;
-  padding: 1rem;
-  margin: 1rem 0;
-  color: #dc2626;
-  font-size: 0.85rem;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  display: none;
-}
+        .btn:focus {
+            outline: 2px solid var(--accent-green);
+            outline-offset: 2px;
+        }
 
-/* Language Selector */
-.language-selector {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 100;
-}
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
 
-.lang-btn {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 0.8rem;
-  color: var(--accent-teal);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.3s ease;
-}
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-teal)); 
+            color: white; 
+            box-shadow: 0 4px 12px rgba(16, 163, 127, 0.2);
+        }
 
-.lang-btn:hover {
-  background: var(--accent-light);
-  border-color: var(--accent-green);
-}
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-green));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 163, 127, 0.3);
+        }
 
-/* Additional Info */
-.additional-info {
-  display: grid;
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
+        .btn-secondary { 
+            background: white; 
+            color: var(--accent-teal);
+            border: 2px solid var(--accent-teal);
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.1);
+        }
 
-.info-card {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 1rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-}
+        .btn-secondary:hover:not(:disabled) {
+            background: linear-gradient(135deg, rgba(16, 163, 127, 0.05) 0%, rgba(15, 118, 110, 0.05) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(15, 118, 110, 0.15);
+        }
 
-.info-card i {
-  color: #10a37f;
-  font-size: 1.2rem;
-  margin-top: 0.2rem;
-}
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-orange), #d97706);
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
 
-.info-card h4 {
-  margin: 0 0 0.5rem 0;
-  color: #1e293b;
-  font-size: 0.9rem;
-}
+        /* =========================================== */
+        /* FOOTER */
+        /* =========================================== */
+        .footer-text { 
+            text-align: center; 
+            margin-top: auto;
+            padding-top: 1.5rem;
+            color: #94a3b8; 
+            font-size: 0.8rem; 
+            border-top: 1px solid #e2e8f0;
+        }
 
-.info-card p {
-  margin: 0;
-  color: #64748b;
-  font-size: 0.85rem;
-  line-height: 1.4;
-}
+        .contact-info {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+        }
 
-.prayer-message {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
-  border-radius: 8px;
-  color: var(--accent-gold);
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
+        .contact-info a {
+            color: var(--accent-green);
+            text-decoration: none;
+        }
 
-/* Toast Notifications */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--accent-green);
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 1000;
-  animation: slideIn 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
 
-.toast-error {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-}
+        /* =========================================== */
+        /* ERROR MESSAGES */
+        /* =========================================== */
+        .error-message {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: var(--error-red);
+            font-size: 0.85rem;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
+        .error-message.hidden {
+            display: none;
+        }
 
-@keyframes slideOut {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
+        /* =========================================== */
+        /* LANGUAGE SELECTOR */
+        /* =========================================== */
+        .language-selector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+        }
 
-/* Responsive */
-@media (max-width: 480px) {
-  main {
-    padding: 1.5rem 1rem;
-  }
-  
-  .card {
-    padding: 1.5rem;
-  }
-  
-  .btn-group {
-    flex-direction: column;
-  }
-  
-  .qr-container {
-    padding: 1rem;
-  }
-  
-  .data-row {
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .data-value {
-    text-align: left;
-    max-width: 100%;
-  }
-  
-  .language-selector {
-    position: relative;
-    top: 0;
-    right: 0;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  .additional-info {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
+        .lang-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-green);
+        }
+
+        .lang-btn:focus {
+            outline: 2px solid var(--accent-green);
+            outline-offset: 2px;
+        }
+
+        /* =========================================== */
+        /* ADDITIONAL INFO CARDS */
+        /* =========================================== */
+        .additional-info {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .info-card i {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .info-card h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent-dark);
+            font-size: 0.9rem;
+        }
+
+        .info-card p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .prayer-message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border-radius: 8px;
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* =========================================== */
+        /* TOAST NOTIFICATIONS */
+        /* =========================================== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-green);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 300px;
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, var(--error-red), #b91c1c);
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, var(--success-green), var(--accent-green));
+        }
+
+        .toast.warning {
+            background: linear-gradient(135deg, var(--warning-orange), #d97706);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* =========================================== */
+        /* MODAL DIALOG */
+        /* =========================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            color: var(--accent-dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #64748b;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: #f1f5f9;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* =========================================== */
+        /* LOADING OVERLAY */
+        /* =========================================== */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            flex-direction: column;
+            gap: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid var(--accent-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* =========================================== */
+        /* NO DATA STATE */
+        /* =========================================== */
+        .no-data-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .no-data-icon {
+            font-size: 5rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .no-data-title {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .no-data-description {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        /* =========================================== */
+        /* RESPONSIVE DESIGN */
+        /* =========================================== */
+        @media (max-width: 480px) {
+            main {
+                padding: 1.5rem 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .qr-container {
+                padding: 1rem;
+            }
+            
+            .data-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .data-value {
+                text-align: left;
+                max-width: 100%;
+            }
+            
+            .language-selector {
+                position: relative;
+                top: 0;
+                right: 0;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            
+            .additional-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+
+    <!-- GITHUB PAGES PATH FIX SCRIPT -->
+    <script>
+        // ===========================================
+        // GITHUB PAGES PATH FIXER
+        // ===========================================
+        (function() {
+            'use strict';
+            
+            // Function to detect GitHub Pages base path
+            function getGitHubPagesBasePath() {
+                const currentPath = window.location.pathname;
+                
+                // Case 1: Direct file access (local development)
+                if (currentPath.endsWith('success.html')) {
+                    return currentPath.replace('success.html', '');
+                }
+                
+                // Case 2: GitHub Pages with repository name
+                // URL pattern: /username/repository-name/success.html
+                const pathParts = currentPath.split('/').filter(part => part);
+                
+                if (pathParts.length >= 2) {
+                    // Remove filename and keep directory path
+                    const filenameIndex = pathParts.findIndex(part => part.includes('.html'));
+                    if (filenameIndex !== -1) {
+                        pathParts.splice(filenameIndex, 1);
+                    }
+                    return '/' + pathParts.join('/') + '/';
+                }
+                
+                // Case 3: Root domain or unknown
+                return '/';
+            }
+            
+            // Store base path globally
+            window.GitHubPages = {
+                basePath: getGitHubPagesBasePath(),
+                
+                // Fix relative URLs for GitHub Pages
+                fixUrl: function(url) {
+                    // Don't fix absolute URLs or mailto: links
+                    if (url.startsWith('http://') || 
+                        url.startsWith('https://') || 
+                        url.startsWith('mailto:') ||
+                        url.startsWith('tel:') ||
+                        url.startsWith('#')) {
+                        return url;
+                    }
+                    
+                    // Fix relative URLs
+                    if (url.startsWith('./')) {
+                        return this.basePath + url.substring(2);
+                    }
+                    
+                    if (url.startsWith('/')) {
+                        // Convert root-relative to GitHub Pages relative
+                        return this.basePath + url.substring(1);
+                    }
+                    
+                    // Simple relative path
+                    return this.basePath + url;
+                }
+            };
+            
+            console.log('GitHub Pages Base Path:', window.GitHubPages.basePath);
+            
+        })();
+    </script>
 </head>
 <body>
+    <!-- =========================================== -->
+    <!-- DECORATIVE ELEMENTS -->
+    <!-- =========================================== -->
+    <div class="ornament-top"></div>
+    <div class="ornament-bottom"></div>
+    <div class="islamic-pattern"></div>
 
-<div class="ornament-top"></div>
-<div class="ornament-bottom"></div>
-<div class="islamic-pattern"></div>
-
-<!-- Language Selector -->
-<div class="language-selector">
-  <button id="langBtn" class="lang-btn">
-    <i class="fas fa-globe"></i>
-    <span id="currentLang">ID</span>
-  </button>
-</div>
-
-<main>
-  <div class="container">
-      <!-- Alert Messages -->
-  <div class="alert" id="duplicateAlert">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span id="duplicateAlertText">Data ini sudah terdaftar</span>
-  </div>
-
-  <!-- ERROR MESSAGE UNTUK SUCCESS PAGE -->
-  <div class="error-message" id="errorMessage" style="display: none;">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span id="errorText">Gagal memuat data</span>
-  </div>
-    <div class="brand-header">
-      <div class="success-icon">
-        <i class="fas fa-check-circle"></i>
-      </div>
-      <h1 data-i18n="title">Pendaftaran Berhasil!</h1>
-      <p data-i18n="subtitle">Data Anda telah berhasil tersimpan dalam sistem registrasi.</p>
-      
-      <div class="success-message">
-        <i class="fas fa-check-circle"></i>
-        <span data-i18n="successMessage">Simpan kartu akses di bawah ini untuk ditunjukkan saat acara.</span>
-      </div>
+    <!-- =========================================== -->
+    <!-- LANGUAGE SELECTOR -->
+    <!-- =========================================== -->
+    <div class="language-selector">
+        <button id="langBtn" class="lang-btn" aria-label="Ganti bahasa">
+            <i class="fas fa-globe"></i>
+            <span id="currentLang">ID</span>
+        </button>
     </div>
 
-    <!-- Error Message -->
-    <div id="errorMessage" class="error-message" style="display: none;">
-      <i class="fas fa-exclamation-triangle"></i>
-      <span id="errorText" data-i18n="errorMessage">Gagal memuat data dari server. Data yang ditampilkan berasal dari parameter URL.</span>
+    <!-- =========================================== -->
+    <!-- LOADING OVERLAY -->
+    <!-- =========================================== -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div id="loadingText">Memuat halaman...</div>
     </div>
 
-    <!-- Registration Card -->
-    <div class="card" id="registrationCard">
-      <div class="event-header">
-        <h2 data-i18n="eventTitle">Buka Puasa Bersama 1447 H</h2>
-        <p data-i18n="organization">Masjid Central Okayama</p>
-      </div>
+    <!-- =========================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- =========================================== -->
+    <main>
+        <div class="container">
+            <!-- ERROR MESSAGE -->
+            <div class="error-message hidden" id="errorMessage" role="alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="errorText">Gagal memuat data</span>
+            </div>
 
-      <div class="qr-container">
-        <div id="qrcode"></div>
-        <span class="reg-id" id="displayId">...</span>
-        <div class="hint" style="margin-top: 10px; color: #64748b; font-size: 0.8rem;">
-          <i class="fas fa-info-circle"></i> <span data-i18n="qrHint">Scan QR Code ini saat check-in</span>
+            <!-- SUCCESS HEADER -->
+            <div class="brand-header">
+                <div class="success-icon" role="img" aria-label="Registrasi berhasil">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1 id="pageTitle">Pendaftaran Berhasil!</h1>
+                <p id="pageSubtitle">Data Anda telah berhasil tersimpan dalam sistem registrasi.</p>
+                
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="successMessage">Simpan kartu akses di bawah ini untuk ditunjukkan saat acara.</span>
+                </div>
+            </div>
+
+            <!-- REGISTRATION CARD -->
+            <div class="card" id="registrationCard">
+                <div class="gold-pattern"></div>
+                <div class="card-content">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="btn-group" id="actionButtons">
+                <!-- Dynamic buttons will be loaded here -->
+            </div>
+
+            <!-- ADDITIONAL INFORMATION -->
+            <div class="additional-info" id="additionalInfo">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+
+            <!-- FOOTER -->
+            <div class="footer-text" id="footerContent">
+                <!-- Dynamic content will be loaded here -->
+            </div>
         </div>
-      </div>
+    </main>
 
-      <div id="details">
-        <div class="data-row">
-          <span class="data-label" data-i18n="fullName">Nama Lengkap</span>
-          <span class="data-value" id="displayName">...</span>
-        </div>
-        <div class="data-row">
-          <span class="data-label" data-i18n="email">Email</span>
-          <span class="data-value" id="displayEmail">...</span>
-        </div>
-        <div class="data-row">
-          <span class="data-label" data-i18n="phone">Nomor Telepon</span>
-          <span class="data-value" id="displayPhone">...</span>
-        </div>
-        <div class="data-row">
-          <span class="data-label" data-i18n="domisili">Domisili</span>
-          <span class="data-value" id="displayDomisili">...</span>
-        </div>
-        <div class="data-row">
-          <span class="data-label" data-i18n="totalAttendees">Total Kehadiran</span>
-          <span class="data-value" id="displayQty">1 Orang</span>
-        </div>
-        <div class="data-row">
-          <span class="data-label" data-i18n="eventDate">Tanggal Acara</span>
-          <span class="data-value" data-i18n="dateValue">Sabtu, 28 Maret 2026</span>
-        </div>
-        <div class="data-row">
-          <span class="data-label" data-i18n="eventTime">Waktu</span>
-          <span class="data-value" data-i18n="timeValue">17.30 - 20.00 WIB</span>
-        </div>
-        <div class="data-row">
-          <span class="data-label" data-i18n="location">Lokasi</span>
-          <span class="data-value" data-i18n="locationValue">Masjid Central Okayama</span>
-        </div>
-      </div>
-      
-      <div class="info-box">
-        <i class="fas fa-info-circle"></i>
-        <span data-i18n="instruction">Harap tunjukkan QR Code ini kepada petugas saat kedatangan. Kartu ini berlaku untuk semua peserta yang terdaftar.</span>
-      </div>
-    </div>
+    <script>
+        // ============================================
+        // IFTAR REGISTRATION APP - FIXED VERSION
+        // ============================================
+        const IftarApp = (function() {
+            'use strict';
+            
+            // ============================================
+            // CONFIGURATION
+            // ============================================
+            let currentLang = 'id';
+            let downloadCount = 0;
+            const MAX_DOWNLOADS = 3;
+            let registrationData = null;
+            let isDownloading = false;
+            let qrCodeImage = null;
+            
+            // Translations
+            const translations = {
+                id: {
+                    // Page Text
+                    title: "Pendaftaran Berhasil!",
+                    subtitle: "Data Anda telah berhasil tersimpan dalam sistem registrasi.",
+                    successMessage: "Simpan kartu akses di bawah ini untuk ditunjukkan saat acara.",
+                    loading: "Memuat data...",
+                    noDataTitle: "Tiket Tidak Ditemukan",
+                    noDataMessage: "Data registrasi tidak ditemukan atau telah kadaluarsa.",
+                    registerNow: "Daftar Sekarang",
+                    
+                    // Event Info
+                    eventTitle: "Buka Puasa Bersama 1447 H",
+                    organization: "Masjid Central Okayama",
+                    
+                    // Data Labels
+                    fullName: "Nama Lengkap",
+                    email: "Email",
+                    phone: "Nomor Telepon",
+                    domisili: "Domisili",
+                    totalAttendees: "Total Kehadiran",
+                    eventDate: "Tanggal Acara",
+                    eventTime: "Waktu",
+                    location: "Lokasi",
+                    
+                    // Data Values
+                    dateValue: "Sabtu, 28 Maret 2026",
+                    timeValue: "17.30 - 20.00 WIB",
+                    locationValue: "Masjid Central Okayama",
+                    
+                    // Instructions
+                    instruction: "Harap tunjukkan QR Code ini kepada petugas saat kedatangan. Kartu ini berlaku untuk semua peserta yang terdaftar.",
+                    qrHint: "Scan QR Code ini saat check-in",
+                    qrLoading: "Membuat QR Code...",
+                    
+                    // Buttons
+                    downloadBtn: "Simpan Kartu",
+                    shareBtn: "Bagikan",
+                    homeBtn: "Beranda",
+                    downloading: "Mengunduh...",
+                    
+                    // Footer
+                    copyright: "© 2026 Masjid Central Okayama",
+                    contactInfo: "Untuk informasi lebih lanjut:",
+                    locationTitle: "Lokasi Acara",
+                    locationDetail: "Masjid Central Okayama<br>Okayama-shi, Kita-ku, Jepang",
+                    contactTitle: "Kontak Panitia",
+                    contactDetail: "Email: ibadurrahmanislamiccenter@gmail.com<br>Telepon: 080-XXXX-XXXX",
+                    prayerMessage: "Semoga Allah menerima amal ibadah kita di bulan Ramadan yang mulia ini",
+                    
+                    // Messages
+                    downloadError: "Maaf, terjadi kesalahan saat mengunduh kartu.",
+                    downloadLimit: "Batas download tercapai (maks 3x)",
+                    downloadWarning: "Batas download (3x) hampir tercapai.",
+                    copySuccess: "Tautan berhasil disalin!",
+                    shareError: "Gagal membagikan",
+                    
+                    // Language
+                    langCode: "ID"
+                },
+                
+                en: {
+                    title: "Registration Successful!",
+                    subtitle: "Your data has been successfully saved in the registration system.",
+                    successMessage: "Save the access card below to present at the event.",
+                    loading: "Loading data...",
+                    noDataTitle: "Ticket Not Found",
+                    noDataMessage: "Registration data not found or has expired.",
+                    registerNow: "Register Now",
+                    
+                    eventTitle: "Iftar Gathering 1447 H",
+                    organization: "Central Okayama Mosque",
+                    
+                    fullName: "Full Name",
+                    email: "Email",
+                    phone: "Phone Number",
+                    domisili: "Residence",
+                    totalAttendees: "Total Attendees",
+                    eventDate: "Event Date",
+                    eventTime: "Time",
+                    location: "Location",
+                    
+                    dateValue: "Saturday, March 28, 2026",
+                    timeValue: "5:30 PM - 8:00 PM WIB",
+                    locationValue: "Central Okayama Mosque",
+                    
+                    instruction: "Please show this QR Code to the officer upon arrival. This card is valid for all registered participants.",
+                    qrHint: "Scan this QR Code during check-in",
+                    qrLoading: "Generating QR Code...",
+                    
+                    downloadBtn: "Save Card",
+                    shareBtn: "Share",
+                    homeBtn: "Home",
+                    downloading: "Downloading...",
+                    
+                    copyright: "© 2026 Central Okayama Mosque",
+                    contactInfo: "For more information:",
+                    locationTitle: "Event Location",
+                    locationDetail: "Central Okayama Mosque<br>Okayama-shi, Kita-ku, Japan",
+                    contactTitle: "Committee Contact",
+                    contactDetail: "Email: ibadurrahmanislamiccenter@gmail.com<br>Phone: 080-XXXX-XXXX",
+                    prayerMessage: "May Allah accept our worship in this blessed month of Ramadan",
+                    
+                    downloadError: "Sorry, an error occurred while downloading the card.",
+                    downloadLimit: "Download limit reached (max 3 times)",
+                    downloadWarning: "Download limit (3x) almost reached.",
+                    copySuccess: "Link copied successfully!",
+                    shareError: "Failed to share",
+                    
+                    langCode: "EN"
+                },
+                
+                ja: {
+                    title: "登録が完了しました！",
+                    subtitle: "あなたのデータは登録システムに正常に保存されました。",
+                    successMessage: "下記のアクセスカードを保存して、イベント当日に提示してください。",
+                    loading: "データを読み込み中...",
+                    noDataTitle: "チケットが見つかりません",
+                    noDataMessage: "登録データが見つからないか、期限が切れています。",
+                    registerNow: "今すぐ登録",
+                    
+                    eventTitle: "イフタール集会 1447 H",
+                    organization: "セントラル岡山モスク",
+                    
+                    fullName: "氏名",
+                    email: "メール",
+                    phone: "電話番号",
+                    domisili: "居住地",
+                    totalAttendees: "参加者総数",
+                    eventDate: "イベント日",
+                    eventTime: "時間",
+                    location: "場所",
+                    
+                    dateValue: "2026年3月28日（土）",
+                    timeValue: "17:30 - 20:00 WIB",
+                    locationValue: "セントラル岡山モスク",
+                    
+                    instruction: "到着時にこのQRコードを係員に提示してください。このカードは登録されたすべての参加者に有効です。",
+                    qrHint: "チェックイン時にこのQRコードをスキャンしてください",
+                    qrLoading: "QRコードを生成中...",
+                    
+                    downloadBtn: "カードを保存",
+                    shareBtn: "共有",
+                    homeBtn: "ホーム",
+                    downloading: "ダウンロード中...",
+                    
+                    copyright: "© 2026 セントラル岡山モスク",
+                    contactInfo: "詳細については：",
+                    locationTitle: "イベント会場",
+                    locationDetail: "セントラル岡山モスク<br>日本、岡山市北区",
+                    contactTitle: "委員会連絡先",
+                    contactDetail: "メール: ibadurrahmanislamiccenter@gmail.com<br>電話: 080-XXXX-XXXX",
+                    prayerMessage: "アッラーがこの聖なるラマダーン月における私たちの礼拝をお受け入れになりますように",
+                    
+                    downloadError: "申し訳ありません、カードのダウンロード中にエラーが発生しました。",
+                    downloadLimit: "ダウンロード制限に達しました（最大3回）",
+                    downloadWarning: "ダウンロード制限（3回）に近づいています。",
+                    copySuccess: "リンクが正常にコピーされました！",
+                    shareError: "共有に失敗しました",
+                    
+                    langCode: "JA"
+                }
+            };
+            
+            // ============================================
+            // UTILITY FUNCTIONS
+            // ============================================
+            
+            /**
+             * Show loading overlay
+             */
+            function showLoading(message) {
+                const overlay = document.getElementById('loadingOverlay');
+                const text = document.getElementById('loadingText');
+                
+                if (overlay) {
+                    if (message && text) {
+                        text.textContent = message;
+                    }
+                    overlay.classList.add('active');
+                }
+            }
+            
+            /**
+             * Hide loading overlay
+             */
+            function hideLoading() {
+                const overlay = document.getElementById('loadingOverlay');
+                if (overlay) {
+                    overlay.classList.remove('active');
+                }
+            }
+            
+            /**
+             * Show toast notification (XSS Safe)
+             */
+            function showToast(message, type = 'success') {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.setAttribute('role', 'alert');
+                toast.setAttribute('aria-live', 'assertive');
+                
+                const icon = document.createElement('i');
+                icon.className = type === 'error' ? 'fas fa-exclamation-circle' :
+                               type === 'warning' ? 'fas fa-exclamation-triangle' :
+                               'fas fa-check-circle';
+                
+                const span = document.createElement('span');
+                span.textContent = message;
+                
+                toast.appendChild(icon);
+                toast.appendChild(span);
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+            
+            /**
+             * Show error message
+             */
+            function showError(message) {
+                const errorEl = document.getElementById('errorMessage');
+                const errorText = document.getElementById('errorText');
+                
+                if (errorEl && errorText) {
+                    errorText.textContent = message;
+                    errorEl.classList.remove('hidden');
+                }
+            }
+            
+            /**
+             * Hide error message
+             */
+            function hideError() {
+                const errorEl = document.getElementById('errorMessage');
+                if (errorEl) {
+                    errorEl.classList.add('hidden');
+                }
+            }
+            
+            /**
+             * Update page content with translations
+             */
+            function updatePageContent() {
+                const t = translations[currentLang];
+                
+                // Update page titles
+                document.getElementById('pageTitle').textContent = t.title;
+                document.getElementById('pageSubtitle').textContent = t.subtitle;
+                document.getElementById('successMessage').textContent = t.successMessage;
+                document.getElementById('loadingText').textContent = t.loading;
+                
+                // Update language button
+                document.getElementById('currentLang').textContent = t.langCode;
+                
+                // Update page title
+                document.title = `${t.title} - ${t.eventTitle}`;
+            }
+            
+            /**
+             * Detect user language
+             */
+            function detectUserLanguage() {
+                // Try URL parameter first
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlLang = urlParams.get('lang');
+                if (urlLang && ['id', 'en', 'ja'].includes(urlLang)) {
+                    return urlLang;
+                }
+                
+                // Try localStorage
+                const savedLang = localStorage.getItem('preferredLanguage');
+                if (savedLang && ['id', 'en', 'ja'].includes(savedLang)) {
+                    return savedLang;
+                }
+                
+                // Detect browser language
+                const browserLang = navigator.language || '';
+                if (browserLang.startsWith('ja')) return 'ja';
+                if (browserLang.startsWith('en')) return 'en';
+                
+                // Default
+                return 'id';
+            }
+            
+            /**
+             * Switch language
+             */
+            function switchLanguage() {
+                const languages = ['id', 'en', 'ja'];
+                const currentIndex = languages.indexOf(currentLang);
+                const nextIndex = (currentIndex + 1) % languages.length;
+                currentLang = languages[nextIndex];
+                
+                // Save preference
+                localStorage.setItem('preferredLanguage', currentLang);
+                
+                // Update page
+                updatePageContent();
+                
+                // If we have data, update it
+                if (registrationData) {
+                    displayRegistrationData(registrationData);
+                }
+            }
+            
+            /**
+             * Get correct URL for GitHub Pages
+             */
+            function getFixedUrl(url) {
+                return window.GitHubPages.fixUrl(url);
+            }
+            
+            /**
+             * Extract data from URL parameters with better validation
+             */
+            function extractDataFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                
+                // Check if we have required parameters
+                const id = urlParams.get('id');
+                const nama = urlParams.get('nama');
+                
+                if (!id || !nama) {
+                    return null;
+                }
+                
+                const data = {
+                    id: id,
+                    nama: nama ? decodeURIComponent(nama) : 'Jamaah',
+                    email: urlParams.get('email') ? decodeURIComponent(urlParams.get('email')) : '-',
+                    phone: urlParams.get('phone') ? decodeURIComponent(urlParams.get('phone')) : '-',
+                    domisili: urlParams.get('domisili') ? decodeURIComponent(urlParams.get('domisili')) : '-',
+                    qty: urlParams.get('qty') || '1',
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Save to localStorage with timestamp
+                saveToLocalStorage(data);
+                
+                return data;
+            }
+            
+            /**
+             * Save data to localStorage
+             */
+            function saveToLocalStorage(data) {
+                try {
+                    // Add expiry (48 hours from now)
+                    const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+                    const dataToSave = {
+                        ...data,
+                        expiresAt: expiresAt,
+                        downloadCount: 0
+                    };
+                    
+                    localStorage.setItem(`registration_${data.id}`, JSON.stringify(dataToSave));
+                    localStorage.setItem('lastRegistrationId', data.id);
+                } catch (error) {
+                    console.error('Error saving to localStorage:', error);
+                }
+            }
+            
+            /**
+             * Check localStorage for saved registration - FIXED VERSION
+             */
+            function checkLocalStorage() {
+                try {
+                    const savedId = localStorage.getItem('lastRegistrationId');
+                    if (!savedId) return null;
+                    
+                    // Clear old data to prevent "already registered" bug
+                    const oldData = localStorage.getItem(`registration_${savedId}`);
+                    if (oldData) {
+                        const parsed = JSON.parse(oldData);
+                        // Check if expired (older than 5 minutes)
+                        const savedTime = new Date(parsed.timestamp || 0);
+                        const now = new Date();
+                        const diffMinutes = (now - savedTime) / (1000 * 60);
+                        
+                        if (diffMinutes > 5) {
+                            localStorage.removeItem(`registration_${savedId}`);
+                            localStorage.removeItem('lastRegistrationId');
+                            return null;
+                        }
+                        return parsed;
+                    }
+                    return null;
+                } catch (error) {
+                    console.error('Error checking localStorage:', error);
+                    return null;
+                }
+            }
+            
+            // ============================================
+            // REGISTRATION DATA DISPLAY
+            // ============================================
+            
+            /**
+             * Generate QR Code and convert to image - FIXED VERSION
+             */
+            function generateQRCode(data) {
+                return new Promise((resolve) => {
+                    const qrcodeElement = document.getElementById('qrcode');
+                    if (!qrcodeElement) {
+                        resolve(false);
+                        return;
+                    }
+                    
+                    // Show loading
+                    qrcodeElement.innerHTML = `
+                        <div class="qr-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <div>${translations[currentLang].qrLoading}</div>
+                        </div>
+                    `;
+                    
+                    // Create QR data
+                    const qrData = JSON.stringify({
+                        id: data.id,
+                        name: data.nama.substring(0, 30),
+                        email: data.email || '',
+                        date: new Date().toISOString().split('T')[0]
+                    });
+                    
+                    try {
+                        // Create temporary container for QR Code
+                        const tempDiv = document.createElement('div');
+                        tempDiv.style.position = 'absolute';
+                        tempDiv.style.left = '-9999px';
+                        
+                        // Generate QR Code in temporary container
+                        const qrcode = new QRCode(tempDiv, {
+                            text: qrData,
+                            width: 200,
+                            height: 200,
+                            colorDark: "#0a5c5a",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                        
+                        document.body.appendChild(tempDiv);
+                        
+                        // Wait for QR Code to render
+                        setTimeout(() => {
+                            const canvas = tempDiv.querySelector('canvas');
+                            if (canvas) {
+                                // Convert canvas to data URL
+                                qrCodeImage = canvas.toDataURL('image/png');
+                                
+                                // Display QR Code
+                                qrcodeElement.innerHTML = '';
+                                const img = document.createElement('img');
+                                img.src = qrCodeImage;
+                                img.alt = 'QR Code';
+                                img.style.maxWidth = '100%';
+                                img.style.height = 'auto';
+                                qrcodeElement.appendChild(img);
+                            }
+                            
+                            // Clean up
+                            document.body.removeChild(tempDiv);
+                            resolve(true);
+                        }, 500);
+                        
+                    } catch (error) {
+                        console.error('QR Code error:', error);
+                        // Fallback display
+                        qrcodeElement.innerHTML = `
+                            <div style="text-align: center; padding: 20px;">
+                                <div style="font-size: 1.2rem; font-weight: bold; color: #0f766e; margin-bottom: 10px;">
+                                    <i class="fas fa-id-card"></i> ID: ${data.id}
+                                </div>
+                                <div style="color: #64748b;">${data.nama}</div>
+                            </div>
+                        `;
+                        resolve(false);
+                    }
+                });
+            }
+            
+            /**
+             * Display registration data
+             */
+            function displayRegistrationData(data) {
+                const t = translations[currentLang];
+                
+                // Format quantity
+                let qtyText = data.qty;
+                if (currentLang === 'id') qtyText += ' Orang';
+                else if (currentLang === 'en') qtyText += (data.qty === '1' ? ' Person' : ' People');
+                else qtyText += '名';
+                
+                // Build registration card HTML
+                const cardHTML = `
+                    <div class="event-header">
+                        <h2>${t.eventTitle}</h2>
+                        <p>${t.organization}</p>
+                    </div>
 
-    <div class="btn-group">
-      <button id="downloadBtn" class="btn btn-primary">
-        <i class="fas fa-download"></i>
-        <span data-i18n="downloadBtn">Simpan Kartu</span>
-      </button>
-      <button id="shareBtn" class="btn btn-secondary">
-        <i class="fas fa-share-alt"></i>
-        <span data-i18n="shareBtn">Bagikan</span>
-      </button>
-      <a href="index.html" class="btn btn-secondary">
-        <i class="fas fa-home"></i>
-        <span data-i18n="homeBtn">Beranda</span>
-      </a>
-      <!-- Admin Link (visible only if admin parameter is present) -->
-      <a href="admin.html" id="adminLink" class="btn btn-secondary" style="display: none;">
-        <i class="fas fa-user-cog"></i>
-        <span data-i18n="adminBtn">Admin</span>
-      </a>
-    </div>
+                    <div class="qr-container">
+                        <div id="qrcode"></div>
+                        <span class="reg-id" id="displayId">${data.id}</span>
+                        <div style="margin-top: 10px; color: #64748b; font-size: 0.8rem;">
+                            <i class="fas fa-info-circle"></i> ${t.qrHint}
+                        </div>
+                    </div>
 
-    <!-- Additional Info -->
-    <div class="additional-info">
-      <div class="info-card">
-        <i class="fas fa-map-marker-alt"></i>
-        <div>
-          <h4 data-i18n="locationTitle">Lokasi Acara</h4>
-          <p data-i18n="locationDetail">Masjid Central Okayama<br>Okayama-shi, Kita-ku, Jepang</p>
-        </div>
-      </div>
-      <div class="info-card">
-        <i class="fas fa-phone"></i>
-        <div>
-          <h4 data-i18n="contactTitle">Kontak Panitia</h4>
-          <p data-i18n="contactDetail">Email: ibadurrahmanislamiccenter@gmail.com<br>Telepon: 080-XXXX-XXXX</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-text">
-      <div data-i18n="copyright">© 2026 Masjid Central Okayama</div>
-      <div class="contact-info">
-        <span data-i18n="contactInfo">Untuk informasi lebih lanjut:</span>
-        <a href="mailto:ibadurrahmanislamiccenter@gmail.com" id="contactEmail">
-          ibadurrahmanislamiccenter@gmail.com
-        </a>
-      </div>
-      <div class="prayer-message">
-        <i class="fas fa-star-and-crescent"></i>
-        <span data-i18n="prayerMessage">Semoga Allah menerima amal ibadah kita di bulan Ramadan yang mulia ini</span>
-      </div>
-    </div>
-  </div>
-</main>
-
-<script>
-// ============================================
-// MULTILINGUAL SUPPORT (ID, EN, JA)
-// ============================================
-
-const translations = {
-  id: {
-    title: "Pendaftaran Berhasil!",
-    subtitle: "Data Anda telah berhasil tersimpan dalam sistem registrasi.",
-    successMessage: "Simpan kartu akses di bawah ini untuk ditunjukkan saat acara.",
-    
-    eventTitle: "Buka Puasa Bersama 1447 H",
-    organization: "Masjid Central Okayama",
-    
-    fullName: "Nama Lengkap",
-    email: "Email",
-    phone: "Nomor Telepon",
-    domisili: "Domisili",
-    totalAttendees: "Total Kehadiran",
-    eventDate: "Tanggal Acara",
-    eventTime: "Waktu",
-    location: "Lokasi",
-    
-    dateValue: "Sabtu, 28 Maret 2026",
-    timeValue: "17.30 - 20.00 WIB",
-    locationValue: "Masjid Central Okayama",
-    
-    instruction: "Harap tunjukkan QR Code ini kepada petugas saat kedatangan. Kartu ini berlaku untuk semua peserta yang terdaftar.",
-    
-    downloadBtn: "Simpan Kartu",
-    shareBtn: "Bagikan",
-    homeBtn: "Beranda",
-    adminBtn: "Admin",
-    downloading: "Mengunduh...",
-    
-    copyright: "© 2026 Masjid Central Okayama",
-    contactInfo: "Untuk informasi lebih lanjut:",
-    
-    locationTitle: "Lokasi Acara",
-    locationDetail: "Masjid Central Okayama<br>Okayama-shi, Kita-ku, Jepang",
-    contactTitle: "Kontak Panitia",
-    contactDetail: "Email: ibadurrahmanislamiccenter@gmail.com<br>Telepon: 080-XXXX-XXXX",
-    
-    errorMessage: "Gagal memuat data dari server. Data yang ditampilkan berasal dari parameter URL.",
-    downloadError: "Maaf, terjadi kesalahan saat mengunduh kartu. Silakan coba lagi atau hubungi panitia.",
-    shareSuccess: "Berhasil dibagikan!",
-    shareError: "Gagal membagikan",
-    
-    prayerMessage: "Semoga Allah menerima amal ibadah kita di bulan Ramadan yang mulia ini",
-    qrHint: "Scan QR Code ini saat check-in",
-    
-    langName: "Bahasa Indonesia",
-    langCode: "ID"
-  },
-  
-  en: {
-    title: "Registration Successful!",
-    subtitle: "Your data has been successfully saved in the registration system.",
-    successMessage: "Save the access card below to present at the event.",
-    
-    eventTitle: "Iftar Gathering 1447 H",
-    organization: "Central Okayama Mosque",
-    
-    fullName: "Full Name",
-    email: "Email",
-    phone: "Phone Number",
-    domisili: "Residence",
-    totalAttendees: "Total Attendees",
-    eventDate: "Event Date",
-    eventTime: "Time",
-    location: "Location",
-    
-    dateValue: "Saturday, March 28, 2026",
-    timeValue: "5:30 PM - 8:00 PM WIB",
-    locationValue: "Central Okayama Mosque",
-    
-    instruction: "Please show this QR Code to the officer upon arrival. This card is valid for all registered participants.",
-    
-    downloadBtn: "Save Card",
-    shareBtn: "Share",
-    homeBtn: "Home",
-    adminBtn: "Admin",
-    downloading: "Downloading...",
-    
-    copyright: "© 2026 Central Okayama Mosque",
-    contactInfo: "For more information:",
-    
-    locationTitle: "Event Location",
-    locationDetail: "Central Okayama Mosque<br>Okayama-shi, Kita-ku, Japan",
-    contactTitle: "Committee Contact",
-    contactDetail: "Email: ibadurrahmanislamiccenter@gmail.com<br>Phone: 080-XXXX-XXXX",
-    
-    errorMessage: "Failed to load data from server. Data displayed is from URL parameters.",
-    downloadError: "Sorry, an error occurred while downloading the card. Please try again or contact the committee.",
-    shareSuccess: "Successfully shared!",
-    shareError: "Failed to share",
-    
-    prayerMessage: "May Allah accept our worship in this blessed month of Ramadan",
-    qrHint: "Scan this QR Code during check-in",
-    
-    langName: "English",
-    langCode: "EN"
-  },
-  
-  ja: {
-    title: "登録が完了しました！",
-    subtitle: "あなたのデータは登録システムに正常に保存されました。",
-    successMessage: "下記のアクセスカードを保存して、イベント当日に提示してください。",
-    
-    eventTitle: "イフタール集会 1447 H",
-    organization: "セントラル岡山モスク",
-    
-    fullName: "氏名",
-    email: "メール",
-    phone: "電話番号",
-    domisili: "居住地",
-    totalAttendees: "参加者総数",
-    eventDate: "イベント日",
-    eventTime: "時間",
-    location: "場所",
-    
-    dateValue: "2026年3月28日（土）",
-    timeValue: "17:30 - 20:00 WIB",
-    locationValue: "セントラル岡山モスク",
-    
-    instruction: "到着時にこのQRコードを係員に提示してください。このカードは登録されたすべての参加者に有効です。",
-    
-    downloadBtn: "カードを保存",
-    shareBtn: "共有",
-    homeBtn: "ホーム",
-    adminBtn: "管理",
-    downloading: "ダウンロード中...",
-    
-    copyright: "© 2026 セントラル岡山モスク",
-    contactInfo: "詳細については：",
-    
-    locationTitle: "イベント会場",
-    locationDetail: "セントラル岡山モスク<br>日本、岡山市北区",
-    contactTitle: "委員会連絡先",
-    contactDetail: "メール: ibadurrahmanislamiccenter@gmail.com<br>電話: 080-XXXX-XXXX",
-    
-    errorMessage: "サーバーからのデータの読み込みに失敗しました。表示されているデータはURLパラメータからのものです。",
-    downloadError: "申し訳ありません、カードのダウンロード中にエラーが発生しました。もう一度お試しいただくか、委員会にご連絡ください。",
-    shareSuccess: "正常に共有されました！",
-    shareError: "共有に失敗しました",
-    
-    prayerMessage: "アッラーがこの聖なるラマダーン月における私たちの礼拝をお受け入れになりますように",
-    qrHint: "チェックイン時にこのQRコードをスキャンしてください",
-    
-    langName: "日本語",
-    langCode: "JA"
-  }
-};
-
-// ============================================
-// KONFIGURASI DAN DETEKSI BAHASA
-// ============================================
-
-function detectUserLanguage() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const urlLang = urlParams.get('lang');
-  
-  if (urlLang && ['id', 'en', 'ja'].includes(urlLang)) {
-    return urlLang;
-  }
-  
-  const browserLang = navigator.language || navigator.userLanguage;
-  
-  if (browserLang.startsWith('ja')) {
-    return 'ja';
-  } else if (browserLang.startsWith('en')) {
-    return 'en';
-  } else if (browserLang.startsWith('id')) {
-    return 'id';
-  }
-  
-  return 'id';
-}
-
-let currentLang = detectUserLanguage();
-
-// ============================================
-// FUNGSI MULTILINGUAL
-// ============================================
-
-function applyTranslations(lang) {
-  document.querySelectorAll('[data-i18n]').forEach(element => {
-    const key = element.getAttribute('data-i18n');
-    if (translations[lang] && translations[lang][key]) {
-      element.innerHTML = translations[lang][key];
-    }
-  });
-  
-  const langBtn = document.getElementById('currentLang');
-  if (langBtn) {
-    langBtn.textContent = translations[lang].langCode;
-  }
-  
-  document.title = `${translations[lang].title} - ${translations[lang].eventTitle}`;
-  localStorage.setItem('preferredLanguage', lang);
-  currentLang = lang;
-}
-
-function switchLanguage() {
-  const languages = ['id', 'en', 'ja'];
-  const currentIndex = languages.indexOf(currentLang);
-  const nextIndex = (currentIndex + 1) % languages.length;
-  const nextLang = languages[nextIndex];
-  
-  applyTranslations(nextLang);
-  
-  const langBtn = document.getElementById('langBtn');
-  if (langBtn) {
-    langBtn.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-      langBtn.style.transform = 'scale(1)';
-    }, 150);
-  }
-}
-
-// ============================================
-// KONFIGURASI DATA REGISTRASI
-// ============================================
-
-const params = new URLSearchParams(window.location.search);
-
-function sanitizeInput(input) {
-  if (!input) return '';
-  const div = document.createElement('div');
-  div.textContent = input;
-  return div.innerHTML;
-}
-
-const regData = {
-  id: sanitizeInput(params.get('id') || 'IFTAR-' + Math.random().toString(36).substr(2, 6).toUpperCase()),
-  nama: sanitizeInput(params.get('nama') || 'Jamaah'),
-  email: sanitizeInput(params.get('email') || '-'),
-  phone: sanitizeInput(params.get('phone') || '-'),
-  domisili: sanitizeInput(params.get('domisili') || '-'),
-  qty: sanitizeInput(params.get('qty') || '1'),
-  timestamp: new Date().toLocaleString('id-ID')
-};
-
-// ============================================
-// VALIDASI DATA
-// ============================================
-
-function validateData() {
-  let isValid = true;
-  const errorMessages = [];
-  
-  if (!regData.id || regData.id.length < 3) {
-    isValid = false;
-    errorMessages.push('ID registrasi tidak valid');
-  }
-  
-  if (!regData.nama || regData.nama.length < 2) {
-    isValid = false;
-    errorMessages.push('Nama tidak valid');
-  }
-  
-  if (regData.email && regData.email !== '-') {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(regData.email)) {
-      isValid = false;
-      errorMessages.push('Format email tidak valid');
-    }
-  }
-  
-  return { isValid, errorMessages };
-}
-
-// ============================================
-// GENERATE QR CODE - PERBAIKAN (FIXED)
-// ============================================
-
-function generateQRCode(id) {
-  try {
-    const qrcodeElement = document.getElementById("qrcode");
-    qrcodeElement.innerHTML = '';
-    
-    // **PASTIKAN QR Code hanya berisi ID saja**
-    const qrData = id.trim();
-    
-    console.log("Generating QR Code for ID:", qrData);
-    
-    // Gunakan library QRCode
-    new QRCode(qrcodeElement, {
-      text: qrData,
-      width: 180,
-      height: 180,
-      colorDark: "#0f766e",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
-    
-  } catch (error) {
-    console.error("Failed to generate QR code:", error);
-    
-    // Fallback
-    document.getElementById("qrcode").innerHTML = 
-      '<div style="text-align: center; padding: 20px; border: 2px dashed #d4af37; border-radius: 10px;">' +
-      '<div style="font-size: 1.2rem; font-weight: bold; color: #0f766e; margin-bottom: 10px;">' +
-      '<i class="fas fa-qrcode"></i> ID: ' + id + '</div>' +
-      '</div>';
-  }
-}
-
-// ============================================
-// FUNGSI SIMPAN KE LOCALSTORAGE
-// ============================================
-
-function saveToLocalStorage(data) {
-  try {
-    // Simpan data registrasi
-    const storageKey = `registration_${data.id}`;
-    localStorage.setItem(storageKey, JSON.stringify({
-      ...data,
-      savedAt: new Date().toISOString(),
-      lang: currentLang
-    }));
-    
-    // Simpan ID terakhir untuk recovery
-    localStorage.setItem('lastRegistrationId', data.id);
-    
-    // Tambahkan ke daftar registrasi
-    const registrations = JSON.parse(localStorage.getItem('my_registrations') || '[]');
-    if (!registrations.includes(data.id)) {
-      registrations.push(data.id);
-      localStorage.setItem('my_registrations', JSON.stringify(registrations));
-    }
-    
-    console.log("Data saved to localStorage:", data.id);
-  } catch (error) {
-    console.error("Failed to save to localStorage:", error);
-  }
-}
-
-function updateURLWithData(data) {
-  try {
-    const currentParams = new URLSearchParams(window.location.search);
-    
-    // Jika ada data yang belum ada di URL, tambahkan
-    if (!currentParams.get('id')) {
-      currentParams.set('id', data.id);
-    }
-    if (!currentParams.get('nama')) {
-      currentParams.set('nama', encodeURIComponent(data.nama));
-    }
-    if (!currentParams.get('email')) {
-      currentParams.set('email', encodeURIComponent(data.email));
-    }
-    if (!currentParams.get('phone')) {
-      currentParams.set('phone', encodeURIComponent(data.phone));
-    }
-    if (!currentParams.get('domisili')) {
-      currentParams.set('domisili', encodeURIComponent(data.domisili));
-    }
-    if (!currentParams.get('qty')) {
-      currentParams.set('qty', data.qty);
-    }
-    
-    // Update URL tanpa reload page
-    const newUrl = window.location.pathname + '?' + currentParams.toString();
-    window.history.replaceState({}, '', newUrl);
-    
-  } catch (error) {
-    console.error("Failed to update URL:", error);
-  }
-}
-
-// ============================================
-// FUNGSI DOWNLOAD KARTU
-// ============================================
-
-async function downloadRegistrationCard(data) {
-  const btn = document.getElementById('downloadBtn');
-  const card = document.getElementById('registrationCard');
-  
-  if (!card) {
-    console.error("Card element not found");
-    showToast('Elemen kartu tidak ditemukan', 'error');
-    return;
-  }
-  
-  const originalText = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[currentLang].downloading}`;
-
-  try {
-    // Clone card untuk manipulasi
-    const clonedCard = card.cloneNode(true);
-    clonedCard.style.position = 'absolute';
-    clonedCard.style.left = '-9999px';
-    clonedCard.style.top = '0';
-    clonedCard.style.width = '500px';
-    clonedCard.style.height = 'auto';
-    clonedCard.style.border = '3px solid var(--accent-gold)';
-    clonedCard.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
-    clonedCard.style.background = 'white';
-    
-    // Tambahkan watermark
-    const watermark = document.createElement('div');
-    watermark.style.position = 'absolute';
-    watermark.style.top = '50%';
-    watermark.style.left = '50%';
-    watermark.style.transform = 'translate(-50%, -50%) rotate(-45deg)';
-    watermark.style.fontSize = '40px';
-    watermark.style.fontWeight = 'bold';
-    watermark.style.color = 'rgba(212, 175, 55, 0.1)';
-    watermark.style.zIndex = '1';
-    watermark.style.pointerEvents = 'none';
-    watermark.style.whiteSpace = 'nowrap';
-    watermark.textContent = 'IFTAR 1447 H';
-    
-    clonedCard.appendChild(watermark);
-    document.body.appendChild(clonedCard);
-    
-    // Generate canvas
-    const canvas = await html2canvas(clonedCard, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: "#ffffff",
-      logging: false,
-      removeContainer: true
-    });
-    
-    // Hapus clone
-    document.body.removeChild(clonedCard);
-    
-    // Convert to image and download
-    const imageData = canvas.toDataURL("image/png", 1.0);
-    const link = document.createElement('a');
-    
-    // Generate filename
-    const cleanName = data.nama
-      .replace(/[^a-zA-Z0-9\u0600-\u06FF\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\s]/g, '')
-      .replace(/\s+/g, '_')
-      .substring(0, 30);
-    
-    const fileNamePrefix = currentLang === 'id' ? 'KARTU_AKSES_' : 
-                          currentLang === 'en' ? 'ACCESS_CARD_' : 'アクセスカード_';
-    
-    const fileName = `${fileNamePrefix}${data.id}_${cleanName}.png`;
-    link.href = imageData;
-    link.download = fileName;
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    console.log("Card downloaded successfully:", fileName);
-    
-    // Success feedback
-    btn.innerHTML = '<i class="fas fa-check-circle"></i> ✓';
-    btn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
-    
-    showToast(translations[currentLang].downloadBtn + ' berhasil!', 'success');
-    
-    // Reset button after 2 seconds
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-      applyTranslations(currentLang);
-      btn.disabled = false;
-    }, 2000);
-    
-  } catch (err) {
-    console.error("Gagal mengunduh kartu:", err);
-    
-    // Error feedback
-    btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> !';
-    btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
-    
-    showToast(translations[currentLang].downloadError, 'error');
-    
-    // Reset button after 3 seconds
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-      applyTranslations(currentLang);
-      btn.style.background = 'linear-gradient(135deg, var(--accent-green), var(--accent-teal))';
-      btn.disabled = false;
-    }, 3000);
-  }
-}
-
-// ============================================
-// FUNGSI SHARE
-// ============================================
-
-function shareCard() {
-  const shareBtn = document.getElementById('shareBtn');
-  const originalText = shareBtn.innerHTML;
-  
-  if (navigator.share) {
-    navigator.share({
-      title: `${translations[currentLang].eventTitle} - ${regData.id}`,
-      text: `${translations[currentLang].title} - ${translations[currentLang].eventTitle}\nID: ${regData.id}\nNama: ${regData.nama}`,
-      url: window.location.href
-    }).then(() => {
-      showToast(translations[currentLang].shareSuccess, 'success');
-    }).catch(error => {
-      console.log('Sharing cancelled or failed:', error);
-    });
-  } else {
-    // Fallback: copy to clipboard
-    const shareText = `${translations[currentLang].title}\n${translations[currentLang].eventTitle}\nID Registrasi: ${regData.id}\nNama: ${regData.nama}\nLink: ${window.location.href}`;
-    
-    navigator.clipboard.writeText(shareText).then(() => {
-      shareBtn.innerHTML = '<i class="fas fa-check"></i> ✓';
-      showToast('Tautan disalin ke clipboard!', 'success');
-      
-      setTimeout(() => {
-        shareBtn.innerHTML = originalText;
-        applyTranslations(currentLang);
-      }, 2000);
-    }).catch(err => {
-      console.error('Copy failed:', err);
-      shareBtn.innerHTML = '<i class="fas fa-times"></i> !';
-      showToast(translations[currentLang].shareError, 'error');
-      
-      setTimeout(() => {
-        shareBtn.innerHTML = originalText;
-        applyTranslations(currentLang);
-      }, 2000);
-    });
-  }
-}
-
-// ============================================
-// FUNGSI TOAST NOTIFICATION
-// ============================================
-
-function showToast(message, type = 'success') {
-  const toast = document.createElement('div');
-  toast.className = `toast ${type === 'error' ? 'toast-error' : ''}`;
-  toast.innerHTML = `
-    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-    <span>${message}</span>
-  `;
-  
-  document.body.appendChild(toast);
-  
-  setTimeout(() => {
-    toast.style.animation = 'slideOut 0.3s ease';
-    setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
-      }
-    }, 300);
-  }, 3000);
-}
-
-// ============================================
-// FUNGSI DISPLAY DATA
-// ============================================
-
-function displayData(data) {
-  document.getElementById('displayId').textContent = data.id;
-  document.getElementById('displayName').textContent = data.nama;
-  document.getElementById('displayEmail').textContent = data.email;
-  document.getElementById('displayPhone').textContent = data.phone;
-  document.getElementById('displayDomisili').textContent = data.domisili;
-  
-  // Format jumlah peserta berdasarkan bahasa
-  let qtyText = data.qty;
-  if (currentLang === 'id') {
-    qtyText += ' Orang';
-  } else if (currentLang === 'en') {
-    qtyText += data.qty === '1' ? ' Person' : ' People';
-  } else {
-    qtyText += '名';
-  }
-  document.getElementById('displayQty').textContent = qtyText;
-}
-
-// ============================================
-// INISIALISASI HALAMAN
-// ============================================
-
-async function initializePage() {
-  console.log("Initializing registration page...");
-  
-  // 1. Deteksi dan terapkan bahasa
-  const savedLang = localStorage.getItem('preferredLanguage');
-  if (savedLang && ['id', 'en', 'ja'].includes(savedLang)) {
-    currentLang = savedLang;
-  }
-  
-  applyTranslations(currentLang);
-  
-  // 2. Setup event listener untuk tombol bahasa
-  const langBtn = document.getElementById('langBtn');
-  if (langBtn) {
-    langBtn.addEventListener('click', switchLanguage);
-  }
-  
-  // 3. Tampilkan link admin jika parameter admin ada
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('admin') === 'true') {
-    document.getElementById('adminLink').style.display = 'flex';
-  }
-  
-  // 4. AMBIL DATA DARI URL - INI YANG DIPERBAIKI
-  if (!urlParams.get('id')) {
-    // Jika tidak ada ID, coba ambil dari localStorage atau redirect
-    const savedId = localStorage.getItem('lastRegistrationId');
-    if (savedId) {
-      // Redirect dengan ID yang disimpan
-      const newUrl = new URL(window.location);
-      newUrl.searchParams.set('id', savedId);
-      window.location.href = newUrl.toString();
-      return;
-    } else {
-      // Jika benar-benar tidak ada data, redirect ke halaman utama
-      showToast('Data tidak ditemukan. Silakan daftar kembali.', 'error');
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 3000);
-      return;
-    }
-  }
-  
-  // Format data dari URL
-  const regData = {
-    id: urlParams.get('id') || 'IFTAR-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
-    nama: urlParams.get('nama') ? decodeURIComponent(urlParams.get('nama')) : 'Jamaah',
-    email: urlParams.get('email') ? decodeURIComponent(urlParams.get('email')) : '-',
-    phone: urlParams.get('phone') ? decodeURIComponent(urlParams.get('phone')) : '-',
-    domisili: urlParams.get('domisili') ? decodeURIComponent(urlParams.get('domisili')) : '-',
-    qty: urlParams.get('qty') || '1',
-    timestamp: urlParams.get('timestamp') || new Date().toISOString()
-  };
-  
-  console.log("Registration data loaded:", regData);
-  
-  // 5. Validasi data minimal
-  if (!regData.id || !regData.nama) {
-    showToast('Data tidak lengkap. Silakan daftar kembali.', 'error');
-    setTimeout(() => {
-      window.location.href = 'index.html';
-    }, 3000);
-    return;
-  }
-  
-  // 6. Tampilkan data ke UI
-  displayData(regData);
-  
-  // 7. Generate QR Code - HANYA ID SAJA
-  generateQRCode(regData.id);
-  
-  // 8. Setup event listeners
-  const downloadBtn = document.getElementById('downloadBtn');
-  if (downloadBtn) {
-    downloadBtn.addEventListener('click', () => downloadRegistrationCard(regData));
-  }
-  
-  const shareBtn = document.getElementById('shareBtn');
-  if (shareBtn) {
-    shareBtn.addEventListener('click', shareCard);
-  }
-  
-  // 9. Simpan ke localStorage untuk backup
-  saveToLocalStorage(regData);
-  
-  // 10. Update URL dengan data lengkap (untuk bookmark)
-  updateURLWithData(regData);
-  
-  console.log("Page initialized successfully with language:", currentLang);
-}
-
-// ============================================
-// START APPLICATION
-// ============================================
-
-document.addEventListener('DOMContentLoaded', initializePage);
-
-// Fallback untuk browser lama
-if (!window.Promise) {
-  console.warn("Browser doesn't support Promises, using fallback");
-  document.getElementById('downloadBtn').onclick = function() {
-    alert("Browser Anda tidak mendukung fitur ini. Silakan gunakan browser yang lebih baru.");
-  };
-  document.getElementById('shareBtn').onclick = function() {
-    alert("Fitur share tidak didukung di browser ini.");
-  };
-}
-</script>
-
+                    <div id="details">
+                        <div class="data-row">
+                            <span class="data-label">${t.fullName}</span>
+                            <span class="data-value">${data.nama}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">${t.email}</span>
+                            <span class="data-value">${data.email}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">${t.phone}</span>
+                            <span class="data-value">${data.phone}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">${t.domisili}</span>
+                            <span class="data-value">${data.domisili}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">${t.totalAttendees}</span>
+                            <span class="data-value">${qtyText}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">${t.eventDate}</span>
+                            <span class="data-value">${t.dateValue}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">${t.eventTime}</span>
+                            <span class="data-value">${t.timeValue}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">${t.location}</span>
+                            <span class="data-value">${t.locationValue}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i>
+                        ${t.instruction}
+                    </div>
+                    
+                    <div class="info-box warning ${downloadCount >= MAX_DOWNLOADS - 1 ? '' : 'hidden'}" id="downloadWarning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        ${t.downloadWarning}
+                    </div>
+                `;
+                
+                document.querySelector('.card-content').innerHTML = cardHTML;
+                
+                // Generate QR Code
+                generateQRCode(data);
+                
+                // Update action buttons
+                updateActionButtons(data);
+                
+                // Update additional info
+                updateAdditionalInfo();
+                
+                // Update footer
+                updateFooter();
+                
+                // Load download count
+                loadDownloadCount(data.id);
+            }
+            
+            /**
+             * Update action buttons
+             */
+            function updateActionButtons(data) {
+                const t = translations[currentLang];
+                const isDownloadDisabled = downloadCount >= MAX_DOWNLOADS;
+                
+                const buttonsHTML = `
+                    <button id="downloadBtn" class="btn ${isDownloadDisabled ? 'btn-warning' : 'btn-primary'}" 
+                            ${isDownloadDisabled ? 'disabled' : ''}>
+                        <i class="fas fa-download"></i>
+                        <span>${isDownloadDisabled ? t.downloadLimit : t.downloadBtn}</span>
+                    </button>
+                    <button id="shareBtn" class="btn btn-secondary">
+                        <i class="fas fa-share-alt"></i>
+                        <span>${t.shareBtn}</span>
+                    </button>
+                    <a href="${getFixedUrl('index.html')}" class="btn btn-secondary">
+                        <i class="fas fa-home"></i>
+                        <span>${t.homeBtn}</span>
+                    </a>
+                `;
+                
+                document.getElementById('actionButtons').innerHTML = buttonsHTML;
+                
+                // Add event listeners
+                document.getElementById('downloadBtn')?.addEventListener('click', () => downloadCard(data));
+                document.getElementById('shareBtn')?.addEventListener('click', () => shareCard(data));
+            }
+            
+            /**
+             * Update additional info
+             */
+            function updateAdditionalInfo() {
+                const t = translations[currentLang];
+                
+                const infoHTML = `
+                    <div class="info-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>${t.locationTitle}</h4>
+                            <p>${t.locationDetail}</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>${t.contactTitle}</h4>
+                            <p>${t.contactDetail}</p>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('additionalInfo').innerHTML = infoHTML;
+            }
+            
+            /**
+             * Update footer
+             */
+            function updateFooter() {
+                const t = translations[currentLang];
+                
+                const footerHTML = `
+                    <div>${t.copyright}</div>
+                    <div class="contact-info">
+                        <span>${t.contactInfo}</span>
+                        <a href="mailto:ibadurrahmanislamiccenter@gmail.com">
+                            ibadurrahmanislamiccenter@gmail.com
+                        </a>
+                    </div>
+                    <div class="prayer-message">
+                        <i class="fas fa-star-and-crescent"></i>
+                        <span>${t.prayerMessage}</span>
+                    </div>
+                `;
+                
+                document.getElementById('footerContent').innerHTML = footerHTML;
+            }
+            
+            /**
+             * Show "no data" state
+             */
+            function showNoDataState() {
+                const t = translations[currentLang];
+                
+                const cardHTML = `
+                    <div class="no-data-state">
+                        <div class="no-data-icon">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <h3 class="no-data-title">${t.noDataTitle}</h3>
+                        <p class="no-data-description">${t.noDataMessage}</p>
+                        <a href="${getFixedUrl('index.html')}" class="btn btn-primary" style="display: inline-flex; width: auto; padding: 0.75rem 2rem;">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>${t.registerNow}</span>
+                        </a>
+                    </div>
+                `;
+                
+                document.querySelector('.card-content').innerHTML = cardHTML;
+                
+                // Hide action buttons
+                document.getElementById('actionButtons').innerHTML = '';
+                
+                // Still show additional info and footer
+                updateAdditionalInfo();
+                updateFooter();
+            }
+            
+            // ============================================
+            // DOWNLOAD FUNCTIONALITY - FIXED
+            // ============================================
+            
+            /**
+             * Load download count from localStorage
+             */
+            function loadDownloadCount(registrationId) {
+                try {
+                    const savedData = localStorage.getItem(`registration_${registrationId}`);
+                    if (savedData) {
+                        const parsed = JSON.parse(savedData);
+                        downloadCount = parsed.downloadCount || 0;
+                    }
+                } catch (error) {
+                    console.error('Error loading download count:', error);
+                }
+            }
+            
+            /**
+             * Save download count to localStorage
+             */
+            function saveDownloadCount(registrationId) {
+                try {
+                    const savedData = localStorage.getItem(`registration_${registrationId}`);
+                    let data = savedData ? JSON.parse(savedData) : {};
+                    
+                    data.downloadCount = downloadCount;
+                    data.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 30 days
+                    
+                    localStorage.setItem(`registration_${registrationId}`, JSON.stringify(data));
+                    localStorage.setItem('lastRegistrationId', registrationId);
+                } catch (error) {
+                    console.error('Error saving download count:', error);
+                }
+            }
+            
+            /**
+             * Create premium card design for download
+             */
+            function createPremiumCardHTML(data) {
+                const t = translations[currentLang];
+                
+                // Format quantity
+                let qtyText = data.qty;
+                if (currentLang === 'id') qtyText += ' Orang';
+                else if (currentLang === 'en') qtyText += (data.qty === '1' ? ' Person' : ' People');
+                else qtyText += '名';
+                
+                return `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <style>
+                            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+                            
+                            * { margin: 0; padding: 0; box-sizing: border-box; }
+                            
+                            body {
+                                font-family: 'Poppins', sans-serif;
+                                margin: 0;
+                                padding: 40px;
+                                background: linear-gradient(135deg, #f8f0e0 0%, #e8d8b5 100%);
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                min-height: 100vh;
+                            }
+                            
+                            .premium-card {
+                                width: 800px;
+                                background: linear-gradient(135deg, 
+                                    rgba(255, 255, 255, 0.95) 0%,
+                                    rgba(255, 251, 235, 0.95) 100%);
+                                border: 20px solid transparent;
+                                border-image: linear-gradient(45deg, #d4af37, #ffd700, #d4af37) 1;
+                                border-radius: 30px;
+                                padding: 40px;
+                                position: relative;
+                                overflow: hidden;
+                                box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+                            }
+                            
+                            .card-bg {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                background: 
+                                    radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+                                    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+                                background-size: 40px 40px;
+                                z-index: 1;
+                            }
+                            
+                            .watermark {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%) rotate(-45deg);
+                                font-size: 60px;
+                                font-weight: bold;
+                                color: rgba(212, 175, 55, 0.08);
+                                white-space: nowrap;
+                                z-index: 2;
+                                letter-spacing: 20px;
+                                pointer-events: none;
+                            }
+                            
+                            .watermark span {
+                                display: inline-block;
+                                margin-right: 40px;
+                            }
+                            
+                            .card-content {
+                                position: relative;
+                                z-index: 3;
+                            }
+                            
+                            .header-section {
+                                text-align: center;
+                                margin-bottom: 40px;
+                                position: relative;
+                                padding-bottom: 20px;
+                            }
+                            
+                            .header-section::after {
+                                content: '';
+                                position: absolute;
+                                bottom: 0;
+                                left: 20%;
+                                right: 20%;
+                                height: 3px;
+                                background: linear-gradient(90deg, transparent, #d4af37, transparent);
+                            }
+                            
+                            .event-title {
+                                font-size: 32px;
+                                color: #0a5c5a;
+                                margin-bottom: 10px;
+                                font-weight: 700;
+                                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                            }
+                            
+                            .organization {
+                                font-size: 22px;
+                                color: #d4af37;
+                                font-weight: 600;
+                                margin-bottom: 5px;
+                            }
+                            
+                            .card-id {
+                                font-size: 18px;
+                                color: #666;
+                                background: linear-gradient(90deg, #f0e6c5, #fff9e6);
+                                padding: 8px 20px;
+                                border-radius: 20px;
+                                display: inline-block;
+                                border: 1px solid #d4af37;
+                            }
+                            
+                            .content-wrapper {
+                                display: flex;
+                                gap: 40px;
+                                margin-bottom: 40px;
+                            }
+                            
+                            .qr-section {
+                                flex: 1;
+                                text-align: center;
+                                background: white;
+                                padding: 20px;
+                                border-radius: 20px;
+                                border: 2px solid #d4af37;
+                                box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+                            }
+                            
+                            .qr-section img {
+                                width: 250px;
+                                height: 250px;
+                                margin: 0 auto;
+                                display: block;
+                            }
+                            
+                            .qr-label {
+                                margin-top: 15px;
+                                font-size: 14px;
+                                color: #666;
+                                font-weight: 500;
+                            }
+                            
+                            .details-section {
+                                flex: 2;
+                            }
+                            
+                            .attendee-name {
+                                font-size: 28px;
+                                color: #0a5c5a;
+                                margin-bottom: 30px;
+                                padding-bottom: 15px;
+                                border-bottom: 2px solid #d4af37;
+                            }
+                            
+                            .details-grid {
+                                display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                                gap: 20px;
+                            }
+                            
+                            .detail-item {
+                                margin-bottom: 15px;
+                            }
+                            
+                            .detail-label {
+                                font-size: 14px;
+                                color: #888;
+                                margin-bottom: 5px;
+                                font-weight: 500;
+                            }
+                            
+                            .detail-value {
+                                font-size: 16px;
+                                color: #333;
+                                font-weight: 600;
+                                padding: 8px 15px;
+                                background: linear-gradient(90deg, #f8f8f8, #ffffff);
+                                border-radius: 10px;
+                                border-left: 4px solid #d4af37;
+                            }
+                            
+                            .event-info {
+                                background: linear-gradient(135deg, #f0f9f8 0%, #e6f4f1 100%);
+                                border-radius: 15px;
+                                padding: 25px;
+                                margin-top: 30px;
+                                border-left: 5px solid #0a5c5a;
+                                display: grid;
+                                grid-template-columns: repeat(3, 1fr);
+                                gap: 20px;
+                            }
+                            
+                            .info-item {
+                                text-align: center;
+                            }
+                            
+                            .info-label {
+                                font-size: 14px;
+                                color: #666;
+                                margin-bottom: 5px;
+                            }
+                            
+                            .info-value {
+                                font-size: 16px;
+                                color: #0a5c5a;
+                                font-weight: 600;
+                            }
+                            
+                            .footer-note {
+                                text-align: center;
+                                margin-top: 30px;
+                                padding-top: 20px;
+                                border-top: 1px dashed #d4af37;
+                                color: #666;
+                                font-size: 14px;
+                                line-height: 1.6;
+                            }
+                            
+                            .gold-decoration {
+                                position: absolute;
+                                top: -10px;
+                                left: -10px;
+                                right: -10px;
+                                height: 10px;
+                                background: linear-gradient(90deg, 
+                                    #d4af37, #ffd700, #d4af37, #ffd700, #d4af37);
+                                border-radius: 10px 10px 0 0;
+                            }
+                            
+                            .gold-decoration.bottom {
+                                top: auto;
+                                bottom: -10px;
+                                border-radius: 0 0 10px 10px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="premium-card">
+                            <div class="gold-decoration"></div>
+                            <div class="gold-decoration bottom"></div>
+                            
+                            <div class="card-bg"></div>
+                            
+                            <div class="watermark">
+                                <span>✦</span>
+                                <span>MASJID CENTRAL OKAYAMA</span>
+                                <span>✦</span>
+                                <span>MASJID CENTRAL OKAYAMA</span>
+                                <span>✦</span>
+                            </div>
+                            
+                            <div class="card-content">
+                                <div class="header-section">
+                                    <h1 class="event-title">${t.eventTitle}</h1>
+                                    <div class="organization">${t.organization}</div>
+                                    <div class="card-id">ID REGISTRASI: ${data.id}</div>
+                                </div>
+                                
+                                <div class="content-wrapper">
+                                    <div class="qr-section">
+                                        <img src="${qrCodeImage}" alt="QR Code">
+                                        <div class="qr-label">${t.qrHint}</div>
+                                    </div>
+                                    
+                                    <div class="details-section">
+                                        <h2 class="attendee-name">${data.nama}</h2>
+                                        
+                                        <div class="details-grid">
+                                            <div class="detail-item">
+                                                <div class="detail-label">${t.email}</div>
+                                                <div class="detail-value">${data.email}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">${t.phone}</div>
+                                                <div class="detail-value">${data.phone}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">${t.domisili}</div>
+                                                <div class="detail-value">${data.domisili}</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">${t.totalAttendees}</div>
+                                                <div class="detail-value">${qtyText}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="event-info">
+                                    <div class="info-item">
+                                        <div class="info-label">${t.eventDate}</div>
+                                        <div class="info-value">${t.dateValue}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">${t.eventTime}</div>
+                                        <div class="info-value">${t.timeValue}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <div class="info-label">${t.location}</div>
+                                        <div class="info-value">${t.locationValue}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="footer-note">
+                                    <strong>${t.instruction}</strong><br>
+                                    ${t.prayerMessage}
+                                </div>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `;
+            }
+            
+            /**
+             * Download card as PNG - FIXED VERSION
+             */
+            async function downloadCard(data) {
+                if (isDownloading || downloadCount >= MAX_DOWNLOADS) return;
+                
+                const btn = document.getElementById('downloadBtn');
+                if (!btn) return;
+                
+                isDownloading = true;
+                const originalText = btn.innerHTML;
+                const t = translations[currentLang];
+                
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t.downloading}`;
+                showLoading(t.downloading);
+                
+                try {
+                    // Create a temporary iframe for rendering the premium card
+                    const iframe = document.createElement('iframe');
+                    iframe.style.position = 'absolute';
+                    iframe.style.left = '-9999px';
+                    iframe.style.top = '0';
+                    iframe.style.width = '800px';
+                    iframe.style.height = '1000px';
+                    iframe.style.border = 'none';
+                    
+                    document.body.appendChild(iframe);
+                    
+                    // Write the premium card HTML to iframe
+                    iframe.contentDocument.open();
+                    iframe.contentDocument.write(createPremiumCardHTML(data));
+                    iframe.contentDocument.close();
+                    
+                    // Wait for iframe to load
+                    await new Promise(resolve => {
+                        iframe.onload = resolve;
+                        setTimeout(resolve, 1000);
+                    });
+                    
+                    // Capture the iframe content
+                    const canvas = await html2canvas(iframe.contentDocument.body, {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: null,
+                        logging: false,
+                        width: 800,
+                        height: 1000
+                    });
+                    
+                    // Clean up
+                    document.body.removeChild(iframe);
+                    
+                    // Create download link
+                    const link = document.createElement('a');
+                    const fileName = `KARTU_IFTAR_PREMIUM_${data.id}.png`;
+                    
+                    link.href = canvas.toDataURL('image/png');
+                    link.download = fileName;
+                    
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // Update download count
+                    downloadCount++;
+                    saveDownloadCount(data.id);
+                    
+                    // Show success message
+                    showToast(`${t.downloadBtn} berhasil!`, 'success');
+                    
+                    // Update UI if at limit
+                    if (downloadCount >= MAX_DOWNLOADS) {
+                        const warning = document.getElementById('downloadWarning');
+                        if (warning) warning.classList.remove('hidden');
+                        updateActionButtons(data);
+                    }
+                    
+                } catch (error) {
+                    console.error('Download error:', error);
+                    showToast(t.downloadError, 'error');
+                    
+                } finally {
+                    // Reset button
+                    btn.innerHTML = originalText;
+                    btn.disabled = downloadCount >= MAX_DOWNLOADS;
+                    isDownloading = false;
+                    hideLoading();
+                }
+            }
+            
+            /**
+             * Share card functionality
+             */
+            async function shareCard(data) {
+                const t = translations[currentLang];
+                const shareData = {
+                    title: `${t.eventTitle} - ${data.id}`,
+                    text: `${t.title}\n${t.eventTitle}\n${t.fullName}: ${data.nama}\nID: ${data.id}`,
+                    url: window.location.href
+                };
+                
+                if (navigator.share && navigator.canShare(shareData)) {
+                    try {
+                        await navigator.share(shareData);
+                        showToast('Berhasil dibagikan!', 'success');
+                    } catch (error) {
+                        if (error.name !== 'AbortError') {
+                            copyToClipboard();
+                        }
+                    }
+                } else {
+                    copyToClipboard();
+                }
+                
+                function copyToClipboard() {
+                    const text = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
+                    
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast(t.copySuccess, 'success');
+                    }).catch(() => {
+                        showToast(t.shareError, 'error');
+                    });
+                }
+            }
+            
+            // ============================================
+            // INITIALIZATION
+            // ============================================
+            
+            /**
+             * Initialize the application with fixes
+             */
+            async function initializeApp() {
+                showLoading();
+                
+                try {
+                    // 1. Setup language
+                    currentLang = detectUserLanguage();
+                    updatePageContent();
+                    
+                    // 2. Check for registration data
+                    let data = extractDataFromURL();
+                    
+                    if (!data) {
+                        // Try localStorage with cleanup
+                        data = checkLocalStorage();
+                    }
+                    
+                    if (!data) {
+                        // No data found
+                        showNoDataState();
+                        hideLoading();
+                        return;
+                    }
+                    
+                    // 3. Clear any existing error state
+                    hideError();
+                    
+                    // 4. We have data - display it
+                    registrationData = data;
+                    displayRegistrationData(data);
+                    
+                    // 5. Setup event listeners
+                    setupEventListeners();
+                    
+                } catch (error) {
+                    console.error('App initialization error:', error);
+                    showError('Terjadi kesalahan. Silakan refresh halaman atau hubungi panitia.');
+                    
+                } finally {
+                    hideLoading();
+                }
+            }
+            
+            /**
+             * Setup event listeners
+             */
+            function setupEventListeners() {
+                // Language switcher
+                document.getElementById('langBtn')?.addEventListener('click', switchLanguage);
+                
+                // Online/offline detection
+                window.addEventListener('offline', () => {
+                    showToast('Anda sedang offline. Beberapa fitur mungkin tidak tersedia.', 'warning');
+                });
+                
+                window.addEventListener('online', () => {
+                    showToast('Koneksi internet telah pulih.', 'success');
+                });
+            }
+            
+            // ============================================
+            // PUBLIC API
+            // ============================================
+            return {
+                initialize: initializeApp,
+                switchLanguage: switchLanguage
+            };
+            
+        })();
+        
+        // ============================================
+        // START THE APPLICATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for required browser features
+            if (typeof Promise === 'undefined' || 
+                typeof localStorage === 'undefined' ||
+                typeof URLSearchParams === 'undefined') {
+                
+                document.getElementById('errorMessage').classList.remove('hidden');
+                document.getElementById('errorText').textContent = 
+                    'Browser Anda tidak mendukung fitur yang diperlukan. Silakan gunakan browser yang lebih baru.';
+                return;
+            }
+            
+            // Initialize the app
+            IftarApp.initialize();
+        });
+    </script>
 </body>
 </html>
