@@ -1,143 +1,2861 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Real-Time - OCM</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; margin: 0; background: #f1f5f9; color: #1e293b; }
-        .navbar { background: #064e3b; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
-        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
-        
-        /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: white; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; text-align: center; }
-        .stat-card i { font-size: 24px; color: #059669; margin-bottom: 10px; }
-        .stat-card h3 { margin: 5px 0; font-size: 28px; color: #0f172a; }
-        .stat-card p { margin: 0; color: #64748b; font-size: 13px; font-weight: 600; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard - Buka Puasa Bersama 1447 H</title>
 
-        /* Table */
-        .data-table { background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th { background: #f8fafc; padding: 15px; text-align: left; color: #64748b; border-bottom: 1px solid #e2e8f0; }
-        td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
-        .status-pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; }
-        .pill-hadir { background: #dcfce7; color: #15803d; }
-        .pill-belum { background: #fef2f2; color: #b91c1c; }
+<!-- Apps Script URL -->
+<meta name="api-url" content="https://script.google.com/macros/s/AKfycbzy_TjD19TuqCTNO5yTWBNZa7m9a_3_vriMK3qxWNqkVkgsGbKWPwpmAmu6mGOf-842zw/exec">
 
-        /* Login */
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #064e3b; z-index: 999; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: white; padding: 30px; border-radius: 20px; text-align: center; width: 300px; }
-        input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; text-align: center; }
-        button { width: 100%; padding: 12px; border-radius: 8px; border: none; background: #059669; color: white; font-weight: bold; cursor: pointer; }
-    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
+
+<style>
+/* CSS dengan tema konsisten */
+:root {
+  --accent-green: #10a37f;
+  --accent-green-dark: #0d8465;
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f0e6c5;
+  --accent-teal: #0f766e;
+  --accent-dark: #1e293b;
+  --accent-light: #f8fafc;
+  --danger: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f7f7f8 0%, #f0f9ff 100%);
+  color: var(--accent-dark);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ornament & Pattern */
+.ornament-top { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  height: 80px; 
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal)); 
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%); 
+  z-index: 1;
+  opacity: 0.65;
+}
+
+.ornament-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(135deg, var(--accent-teal), var(--accent-green));
+  clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+  z-index: 1;
+  opacity: 0.65;
+}
+
+.islamic-pattern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(16, 163, 127, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 0;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  display: none;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--accent-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Login Container */
+.login-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.login-box {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  position: relative;
+}
+
+.login-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-gold), var(--accent-teal));
+  border-radius: 20px 20px 0 0;
+}
+
+.login-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  box-shadow: 0 10px 20px rgba(16, 163, 127, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  color: var(--accent-dark);
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.login-subtitle {
+  color: #64748b;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--accent-teal);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+}
+
+.btn-login {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(16, 163, 127, 0.3);
+}
+
+.btn-login:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  color: var(--danger);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  display: none;
+  position: relative;
+  z-index: 1;
+}
+
+.login-footer {
+  margin-top: 1.5rem;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  display: none;
+  padding: 1rem;
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+/* Header Dashboard */
+.dashboard-header {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+}
+
+.header-left h1 {
+  color: var(--accent-teal);
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.header-left .subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-role {
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-logout {
+  background: white;
+  color: var(--accent-teal);
+  border: 2px solid var(--accent-teal);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-logout:hover {
+  background: var(--accent-teal);
+  color: white;
+}
+
+.last-update {
+  color: #64748b;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Stats Container */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.stat-icon.total { 
+  background: linear-gradient(135deg, var(--info), #2563eb); 
+}
+.stat-icon.present { 
+  background: linear-gradient(135deg, var(--success), #059669); 
+}
+.stat-icon.waiting { 
+  background: linear-gradient(135deg, var(--warning), #d97706); 
+}
+.stat-icon.total-people { 
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed); 
+}
+
+.stat-content h3 {
+  font-size: 2rem;
+  color: var(--accent-dark);
+  margin-bottom: 0.25rem;
+}
+
+.stat-content p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+.tab {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-contents {
+  margin-bottom: 2rem;
+}
+
+/* Scanner Section */
+.scanner-section {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.scanner-section h2 {
+  color: var(--accent-teal);
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scanner-section .subtitle {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.scanner-box {
+  text-align: center;
+}
+
+#videoContainer {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 1.5rem;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--accent-gold-light);
+}
+
+#video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.scanner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--accent-gold);
+  box-sizing: border-box;
+}
+
+.scanner-overlay::before,
+.scanner-overlay::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--accent-green);
+}
+
+.scanner-overlay::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.scanner-overlay::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.scanner-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary, .btn-tertiary, .btn-success, .btn-danger, .btn-refresh, .btn-export {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 120px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(16, 163, 127, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--accent-teal);
+  border: 2px solid var(--accent-teal);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--accent-teal);
+  color: white;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-tertiary {
+  background: var(--accent-gold-light);
+  color: var(--accent-dark);
+  border: 2px solid var(--accent-gold);
+}
+
+.btn-tertiary:hover {
+  background: var(--accent-gold);
+  color: white;
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-success:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: white;
+  color: var(--danger);
+  border: 2px solid var(--danger);
+}
+
+.btn-danger:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-refresh {
+  background: var(--info);
+  color: white;
+}
+
+.btn-refresh:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+.btn-export {
+  background: var(--accent-gold);
+  color: white;
+}
+
+.btn-export:hover {
+  background: #b5942d;
+  transform: translateY(-2px);
+}
+
+.scan-result {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--accent-light);
+  border-radius: 10px;
+  border-left: 4px solid var(--accent-gold);
+  display: none;
+}
+
+.scan-result h3 {
+  color: var(--accent-teal);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.participant-info {
+  margin-bottom: 1.5rem;
+}
+
+.info-row {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.text-success {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.text-warning {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+.alert {
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alert-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 3px solid var(--warning);
+  color: #92400e;
+}
+
+.alert-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 3px solid var(--danger);
+  color: #7f1d1d;
+}
+
+.scan-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Participants Section */
+.participants-section {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-header h2 {
+  color: var(--accent-teal);
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box i {
+  position: absolute;
+  left: 1rem;
+  color: #64748b;
+}
+
+.search-box input {
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  width: 250px;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background: var(--accent-light);
+  color: var(--accent-teal);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.data-table tr:hover {
+  background: #f8fafc;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.status-success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.text-muted {
+  color: #64748b;
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.btn-action {
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.btn-checkin {
+  background: var(--accent-green);
+  color: white;
+}
+
+.btn-checkin:hover:not(:disabled) {
+  background: var(--accent-green-dark);
+  transform: translateY(-1px);
+}
+
+.btn-checkin:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-view {
+  background: var(--info);
+  color: white;
+}
+
+.btn-view:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: var(--accent-light);
+  border-color: var(--accent-green);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.total-info {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Analytics Section */
+.analytics-section {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.analytics-section h2 {
+  color: var(--accent-teal);
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.chart-card h3 {
+  color: var(--accent-dark);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.analytics-summary {
+  background: var(--accent-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.analytics-summary h3 {
+  color: var(--accent-dark);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-item .label {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.summary-item .value {
+  color: var(--accent-dark);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Settings Section */
+.settings-section {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.settings-section h2 {
+  color: var(--accent-teal);
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.settings-card {
+  background: var(--accent-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.settings-card h3 {
+  color: var(--accent-dark);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.setting-item {
+  margin-bottom: 1.5rem;
+}
+
+.setting-item:last-child {
+  margin-bottom: 0;
+}
+
+.setting-item label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--accent-dark);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.setting-item input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.setting-item input:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 163, 127, 0.3);
+}
+
+/* Footer Dashboard */
+.dashboard-footer {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.footer-content p {
+  margin-bottom: 0.5rem;
+  color: #64748b;
+}
+
+.prayer-message {
+  font-style: italic;
+  color: var(--accent-teal);
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.system-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  color: #64748b;
+  font-size: 0.8rem;
+  flex-wrap: wrap;
+}
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  padding: 12px 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+  animation: slideIn 0.3s ease;
+  max-width: 300px;
+}
+
+.notification-success {
+  border-left: 4px solid #10b981;
+  color: #065f46;
+}
+
+.notification-error {
+  border-left: 4px solid #ef4444;
+  color: #7f1d1d;
+}
+
+.notification-info {
+  border-left: 4px solid #3b82f6;
+  color: #1e40af;
+}
+
+.notification-warning {
+  border-left: 4px solid #f59e0b;
+  color: #92400e;
+}
+
+.fade-out {
+  animation: slideOut 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .header-right {
+    align-items: center;
+  }
+  
+  .tabs {
+    flex-wrap: wrap;
+  }
+  
+  .tab {
+    min-width: calc(50% - 0.5rem);
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .header-actions {
+    justify-content: center;
+  }
+  
+  .search-box input {
+    width: 100%;
+  }
+  
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .table-footer {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .system-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .scanner-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .scan-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .tab {
+    min-width: 100%;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
 </head>
 <body>
 
-<div id="login-overlay">
-    <div class="login-box">
-        <h3>Admin Dashboard</h3>
-        <input type="password" id="pass" placeholder="Password Admin">
-        <button onclick="login()">Buka Dashboard</button>
-    </div>
+<div class="ornament-top"></div>
+<div class="ornament-bottom"></div>
+<div class="islamic-pattern"></div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <p id="loadingText">Memuat sistem...</p>
 </div>
 
-<div class="navbar">
-    <span style="font-weight: 800; font-size: 18px;">🕌 Pantau Peserta Bukber 2026</span>
-    <button onclick="loadData()" style="background:rgba(255,255,255,0.2); border:none; color:white; padding:5px 12px; border-radius:5px; cursor:pointer;">
-        <i class="fas fa-sync-alt"></i> Refresh
+<!-- Login Container -->
+<div class="login-container" id="loginContainer">
+  <div class="login-box">
+    <div class="login-icon">
+      <i class="fas fa-lock"></i>
+    </div>
+    <h1 class="login-title">Admin Dashboard</h1>
+    <p class="login-subtitle">Akses terbatas untuk panitia dan pengelola acara</p>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username"><i class="fas fa-user"></i> Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
+      </div>
+      
+      <button type="submit" class="btn-login" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i> Masuk ke Dashboard
+      </button>
+      
+      <div class="error-message" id="loginError" style="display: none;">
+        <i class="fas fa-exclamation-circle"></i> Username atau password salah
+      </div>
+    </form>
+    
+    <div class="login-footer">
+      <p><i class="fas fa-info-circle"></i> Hubungi administrator jika lupa password</p>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard Container -->
+<div class="dashboard-container" id="dashboardContainer" style="display: none;">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="header-left">
+      <h1><i class="fas fa-mosque"></i> Dashboard Admin Buka Puasa Bersama</h1>
+      <p class="subtitle">Sistem monitoring kehadiran jamaah real-time</p>
+    </div>
+    <div class="header-right">
+      <div class="user-info">
+        <span class="user-role" id="userRole">Admin</span>
+        <button class="btn-logout" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+      <div class="last-update" id="lastUpdate">
+        <i class="fas fa-sync-alt"></i> Terakhir update: <span id="updateTime">-</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stats Cards -->
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-icon total">
+        <i class="fas fa-users"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="totalRegistered">0</h3>
+        <p>Total Pendaftar</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon present">
+        <i class="fas fa-user-check"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="totalPresent">0</h3>
+        <p>Sudah Hadir</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon waiting">
+        <i class="fas fa-user-clock"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="totalWaiting">0</h3>
+        <p>Belum Hadir</p>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon total-people">
+        <i class="fas fa-user-friends"></i>
+      </div>
+      <div class="stat-content">
+        <h3 id="totalPeople">0</h3>
+        <p>Total Jamaah</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="scanner">
+      <i class="fas fa-qrcode"></i> QR Scanner
     </button>
-</div>
-
-<div class="container">
-    <div class="stats-grid">
-        <div class="stat-card">
-            <i class="fas fa-users"></i>
-            <h3 id="stat-total-pendaftar">0</h3>
-            <p>TOTAL GRUP/KELUARGA</p>
+    <button class="tab" data-tab="participants">
+      <i class="fas fa-list"></i> Daftar Jamaah
+    </button>
+    <button class="tab" data-tab="analytics">
+      <i class="fas fa-chart-bar"></i> Analisis
+    </button>
+    <button class="tab" data-tab="settings">
+      <i class="fas fa-cog"></i> Pengaturan
+    </button>
+  </div>
+  
+  <!-- Tab Contents -->
+  <div class="tab-contents">
+    <!-- Scanner Tab -->
+    <div class="tab-content active" id="scannerTab">
+      <div class="scanner-section">
+        <h2><i class="fas fa-qrcode"></i> QR Code Scanner</h2>
+        <p class="subtitle">Arahkan kamera ke QR Code pada kartu akses jamaah</p>
+        
+        <div class="scanner-box">
+          <div id="videoContainer">
+            <video id="video" width="400" height="300" playsinline></video>
+            <div class="scanner-overlay"></div>
+          </div>
+          
+          <div class="scanner-controls">
+            <button id="startScanner" class="btn-primary">
+              <i class="fas fa-play"></i> Mulai Scan
+            </button>
+            <button id="stopScanner" class="btn-secondary" disabled>
+              <i class="fas fa-stop"></i> Stop Scan
+            </button>
+            <button id="manualCheckin" class="btn-tertiary">
+              <i class="fas fa-keyboard"></i> Check-in Manual
+            </button>
+          </div>
         </div>
-        <div class="stat-card">
-            <i class="fas fa-user-check"></i>
-            <h3 id="stat-total-hadir">0</h3>
-            <p>GRUP SUDAH SCAN</p>
+        
+        <div class="scan-result" id="scanResult" style="display: none;">
+          <h3><i class="fas fa-check-circle"></i> Hasil Scan</h3>
+          <div id="scanResultContent"></div>
+          <div class="scan-actions">
+            <button id="confirmCheckin" class="btn-success">
+              <i class="fas fa-user-check"></i> Konfirmasi Check-in
+            </button>
+            <button id="cancelCheckin" class="btn-danger">
+              <i class="fas fa-times"></i> Batal
+            </button>
+          </div>
         </div>
-        <div class="stat-card" style="border-bottom: 4px solid #dc2626;">
-            <i class="fas fa-user-clock" style="color: #dc2626;"></i>
-            <h3 id="stat-belum-hadir" style="color: #dc2626;">0</h3>
-            <p>JEMAAH BELUM SCAN</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-mosque"></i>
-            <h3 id="stat-total-orang">0</h3>
-            <p>HADIR / TOTAL (ORANG)</p>
-        </div>
+      </div>
     </div>
-
-    <h4 style="margin-bottom: 15px;">Aktivitas Kehadiran Terbaru</h4>
-    <div class="data-table">
-        <table>
+    
+    <!-- Participants Tab -->
+    <div class="tab-content" id="participantsTab">
+      <div class="participants-section">
+        <div class="section-header">
+          <h2><i class="fas fa-users"></i> Daftar Jamaah Terdaftar</h2>
+          <div class="header-actions">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="searchInput" placeholder="Cari nama atau ID...">
+            </div>
+            <button id="refreshBtn" class="btn-refresh">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+            <button id="exportBtn" class="btn-export">
+              <i class="fas fa-download"></i> Export
+            </button>
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table class="data-table">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nama Lengkap</th>
-                    <th>Pax</th>
-                    <th>Status</th>
-                    <th>Waktu</th>
-                </tr>
+              <tr>
+                <th>ID Registrasi</th>
+                <th>Nama Lengkap</th>
+                <th>No. Telepon</th>
+                <th>Domisili</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Waktu Check-in</th>
+                <th>Aksi</th>
+              </tr>
             </thead>
-            <tbody id="table-body">
+            <tbody id="participantsTableBody">
+              <!-- Data akan diisi oleh JavaScript -->
             </tbody>
-        </table>
+          </table>
+        </div>
+        
+        <div class="table-footer">
+          <div class="pagination">
+            <button id="prevPage" disabled><i class="fas fa-chevron-left"></i></button>
+            <span id="pageInfo">Halaman 1 dari 1</span>
+            <button id="nextPage" disabled><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <div class="total-info">
+            Total: <span id="tableTotal">0</span> pendaftar
+          </div>
+        </div>
+      </div>
     </div>
+    
+    <!-- Analytics Tab -->
+    <div class="tab-content" id="analyticsTab">
+      <div class="analytics-section">
+        <h2><i class="fas fa-chart-bar"></i> Analisis Kehadiran</h2>
+        
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3><i class="fas fa-chart-pie"></i> Status Kehadiran</h3>
+            <canvas id="attendanceChart"></canvas>
+          </div>
+          
+          <div class="chart-card">
+            <h3><i class="fas fa-chart-line"></i> Timeline Pendaftaran</h3>
+            <canvas id="registrationChart"></canvas>
+          </div>
+          
+          <div class="chart-card">
+            <h3><i class="fas fa-map-marker-alt"></i> Distribusi Domisili</h3>
+            <canvas id="locationChart"></canvas>
+          </div>
+          
+          <div class="chart-card">
+            <h3><i class="fas fa-venus-mars"></i> Rasio Gender</h3>
+            <canvas id="genderChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="analytics-summary">
+          <h3><i class="fas fa-info-circle"></i> Ringkasan Statistik</h3>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <span class="label">Rata-rata Usia</span>
+              <span class="value" id="avgAge">0</span>
+            </div>
+            <div class="summary-item">
+              <span class="label">Domisili Terbanyak</span>
+              <span class="value" id="topLocation">-</span>
+            </div>
+            <div class="summary-item">
+              <span class="label">Check-in Terakhir</span>
+              <span class="value" id="lastCheckin">-</span>
+            </div>
+            <div class="summary-item">
+              <span class="label">Pendaftar Hari Ini</span>
+              <span class="value" id="todayReg">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Settings Tab -->
+    <div class="tab-content" id="settingsTab">
+      <div class="settings-section">
+        <h2><i class="fas fa-cog"></i> Pengaturan Sistem</h2>
+        
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h3><i class="fas fa-user-shield"></i> Keamanan</h3>
+            <div class="setting-item">
+              <label>Ganti Password Admin</label>
+              <input type="password" id="newPassword" placeholder="Password baru">
+              <button class="btn-small" id="savePasswordBtn">Simpan</button>
+            </div>
+          </div>
+          
+          <div class="settings-card">
+            <h3><i class="fas fa-bell"></i> Notifikasi</h3>
+            <div class="setting-item">
+              <label>Email Notifikasi</label>
+              <input type="email" id="notificationEmail" placeholder="email@contoh.com">
+              <button class="btn-small" id="saveEmailBtn">Simpan</button>
+            </div>
+          </div>
+          
+          <div class="settings-card">
+            <h3><i class="fas fa-database"></i> Data</h3>
+            <div class="setting-item">
+              <label>Backup Data</label>
+              <button class="btn-small" id="backupBtn">
+                <i class="fas fa-download"></i> Backup ke Excel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="dashboard-footer">
+    <div class="footer-content">
+      <p>© 2026 Masjid Central Okayama • Sistem Pendataan Buka Puasa Bersama</p>
+      <p class="prayer-message">
+        <i class="fas fa-star-and-crescent"></i>
+        Semoga Allah memberkahi setiap amal kebaikan kita
+      </p>
+      <div class="system-info">
+        <span id="systemStatus"><i class="fas fa-circle" style="color: #10a37f;"></i> Sistem Online</span>
+        •
+        <span id="dataCount">0 data tersimpan</span>
+        •
+        <span id="serverTime">-</span>
+      </div>
+    </div>
+  </footer>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPkR_q_IqtrgdFJdyTLrBYvb2AAvjAHR5rZdGv1ptzWElUo27PttQKYD1q1ceL9FLI/exec"; 
-    const PASS_ADMIN = "mco2026";
+// ============================================
+// KONFIGURASI SISTEM
+// ============================================
 
-    function login() {
-        if(document.getElementById("pass").value === PASS_ADMIN) {
-            document.getElementById("login-overlay").style.display = "none";
-            loadData();
-            setInterval(loadData, 30000); // Auto refresh setiap 30 detik
+const API_URL = "https://script.google.com/macros/s/AKfycbzy_TjD19TuqCTNO5yTWBNZa7m9a_3_vriMK3qxWNqkVkgsGbKWPwpmAmu6mGOf-842zw/exec";
+
+// DEBUG: Log API URL saat inisialisasi
+console.log('🔧 System Configuration Loaded');
+console.log('🌐 API URL configured:', API_URL);
+
+// Data login yang valid - PERBAIKAN 2
+const validCredentials = {
+  admin: {
+    username: 'admin',
+    password: 'admin123', // Password yang lebih mudah diingat
+    role: 'Administrator'
+  },
+  panitia: {
+    username: 'panitia',
+    password: 'panitia123',
+    role: 'Panitia'
+  }
+};
+
+// State aplikasi
+let currentUser = null;
+let scannerActive = false;
+let videoStream = null;
+let currentScannerData = null;
+let participantsData = [];
+let currentPage = 1;
+const itemsPerPage = 10;
+
+// Charts
+let attendanceChart = null;
+let registrationChart = null;
+let locationChart = null;
+let genderChart = null;
+
+// ============================================
+// LOGGING DEBUG!
+// ============================================
+console.log('🟢 Admin Dashboard System Initialized');
+console.log('🔗 API URL:', API_URL);
+console.log('👤 Valid Users:', Object.keys(validCredentials));
+console.log('💾 Session Storage:', sessionStorage.getItem('iftar_admin_user'));
+
+// ============================================
+// FUNGSI UTILITAS
+// ============================================
+
+// Format waktu
+function formatTime(date = new Date()) {
+  return date.toLocaleTimeString('id-ID', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
+
+// Format tanggal
+function formatDate(date = new Date()) {
+  return date.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// Update waktu terakhir update
+function updateLastUpdateTime() {
+  const timeStr = formatTime(new Date());
+  document.getElementById('updateTime').textContent = timeStr;
+}
+
+// Update waktu server
+function updateServerTime() {
+  const timeStr = formatTime(new Date());
+  document.getElementById('serverTime').textContent = timeStr;
+}
+
+// Tampilkan loading overlay
+function showLoading(text = 'Memuat data...') {
+  const overlay = document.getElementById('loadingOverlay');
+  const textElement = document.getElementById('loadingText');
+  textElement.textContent = text;
+  overlay.style.display = 'flex';
+}
+
+// Sembunyikan loading overlay
+function hideLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  overlay.style.display = 'none';
+}
+
+// ============================================
+// FUNGSI LOGIN
+// ============================================
+
+// Setup event listeners untuk login
+function setupLoginListeners() {
+  const loginForm = document.getElementById('loginForm');
+  const loginBtn = document.getElementById('loginBtn');
+  
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    handleLogin();
+  });
+  
+  // Enter key untuk submit
+  document.getElementById('password').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  });
+}
+
+// PERBAIKAN 1: Fungsi handleLogin yang diperbaiki
+async function handleLogin() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const errorElement = document.getElementById('loginError');
+  
+  console.log('🔐 Login attempt for user:', username);
+  
+  // Validasi input
+  if (!username || !password) {
+    showError('Harap isi username dan password');
+    return;
+  }
+  
+  // Tampilkan loading
+  const loginBtn = document.getElementById('loginBtn');
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+  
+  // Simulasi proses login
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  // Cek credentials
+  let authenticated = false;
+  let userData = null;
+  
+  for (const [key, cred] of Object.entries(validCredentials)) {
+    if (cred.username === username && cred.password === password) {
+      authenticated = true;
+      userData = cred;
+      break;
+    }
+  }
+  
+  if (authenticated) {
+    // Login berhasil
+    currentUser = {
+      username: userData.username,
+      role: userData.role,
+      loginTime: new Date().toISOString()
+    };
+    
+    // Simpan ke session storage
+    sessionStorage.setItem('iftar_admin_user', JSON.stringify(currentUser));
+    
+    // Redirect ke dashboard
+    showDashboard();
+    
+    // Reset form
+    document.getElementById('loginForm').reset();
+    
+  } else {
+    // Login gagal
+    showError('Username atau password salah');
+    
+    // Shake effect
+    const loginBox = document.querySelector('.login-box');
+    loginBox.style.animation = 'shake 0.5s';
+    setTimeout(() => {
+      loginBox.style.animation = '';
+    }, 500);
+  }
+  
+  // Reset button
+  loginBtn.disabled = false;
+  loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk ke Dashboard';
+}
+
+function showError(message) {
+  const errorElement = document.getElementById('loginError');
+  errorElement.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+  errorElement.style.display = 'block';
+}
+
+function showLogin() {
+  document.getElementById('loginContainer').style.display = 'flex';
+  document.getElementById('dashboardContainer').style.display = 'none';
+}
+
+// ============================================
+// FUNGSI DASHBOARD
+// ============================================
+
+async function showDashboard() {
+  document.getElementById('loginContainer').style.display = 'none';
+  document.getElementById('dashboardContainer').style.display = 'block';
+  
+  // Update UI berdasarkan role
+  updateUIForRole();
+  
+  // Load data awal
+  showLoading('Memuat data dashboard...');
+  await loadDashboardData();
+  hideLoading();
+  
+  // Setup tabs
+  setupTabs();
+  
+  // Setup scanner
+  setupScanner();
+  
+  // Setup event listeners
+  setupDashboardListeners();
+  
+  // Update waktu server
+  updateServerTime();
+  setInterval(updateServerTime, 1000);
+  
+  // Setup auto refresh
+  startAutoRefresh();
+}
+
+function updateUIForRole() {
+  const roleElement = document.getElementById('userRole');
+  roleElement.textContent = currentUser.role;
+  
+  // Sembunyikan/munculkan fitur berdasarkan role
+  if (currentUser.role === 'Panitia') {
+    document.querySelector('[data-tab="settings"]').style.display = 'none';
+  } else {
+    document.querySelector('[data-tab="settings"]').style.display = 'flex';
+  }
+}
+
+function setupDashboardListeners() {
+  // Logout button
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    if (confirm('Apakah Anda yakin ingin logout?')) {
+      // Stop scanner if active
+      if (scannerActive) {
+        stopScanner();
+      }
+      
+      // Clear session
+      sessionStorage.removeItem('iftar_admin_user');
+      currentUser = null;
+      
+      // Show login
+      showLogin();
+    }
+  });
+  
+  // Refresh button
+  document.getElementById('refreshBtn').addEventListener('click', async function() {
+    const btn = this;
+    const originalHtml = btn.innerHTML;
+    
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
+    
+    await loadDashboardData();
+    
+    btn.innerHTML = originalHtml;
+    btn.disabled = false;
+    
+    showNotification('Data diperbarui', 'success');
+  });
+  
+  // Export button
+  document.getElementById('exportBtn').addEventListener('click', exportData);
+  
+  // Search functionality
+  document.getElementById('searchInput').addEventListener('input', function() {
+    currentPage = 1;
+    updateParticipantsTable();
+  });
+  
+  // Pagination
+  document.getElementById('prevPage').addEventListener('click', function() {
+    if (currentPage > 1) {
+      currentPage--;
+      updateParticipantsTable();
+    }
+  });
+  
+  document.getElementById('nextPage').addEventListener('click', function() {
+    const totalPages = Math.ceil(participantsData.length / itemsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      updateParticipantsTable();
+    }
+  });
+  
+  // Settings buttons
+  document.getElementById('savePasswordBtn').addEventListener('click', savePassword);
+  document.getElementById('saveEmailBtn').addEventListener('click', saveEmail);
+  document.getElementById('backupBtn').addEventListener('click', backupData);
+}
+
+// ============================================
+// FUNGSI DATA PESERTA
+// ============================================
+
+async function loadDashboardData() {
+  try {
+    // Load participants data
+    await loadParticipants();
+    
+    // Update stats
+    updateStats();
+    
+    // Update table
+    updateParticipantsTable();
+    
+    // Update charts
+    updateCharts();
+    
+    // Update last update time
+    updateLastUpdateTime();
+    
+  } catch (error) {
+    console.error('Error loading dashboard data:', error);
+    showNotification('Gagal memuat data', 'error');
+  }
+}
+
+async function loadParticipants() {
+  try {
+    showLoading('Memuat data peserta...');
+    
+    console.log('Fetching participants from:', API_URL);
+    console.log('📥 Loading participants data...');
+    const response = await fetch(`${API_URL}?action=get_participants`);
+    const result = await response.json();
+    
+    console.log('API Response:', result);
+    
+    if (result.success && result.participants) {
+      participantsData = result.participants.map(participant => ({
+        id: participant.id || participant.ID || '-',
+        nama: participant.name || participant.nama || participant.Nama || '-',
+        phone: participant.phone || participant.no_hp || participant.Phone || '-',
+        domisili: participant.domisili || participant.Domisili || 'Tidak diketahui',
+        total: parseInt(participant.total) || parseInt(participant.Total) || 1,
+        status: participant.status || participant.Status || 'Menunggu',
+        checkin_time: participant.checkin_time || participant['Check-in Time'] || '-',
+        usia: participant.usia || participant.Usia || '-',
+        gender: participant.gender || participant.jk || participant.Gender || '-'
+      }));
+      
+      console.log('Participants loaded:', participantsData.length);
+      showNotification('Data peserta berhasil dimuat', 'success');
+    } else {
+      console.error('Gagal mengambil data peserta:', result.error);
+      showNotification('Gagal mengambil data peserta', 'error');
+      participantsData = [];
+    }
+  } catch (error) {
+    console.error('Error fetching participants:', error);
+    showNotification('Gagal menghubungi server', 'error');
+    participantsData = [];
+  } finally {
+    hideLoading();
+  }
+}
+
+function updateStats() {
+  const total = participantsData.length;
+  const present = participantsData.filter(p => p.status === 'Hadir').length;
+  const waiting = total - present;
+  const totalPeople = participantsData.reduce((sum, p) => sum + (parseInt(p.total) || 1), 0);
+  
+  console.log('Stats updated - Total:', total, 'Present:', present, 'Waiting:', waiting, 'Total People:', totalPeople);
+  
+  document.getElementById('totalRegistered').textContent = total;
+  document.getElementById('totalPresent').textContent = present;
+  document.getElementById('totalWaiting').textContent = waiting;
+  document.getElementById('totalPeople').textContent = totalPeople;
+  document.getElementById('dataCount').textContent = `${total} data tersimpan`;
+}
+
+function updateParticipantsTable() {
+  const tableBody = document.getElementById('participantsTableBody');
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  
+  // Filter data
+  const filteredData = participantsData.filter(p =>
+    p.nama.toLowerCase().includes(searchTerm) ||
+    p.id.toLowerCase().includes(searchTerm) ||
+    p.domisili.toLowerCase().includes(searchTerm)
+  );
+  
+  // Pagination
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const pageData = filteredData.slice(startIndex, endIndex);
+  
+  // Clear table
+  tableBody.innerHTML = '';
+  
+  // Add rows
+  pageData.forEach(participant => {
+    const row = document.createElement('tr');
+    
+    // Status badge
+    const statusClass = participant.status === 'Hadir' ? 'status-success' : 'status-warning';
+    const statusIcon = participant.status === 'Hadir' ? 'fa-check-circle' : 'fa-clock';
+    
+    row.innerHTML = `
+      <td><strong>${participant.id}</strong></td>
+      <td>${participant.nama}</td>
+      <td>${participant.phone}</td>
+      <td>${participant.domisili}</td>
+      <td>${participant.total} orang</td>
+      <td><span class="status-badge ${statusClass}"><i class="fas ${statusIcon}"></i> ${participant.status}</span></td>
+      <td>${participant.checkin_time || '-'}</td>
+      <td class="actions">
+        ${participant.status !== 'Hadir' ? 
+          `<button class="btn-action btn-checkin" onclick="manualCheckin('${participant.id}')">
+            <i class="fas fa-user-check"></i> Check-in
+          </button>` : 
+          '<span class="text-muted"><i class="fas fa-check"></i> Selesai</span>'
+        }
+        <button class="btn-action btn-view" onclick="viewParticipant('${participant.id}')">
+          <i class="fas fa-eye"></i>
+        </button>
+      </td>
+    `;
+    
+    tableBody.appendChild(row);
+  });
+  
+  // Update pagination info
+  document.getElementById('pageInfo').textContent = `Halaman ${currentPage} dari ${totalPages}`;
+  document.getElementById('tableTotal').textContent = filteredData.length;
+  
+  // Update pagination buttons
+  document.getElementById('prevPage').disabled = currentPage === 1;
+  document.getElementById('nextPage').disabled = currentPage === totalPages || totalPages === 0;
+}
+
+// ============================================
+// FUNGSI SCANNER QR
+// ============================================
+
+function setupScanner() {
+  const startBtn = document.getElementById('startScanner');
+  const stopBtn = document.getElementById('stopScanner');
+  const manualBtn = document.getElementById('manualCheckin');
+  
+  startBtn.addEventListener('click', startScanner);
+  stopBtn.addEventListener('click', stopScanner);
+  manualBtn.addEventListener('click', showManualCheckin);
+  
+  // Confirm check-in button
+  document.getElementById('confirmCheckin').addEventListener('click', confirmCheckin);
+  document.getElementById('cancelCheckin').addEventListener('click', cancelCheckin);
+}
+
+async function startScanner() {
+  if (scannerActive) return;
+  
+  try {
+    // Request camera access
+    videoStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment' }
+    });
+    
+    const video = document.getElementById('video');
+    video.srcObject = videoStream;
+    
+    // Set active state
+    scannerActive = true;
+    document.getElementById('startScanner').disabled = true;
+    document.getElementById('stopScanner').disabled = false;
+    
+    // Start scanning loop
+    scanQRCode();
+    
+    showNotification('Scanner aktif', 'info');
+    
+  } catch (error) {
+    console.error('Camera error:', error);
+    showNotification('Tidak dapat mengakses kamera', 'error');
+  }
+}
+
+function stopScanner() {
+  if (!scannerActive) return;
+  
+  // Stop video stream
+  if (videoStream) {
+    videoStream.getTracks().forEach(track => track.stop());
+    videoStream = null;
+  }
+  
+  // Reset scanner state
+  scannerActive = false;
+  document.getElementById('startScanner').disabled = false;
+  document.getElementById('stopScanner').disabled = true;
+  
+  // Hide result
+  document.getElementById('scanResult').style.display = 'none';
+  
+  showNotification('Scanner dihentikan', 'info');
+}
+
+function scanQRCode() {
+  if (!scannerActive) return;
+  
+  const video = document.getElementById('video');
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  
+  // Set canvas size
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  
+  // Draw video frame
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+  // Get image data
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  
+  // Scan for QR code
+  const code = jsQR(imageData.data, imageData.width, imageData.height);
+  
+  if (code) {
+    // QR code found
+    handleScannedQR(code.data);
+    return;
+  }
+  
+  // Continue scanning
+  requestAnimationFrame(scanQRCode);
+}
+
+// PERBAIKAN 5: Fungsi handleScannedQR yang diperbaiki
+function handleScannedQR(data) {
+  try {
+    // Bersihkan data QR
+    const cleanData = data.trim();
+    console.log("QR Code scanned:", cleanData);
+    
+    // Cari di cache lokal dulu
+    const cachedParticipant = participantsData.find(p => p.id === cleanData);
+    
+    if (cachedParticipant) {
+      console.log("Found in cache:", cachedParticipant);
+      showScanResult(cachedParticipant);
+      return;
+    }
+    
+    // Jika tidak ditemukan di cache, fetch dari server
+    fetchParticipantById(cleanData);
+    
+  } catch (error) {
+    console.error('QR parse error:', error);
+    showScanError('QR Code tidak valid');
+  }
+}
+
+async function fetchParticipantById(id) {
+  showLoading('Mencari data jamaah...');
+  
+  try {
+    console.log('Fetching participant by ID:', id);
+    const response = await fetch(`${API_URL}?action=get_participant&id=${encodeURIComponent(id)}`);
+    const result = await response.json();
+    
+    console.log('Fetch result:', result);
+    
+    if (result.success && result.participant) {
+      // Format data peserta
+      const participant = {
+        id: result.participant.id || result.participant.ID || id,
+        nama: result.participant.name || result.participant.nama || result.participant.Nama || 'Tidak diketahui',
+        phone: result.participant.phone || result.participant.no_hp || result.participant.Phone || '-',
+        domisili: result.participant.domisili || result.participant.Domisili || 'Tidak diketahui',
+        total: parseInt(result.participant.total) || parseInt(result.participant.Total) || 1,
+        status: result.participant.status || result.participant.Status || 'Menunggu',
+        checkin_time: result.participant.checkin_time || result.participant['Check-in Time'] || '-',
+        usia: result.participant.usia || result.participant.Usia || '-',
+        gender: result.participant.gender || result.participant.jk || result.participant.Gender || '-'
+      };
+      
+      // Tambahkan ke cache jika belum ada
+      const exists = participantsData.find(p => p.id === id);
+      if (!exists) {
+        participantsData.push(participant);
+      }
+      
+      currentScannerData = {
+        ...participant,
+        scannedAt: new Date().toLocaleString('id-ID')
+      };
+      
+      showScanResult(participant);
+    } else {
+      showScanError('Data jamaah tidak ditemukan di sistem');
+    }
+  } catch (error) {
+    console.error('Error fetching participant:', error);
+    showScanError('Gagal menghubungi server');
+  } finally {
+    hideLoading();
+  }
+}
+
+function showScanResult(participant) {
+  const resultDiv = document.getElementById('scanResult');
+  const contentDiv = document.getElementById('scanResultContent');
+  
+  const isPresent = participant.status === 'Hadir';
+  
+  contentDiv.innerHTML = `
+    <div class="participant-info">
+      <div class="info-row">
+        <strong>ID:</strong> ${participant.id}
+      </div>
+      <div class="info-row">
+        <strong>Nama:</strong> ${participant.nama}
+      </div>
+      <div class="info-row">
+        <strong>Telepon:</strong> ${participant.phone}
+      </div>
+      <div class="info-row">
+        <strong>Jumlah:</strong> ${participant.total} orang
+      </div>
+      <div class="info-row">
+        <strong>Status:</strong> 
+        <span class="${isPresent ? 'text-success' : 'text-warning'}">
+          <i class="fas ${isPresent ? 'fa-check-circle' : 'fa-clock'}"></i>
+          ${isPresent ? 'Sudah Check-in' : 'Belum Check-in'}
+        </span>
+      </div>
+      ${isPresent ? `
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          Jamaah ini sudah check-in pada ${participant.checkin_time}
+        </div>
+      ` : `
+        <div class="alert alert-success">
+          <i class="fas fa-check-circle"></i>
+          Jamaah ditemukan. Klik "Konfirmasi Check-in" untuk menandai kehadiran.
+        </div>
+      `}
+    </div>
+  `;
+  
+  resultDiv.style.display = 'block';
+  
+  // Auto-hide setelah 15 detik jika tidak ada aksi
+  setTimeout(() => {
+    if (scannerActive && document.getElementById('scanResult').style.display !== 'none') {
+      cancelCheckin();
+    }
+  }, 15000);
+}
+
+function showScanError(message) {
+  const resultDiv = document.getElementById('scanResult');
+  const contentDiv = document.getElementById('scanResultContent');
+  
+  contentDiv.innerHTML = `
+    <div class="alert alert-danger">
+      <i class="fas fa-exclamation-circle"></i>
+      ${message}
+    </div>
+    <div class="hint" style="margin-top: 10px; text-align: center;">
+      <i class="fas fa-lightbulb"></i>
+      Pastikan QR Code dari halaman success.html
+    </div>
+  `;
+  
+  resultDiv.style.display = 'block';
+  
+  // Auto-hide setelah 5 detik
+  setTimeout(() => {
+    cancelCheckin();
+  }, 5000);
+}
+
+async function confirmCheckin() {
+  if (!currentScannerData) return;
+  
+  showLoading('Memproses check-in...');
+  
+  try {
+    const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(currentScannerData.id)}`);
+    const result = await response.json();
+    
+    console.log('Check-in response:', result);
+    
+    if (result.success) {
+      // Update data lokal
+      const index = participantsData.findIndex(p => p.id === currentScannerData.id);
+      if (index !== -1) {
+        participantsData[index].status = 'Hadir';
+        participantsData[index].checkin_time = result.checkin_time || new Date().toLocaleString('id-ID');
+      } else {
+        // Jika tidak ada di cache, tambahkan
+        participantsData.push({
+          ...currentScannerData,
+          status: 'Hadir',
+          checkin_time: result.checkin_time || new Date().toLocaleString('id-ID')
+        });
+      }
+      
+      // Update UI
+      updateStats();
+      updateParticipantsTable();
+      updateCharts();
+      
+      // Tampilkan notifikasi sukses
+      showNotification(`Check-in berhasil untuk ${currentScannerData.nama}`, 'success');
+      
+      // Reset scanner
+      cancelCheckin();
+      
+      // Auto restart scanner setelah 2 detik
+      setTimeout(() => {
+        if (!scannerActive && document.getElementById('scannerTab').classList.contains('active')) {
+          startScanner();
+        }
+      }, 2000);
+    } else {
+      showNotification('Gagal melakukan check-in: ' + (result.error || 'Unknown error'), 'error');
+    }
+  } catch (error) {
+    console.error('Check-in error:', error);
+    showNotification('Gagal menghubungi server', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+function cancelCheckin() {
+  currentScannerData = null;
+  document.getElementById('scanResult').style.display = 'none';
+}
+
+function showManualCheckin() {
+  const regId = prompt('Masukkan ID Registrasi Jamaah:');
+  if (regId) {
+    // Cari peserta
+    const participant = participantsData.find(p => p.id === regId);
+    if (participant) {
+      currentScannerData = participant;
+      showScanResult(participant);
+    } else {
+      alert('ID Registrasi tidak ditemukan');
+    }
+  }
+}
+
+// ============================================
+// FUNGSI CHART
+// ============================================
+
+function updateCharts() {
+  updateAttendanceChart();
+  updateRegistrationChart();
+  updateLocationChart();
+  updateGenderChart();
+  updateAnalyticsSummary();
+}
+
+function updateAttendanceChart() {
+  const ctx = document.getElementById('attendanceChart').getContext('2d');
+  const present = participantsData.filter(p => p.status === 'Hadir').length;
+  const waiting = participantsData.length - present;
+  
+  if (attendanceChart) {
+    attendanceChart.destroy();
+  }
+  
+  attendanceChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Sudah Hadir', 'Belum Hadir'],
+      datasets: [{
+        data: [present, waiting],
+        backgroundColor: ['#10b981', '#f59e0b'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { 
+          position: 'bottom',
+          labels: {
+            padding: 20
+          }
+        }
+      }
+    }
+  });
+}
+
+function updateRegistrationChart() {
+  // Hitung pendaftaran per hari
+  const registrationData = {};
+  participantsData.forEach(p => {
+    // Asumsi data memiliki tanggal pendaftaran
+    // Jika tidak ada, gunakan tanggal default
+    const date = 'Hari ini'; // Ini hanya contoh, sesuaikan dengan data sebenarnya
+    
+    if (!registrationData[date]) {
+      registrationData[date] = 0;
+    }
+    registrationData[date]++;
+  });
+  
+  const ctx = document.getElementById('registrationChart').getContext('2d');
+  
+  if (registrationChart) {
+    registrationChart.destroy();
+  }
+  
+  registrationChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: Object.keys(registrationData),
+      datasets: [{
+        label: 'Pendaftaran',
+        data: Object.values(registrationData),
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        borderColor: '#3b82f6',
+        borderWidth: 2,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      }
+    }
+  });
+}
+
+function updateLocationChart() {
+  // Hitung distribusi domisili
+  const locationData = {};
+  participantsData.forEach(p => {
+    const location = p.domisili || 'Tidak diketahui';
+    if (!locationData[location]) {
+      locationData[location] = 0;
+    }
+    locationData[location]++;
+  });
+  
+  // Ambil 5 lokasi terbanyak
+  const sortedLocations = Object.entries(locationData)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+  
+  const ctx = document.getElementById('locationChart').getContext('2d');
+  
+  if (locationChart) {
+    locationChart.destroy();
+  }
+  
+  locationChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: sortedLocations.map(item => item[0]),
+      datasets: [{
+        label: 'Jumlah Jamaah',
+        data: sortedLocations.map(item => item[1]),
+        backgroundColor: [
+          'rgba(16, 163, 127, 0.7)',
+          'rgba(59, 130, 246, 0.7)',
+          'rgba(245, 158, 11, 0.7)',
+          'rgba(139, 92, 246, 0.7)',
+          'rgba(236, 72, 153, 0.7)'
+        ],
+        borderColor: [
+          '#10a37f',
+          '#3b82f6',
+          '#f59e0b',
+          '#8b5cf6',
+          '#ec4899'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      }
+    }
+  });
+}
+
+function updateGenderChart() {
+  // Hitung distribusi gender
+  const genderData = {
+    'Laki-laki': 0,
+    'Perempuan': 0,
+    'Tidak diketahui': 0
+  };
+  
+  participantsData.forEach(p => {
+    const gender = p.gender || 'Tidak diketahui';
+    if (genderData[gender] !== undefined) {
+      genderData[gender]++;
+    } else {
+      genderData['Tidak diketahui']++;
+    }
+  });
+  
+  const ctx = document.getElementById('genderChart').getContext('2d');
+  
+  if (genderChart) {
+    genderChart.destroy();
+  }
+  
+  genderChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(genderData),
+      datasets: [{
+        data: Object.values(genderData),
+        backgroundColor: ['#3b82f6', '#ec4899', '#64748b'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { 
+          position: 'bottom',
+          labels: {
+            padding: 20
+          }
+        }
+      }
+    }
+  });
+}
+
+function updateAnalyticsSummary() {
+  // Hitung rata-rata usia
+  const ages = participantsData
+    .filter(p => p.usia && !isNaN(p.usia))
+    .map(p => parseInt(p.usia));
+  
+  const avgAge = ages.length > 0 ? 
+    Math.round(ages.reduce((a, b) => a + b, 0) / ages.length) : 0;
+  
+  document.getElementById('avgAge').textContent = avgAge + ' tahun';
+  
+  // Hitung domisili terbanyak
+  const locationCounts = {};
+  participantsData.forEach(p => {
+    const location = p.domisili || 'Tidak diketahui';
+    locationCounts[location] = (locationCounts[location] || 0) + 1;
+  });
+  
+  const topLocation = Object.entries(locationCounts)
+    .sort((a, b) => b[1] - a[1])[0];
+  
+  document.getElementById('topLocation').textContent = topLocation ? 
+    `${topLocation[0]} (${topLocation[1]} orang)` : '-';
+  
+  // Check-in terakhir
+  const checkins = participantsData
+    .filter(p => p.status === 'Hadir' && p.checkin_time !== '-')
+    .map(p => new Date(p.checkin_time))
+    .filter(date => !isNaN(date.getTime()));
+  
+  const lastCheckin = checkins.length > 0 ? 
+    new Date(Math.max(...checkins)).toLocaleString('id-ID') : '-';
+  
+  document.getElementById('lastCheckin').textContent = lastCheckin;
+  
+  // Pendaftar hari ini (contoh)
+  const today = new Date().toLocaleDateString('id-ID');
+  const todayReg = participantsData.filter(p => {
+    // Asumsi ada field registrationDate
+    // Untuk saat ini, kita hitung semua sebagai hari ini
+    return true;
+  }).length;
+  
+  document.getElementById('todayReg').textContent = todayReg + ' orang';
+}
+
+// ============================================
+// FUNGSI LAINNYA
+// ============================================
+
+function setupTabs() {
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.tab-content');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tabId = tab.dataset.tab;
+      
+      // Update active tab
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      
+      // Show corresponding content
+      contents.forEach(content => {
+        content.classList.remove('active');
+        if (content.id === tabId + 'Tab') {
+          content.classList.add('active');
+        }
+      });
+      
+      // Handle scanner tab
+      if (tabId === 'scanner') {
+        if (!scannerActive) {
+          startScanner();
+        }
+      } else if (scannerActive) {
+        stopScanner();
+      }
+    });
+  });
+}
+
+function startAutoRefresh() {
+  // Auto refresh setiap 30 detik
+  setInterval(async () => {
+    if (currentUser) {
+      await loadDashboardData();
+    }
+  }, 30000);
+}
+
+// Manual checkin function (used in table)
+async function manualCheckin(participantId) {
+  const participant = participantsData.find(p => p.id === participantId);
+  if (participant) {
+    if (confirm(`Check-in ${participant.nama}?`)) {
+      showLoading('Memproses check-in...');
+      
+      try {
+        const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(participantId)}`);
+        const result = await response.json();
+        
+        if (result.success) {
+          // Update status
+          participant.status = 'Hadir';
+          participant.checkin_time = new Date().toLocaleString('id-ID');
+          
+          // Update UI
+          updateStats();
+          updateParticipantsTable();
+          updateCharts();
+          
+          showNotification(`Check-in berhasil untuk ${participant.nama}`, 'success');
         } else {
-            alert("Password Salah");
+          showNotification('Gagal melakukan check-in: ' + result.error, 'error');
         }
+      } catch (error) {
+        showNotification('Gagal menghubungi server', 'error');
+      } finally {
+        hideLoading();
+      }
     }
+  }
+}
 
-    async function loadData() {
-        try {
-            const res = await fetch(`${SCRIPT_URL}?action=getList`);
-            const json = await res.json();
-            
-            // Update Stats
-            document.getElementById("stat-total-pendaftar").innerText = json.totalPendaftar;
-            document.getElementById("stat-total-hadir").innerText = json.totalHadir;
-            document.getElementById("stat-belum-hadir").innerText = json.belumHadir; // Data grup belum hadir
-            document.getElementById("stat-total-orang").innerText = json.totalOrangHadir + " / " + json.totalOrangPendaftar;
+// View participant details
+function viewParticipant(participantId) {
+  const participant = participantsData.find(p => p.id === participantId);
+  if (participant) {
+    alert(`Detail Jamaah:\n\nID: ${participant.id}\nNama: ${participant.nama}\nTelepon: ${participant.phone}\nDomisili: ${participant.domisili}\nTotal: ${participant.total} orang\nStatus: ${participant.status}\nCheck-in: ${participant.checkin_time || 'Belum'}`);
+  }
+}
 
-            // Update Table
-            const tbody = document.getElementById("table-body");
-            tbody.innerHTML = "";
-            
-            json.data.forEach(row => {
-                const tr = document.createElement("tr");
-                const statusClass = row[9] === "Sudah Hadir" ? "pill-hadir" : "pill-belum";
-                tr.innerHTML = `
-                    <td><small>${row[0]}</small></td>
-                    <td><b>${row[2]}</b></td>
-                    <td>${row[8]}</td>
-                    <td><span class="status-pill ${statusClass}">${row[9]}</span></td>
-                    <td><small>${row[10] || '-'}</small></td>
-                `;
-                tbody.appendChild(tr);
-            });
-        } catch (e) {
-            console.log("Gagal memuat data");
-        }
+// Export function
+function exportData() {
+  // Create CSV data
+  const headers = ['ID', 'Nama', 'Telepon', 'Domisili', 'Total', 'Status', 'Check-in Time'];
+  const csvData = [
+    headers.join(','),
+    ...participantsData.map(p => [
+      p.id,
+      `"${p.nama}"`,
+      p.phone,
+      `"${p.domisili}"`,
+      p.total,
+      p.status,
+      p.checkin_time || '-'
+    ].join(','))
+  ].join('\n');
+  
+  // Create download link
+  const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `data-jamaah-${new Date().toISOString().split('T')[0]}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  showNotification('Data berhasil diexport', 'success');
+}
+
+// Settings functions
+function savePassword() {
+  const newPassword = document.getElementById('newPassword').value;
+  if (newPassword) {
+    // Simpan password (dalam implementasi nyata, ini akan dikirim ke server)
+    showNotification('Password berhasil diperbarui', 'success');
+    document.getElementById('newPassword').value = '';
+  } else {
+    showNotification('Harap masukkan password baru', 'warning');
+  }
+}
+
+function saveEmail() {
+  const email = document.getElementById('notificationEmail').value;
+  if (email && email.includes('@')) {
+    // Simpan email (dalam implementasi nyata, ini akan dikirim ke server)
+    showNotification('Email notifikasi berhasil diperbarui', 'success');
+  } else {
+    showNotification('Harap masukkan email yang valid', 'warning');
+  }
+}
+
+function backupData() {
+  // Backup data ke Excel
+  exportData(); // Untuk sementara, gunakan fungsi export yang sama
+}
+
+// ============================================
+// FUNGSI NOTIFIKASI
+// ============================================
+
+function showNotification(message, type = 'info') {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  
+  let icon = 'info-circle';
+  switch(type) {
+    case 'success': icon = 'check-circle'; break;
+    case 'error': icon = 'exclamation-circle'; break;
+    case 'warning': icon = 'exclamation-triangle'; break;
+  }
+  
+  notification.innerHTML = `
+    <i class="fas fa-${icon}"></i>
+    <span>${message}</span>
+  `;
+  
+  // Add to document
+  document.body.appendChild(notification);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.classList.add('fade-out');
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
+
+// ============================================
+// INISIALISASI
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  // ============================================
+  // DEBUG LOGGING - SEMUA DALAM SATU TEMPAT
+  // ============================================
+  
+  // System info
+  console.log('🟢 ============================================');
+  console.log('🟢 ADMIN DASHBOARD SYSTEM INITIALIZED');
+  console.log('🟢 ============================================');
+  console.log('📅 Date:', new Date().toLocaleDateString());
+  console.log('⏰ Time:', new Date().toLocaleTimeString());
+  console.log('🌐 API URL:', API_URL);
+  console.log('🔐 Available Users:', Object.keys(validCredentials));
+  
+  // Session check
+  const savedUser = sessionStorage.getItem('iftar_admin_user');
+  console.log('💾 Session Storage Check:', savedUser ? 'User found' : 'No user found');
+  
+  if (savedUser) {
+    try {
+      currentUser = JSON.parse(savedUser);
+      console.log('✅ AUTO-LOGIN SUCCESS');
+      console.log('   👤 Username:', currentUser.username);
+      console.log('   🎯 Role:', currentUser.role);
+      console.log('   🕐 Login Time:', currentUser.loginTime ? new Date(currentUser.loginTime).toLocaleString() : 'N/A');
+      
+      showDashboard();
+      
+    } catch (e) {
+      console.error('❌ AUTO-LOGIN FAILED');
+      console.error('   Error:', e.message);
+      sessionStorage.removeItem('iftar_admin_user');
+      showLogin();
     }
+  } else {
+    console.log('👋 Showing login form (no saved session)');
+    showLogin();
+  }
+  
+  // Setup event listeners untuk login
+  setupLoginListeners();
+  
+  // Browser info (bonus)
+  console.log('🌍 Browser:', navigator.userAgent);
+  console.log('📱 Screen:', window.screen.width + 'x' + window.screen.height);
+  console.log('🔋 Online:', navigator.onLine);
+});
+
 </script>
-
 </body>
 </html>
