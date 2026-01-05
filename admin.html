@@ -489,12 +489,14 @@ body {
   border-radius: 10px;
   overflow: hidden;
   border: 2px solid var(--accent-gold-light);
+  background-color: #000;
 }
 
 #video {
   width: 100%;
   height: auto;
   display: block;
+  transform: scaleX(-1); /* Mirror untuk tampilan lebih natural */
 }
 
 .scanner-overlay {
@@ -1465,8 +1467,6 @@ body {
               <tr>
                 <th>ID Registrasi</th>
                 <th>Nama Lengkap</th>
-                <th>No. Telepon</th>
-                <th>Domisili</th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Waktu Check-in</th>
@@ -1607,21 +1607,19 @@ body {
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyFwWCu4SzL6re7bwuSg1myRSS3y4yiPddpNgGE8bz7WPEmdVDpUWhq2S4xcOlsvqQ/exec";
 
-// DEBUG: Log API URL saat inisialisasi
-console.log('🔧 System Configuration Loaded');
-console.log('🌐 API URL configured:', API_URL);
-
-// Data login yang valid - PERBAIKAN 2
+// Data login yang valid dengan role berbeda
 const validCredentials = {
   admin: {
     username: 'admin',
-    password: 'admin123', // Password yang lebih mudah diingat
-    role: 'Administrator'
+    password: 'admin123',
+    role: 'Administrator',
+    permissions: ['scanner', 'participants', 'analytics', 'settings']
   },
   panitia: {
     username: 'panitia',
     password: 'panitia123',
-    role: 'Panitia'
+    role: 'Panitia',
+    permissions: ['scanner'] // Panitia hanya bisa akses scanner
   }
 };
 
@@ -1640,13 +1638,9 @@ let registrationChart = null;
 let locationChart = null;
 let genderChart = null;
 
-// ============================================
-// LOGGING DEBUG!
-// ============================================
-console.log('🟢 Admin Dashboard System Initialized');
-console.log('🔗 API URL:', API_URL);
-console.log('👤 Valid Users:', Object.keys(validCredentials));
-console.log('💾 Session Storage:', sessionStorage.getItem('iftar_admin_user'));
+// Audio Context untuk efek suara
+let audioContext = null;
+let audioBuffers = {};
 
 // ============================================
 // FUNGSI UTILITAS
@@ -1697,6 +1691,58 @@ function hideLoading() {
   overlay.style.display = 'none';
 }
 
+// Inisialisasi audio untuk efek suara
+function initAudio() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Buat beep suara untuk berbagai kondisi
+    audioBuffers = {
+      success: createBeepBuffer(800, 0.3),
+      error: createBeepBuffer(400, 0.5),
+      warning: createBeepBuffer(600, 0.4),
+      scan: createBeepBuffer(1000, 0.2)
+    };
+  }
+}
+
+// Buat buffer beep untuk efek suara
+function createBeepBuffer(frequency, duration) {
+  if (!audioContext) return null;
+  
+  const sampleRate = audioContext.sampleRate;
+  const buffer = audioContext.createBuffer(1, sampleRate * duration, sampleRate);
+  const data = buffer.getChannelData(0);
+  
+  for (let i = 0; i < data.length; i++) {
+    data[i] = Math.sin(2 * Math.PI * frequency * i / sampleRate) * 0.5;
+    
+    // Fade out untuk menghindari popping
+    if (i > sampleRate * duration * 0.8) {
+      data[i] *= (1 - (i - sampleRate * duration * 0.8) / (sampleRate * duration * 0.2));
+    }
+  }
+  
+  return buffer;
+}
+
+// Mainkan efek suara
+function playSound(type) {
+  if (!audioContext || !audioBuffers[type]) {
+    console.warn('Audio tidak tersedia untuk:', type);
+    return;
+  }
+  
+  try {
+    const source = audioContext.createBufferSource();
+    source.buffer = audioBuffers[type];
+    source.connect(audioContext.destination);
+    source.start();
+  } catch (error) {
+    console.error('Gagal memainkan suara:', error);
+  }
+}
+
 // ============================================
 // FUNGSI LOGIN
 // ============================================
@@ -1719,7 +1765,6 @@ function setupLoginListeners() {
   });
 }
 
-// PERBAIKAN 1: Fungsi handleLogin yang diperbaiki
 async function handleLogin() {
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;
@@ -1739,7 +1784,7 @@ async function handleLogin() {
   loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
   
   // Simulasi proses login
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise(resolve => setTimeout(resolve, 800));
   
   // Cek credentials
   let authenticated = false;
@@ -1758,6 +1803,7 @@ async function handleLogin() {
     currentUser = {
       username: userData.username,
       role: userData.role,
+      permissions: userData.permissions,
       loginTime: new Date().toISOString()
     };
     
@@ -1773,6 +1819,7 @@ async function handleLogin() {
   } else {
     // Login gagal
     showError('Username atau password salah');
+    playSound('error');
     
     // Shake effect
     const loginBox = document.querySelector('.login-box');
@@ -1806,6 +1853,9 @@ async function showDashboard() {
   document.getElementById('loginContainer').style.display = 'none';
   document.getElementById('dashboardContainer').style.display = 'block';
   
+  // Inisialisasi audio
+  initAudio();
+  
   // Update UI berdasarkan role
   updateUIForRole();
   
@@ -1814,7 +1864,7 @@ async function showDashboard() {
   await loadDashboardData();
   hideLoading();
   
-  // Setup tabs
+  // Setup tabs berdasarkan permission
   setupTabs();
   
   // Setup scanner
@@ -1827,19 +1877,28 @@ async function showDashboard() {
   updateServerTime();
   setInterval(updateServerTime, 1000);
   
-  // Setup auto refresh
-  startAutoRefresh();
+  // Setup auto refresh (120 detik / 2 menit - waktu ideal)
+  startAutoRefresh(120000);
 }
 
 function updateUIForRole() {
   const roleElement = document.getElementById('userRole');
   roleElement.textContent = currentUser.role;
   
-  // Sembunyikan/munculkan fitur berdasarkan role
-  if (currentUser.role === 'Panitia') {
-    document.querySelector('[data-tab="settings"]').style.display = 'none';
-  } else {
-    document.querySelector('[data-tab="settings"]').style.display = 'flex';
+  // Sembunyikan/munculkan tab berdasarkan permissions
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab => {
+    const tabName = tab.dataset.tab;
+    if (currentUser.permissions.includes(tabName)) {
+      tab.style.display = 'flex';
+    } else {
+      tab.style.display = 'none';
+    }
+  });
+  
+  // Jika scanner adalah satu-satunya permission, aktifkan tab scanner
+  if (currentUser.permissions.length === 1 && currentUser.permissions[0] === 'scanner') {
+    document.querySelector('[data-tab="scanner"]').click();
   }
 }
 
@@ -1875,9 +1934,10 @@ function setupDashboardListeners() {
     btn.disabled = false;
     
     showNotification('Data diperbarui', 'success');
+    playSound('success');
   });
   
-  // Export button
+  // Export button (hanya untuk admin)
   document.getElementById('exportBtn').addEventListener('click', exportData);
   
   // Search functionality
@@ -1902,7 +1962,7 @@ function setupDashboardListeners() {
     }
   });
   
-  // Settings buttons
+  // Settings buttons (hanya untuk admin)
   document.getElementById('savePasswordBtn').addEventListener('click', savePassword);
   document.getElementById('saveEmailBtn').addEventListener('click', saveEmail);
   document.getElementById('backupBtn').addEventListener('click', backupData);
@@ -1920,11 +1980,15 @@ async function loadDashboardData() {
     // Update stats
     updateStats();
     
-    // Update table
-    updateParticipantsTable();
+    // Update table hanya jika user memiliki permission
+    if (currentUser.permissions.includes('participants')) {
+      updateParticipantsTable();
+    }
     
-    // Update charts
-    updateCharts();
+    // Update charts hanya jika user memiliki permission
+    if (currentUser.permissions.includes('analytics')) {
+      updateCharts();
+    }
     
     // Update last update time
     updateLastUpdateTime();
@@ -1932,6 +1996,7 @@ async function loadDashboardData() {
   } catch (error) {
     console.error('Error loading dashboard data:', error);
     showNotification('Gagal memuat data', 'error');
+    playSound('error');
   }
 }
 
@@ -1940,8 +2005,7 @@ async function loadParticipants() {
     showLoading('Memuat data peserta...');
     
     console.log('Fetching participants from:', API_URL);
-    console.log('📥 Loading participants data...');
-    const response = await fetch(`${API_URL}?action=get_participants`);
+    const response = await fetch(`${API_URL}?action=get_participants&_t=${new Date().getTime()}`);
     const result = await response.json();
     
     console.log('API Response:', result);
@@ -1951,24 +2015,29 @@ async function loadParticipants() {
         id: participant.id || participant.ID || '-',
         nama: participant.name || participant.nama || participant.Nama || '-',
         phone: participant.phone || participant.no_hp || participant.Phone || '-',
+        email: participant.email || participant.Email || '-',
         domisili: participant.domisili || participant.Domisili || 'Tidak diketahui',
         total: parseInt(participant.total) || parseInt(participant.Total) || 1,
         status: participant.status || participant.Status || 'Menunggu',
         checkin_time: participant.checkin_time || participant['Check-in Time'] || '-',
         usia: participant.usia || participant.Usia || '-',
-        gender: participant.gender || participant.jk || participant.Gender || '-'
+        gender: participant.gender || participant.jk || participant.Gender || '-',
+        registration_date: participant.registration_date || participant['Registration Date'] || '-'
       }));
       
       console.log('Participants loaded:', participantsData.length);
       showNotification('Data peserta berhasil dimuat', 'success');
+      playSound('success');
     } else {
       console.error('Gagal mengambil data peserta:', result.error);
       showNotification('Gagal mengambil data peserta', 'error');
+      playSound('error');
       participantsData = [];
     }
   } catch (error) {
     console.error('Error fetching participants:', error);
     showNotification('Gagal menghubungi server', 'error');
+    playSound('error');
     participantsData = [];
   } finally {
     hideLoading();
@@ -2018,11 +2087,11 @@ function updateParticipantsTable() {
     const statusClass = participant.status === 'Hadir' ? 'status-success' : 'status-warning';
     const statusIcon = participant.status === 'Hadir' ? 'fa-check-circle' : 'fa-clock';
     
+    // Tampilkan data berdasarkan role
+    // Panitia tidak boleh melihat nomor telepon dan email
     row.innerHTML = `
       <td><strong>${participant.id}</strong></td>
       <td>${participant.nama}</td>
-      <td>${participant.phone}</td>
-      <td>${participant.domisili}</td>
       <td>${participant.total} orang</td>
       <td><span class="status-badge ${statusClass}"><i class="fas ${statusIcon}"></i> ${participant.status}</span></td>
       <td>${participant.checkin_time || '-'}</td>
@@ -2033,9 +2102,11 @@ function updateParticipantsTable() {
           </button>` : 
           '<span class="text-muted"><i class="fas fa-check"></i> Selesai</span>'
         }
-        <button class="btn-action btn-view" onclick="viewParticipant('${participant.id}')">
-          <i class="fas fa-eye"></i>
-        </button>
+        ${currentUser.role === 'Administrator' ? 
+          `<button class="btn-action btn-view" onclick="viewParticipant('${participant.id}')">
+            <i class="fas fa-eye"></i>
+          </button>` : ''
+        }
       </td>
     `;
     
@@ -2052,7 +2123,7 @@ function updateParticipantsTable() {
 }
 
 // ============================================
-// FUNGSI SCANNER QR
+// FUNGSI SCANNER QR - PERBAIKAN BUG KAMERA
 // ============================================
 
 function setupScanner() {
@@ -2073,13 +2144,27 @@ async function startScanner() {
   if (scannerActive) return;
   
   try {
-    // Request camera access
-    videoStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment' }
-    });
+    // Request camera access dengan konfigurasi yang lebih baik
+    const constraints = {
+      video: { 
+        facingMode: 'environment',
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      }
+    };
+    
+    videoStream = await navigator.mediaDevices.getUserMedia(constraints);
     
     const video = document.getElementById('video');
     video.srcObject = videoStream;
+    
+    // Tunggu hingga video siap
+    await new Promise((resolve) => {
+      video.onloadedmetadata = () => {
+        video.play();
+        resolve();
+      };
+    });
     
     // Set active state
     scannerActive = true;
@@ -2090,10 +2175,43 @@ async function startScanner() {
     scanQRCode();
     
     showNotification('Scanner aktif', 'info');
+    playSound('scan');
     
   } catch (error) {
     console.error('Camera error:', error);
-    showNotification('Tidak dapat mengakses kamera', 'error');
+    showNotification('Tidak dapat mengakses kamera: ' + error.message, 'error');
+    playSound('error');
+    
+    // Coba dengan konfigurasi yang lebih sederhana
+    try {
+      showNotification('Mencoba kamera depan...', 'warning');
+      const fallbackConstraints = {
+        video: { facingMode: 'user' }
+      };
+      
+      videoStream = await navigator.mediaDevices.getUserMedia(fallbackConstraints);
+      const video = document.getElementById('video');
+      video.srcObject = videoStream;
+      
+      await new Promise((resolve) => {
+        video.onloadedmetadata = () => {
+          video.play();
+          resolve();
+        };
+      });
+      
+      scannerActive = true;
+      document.getElementById('startScanner').disabled = true;
+      document.getElementById('stopScanner').disabled = false;
+      scanQRCode();
+      
+      showNotification('Scanner aktif (kamera depan)', 'info');
+      playSound('scan');
+      
+    } catch (fallbackError) {
+      console.error('Fallback camera error:', fallbackError);
+      showNotification('Gagal mengakses kamera. Pastikan izin kamera diberikan.', 'error');
+    }
   }
 }
 
@@ -2102,7 +2220,9 @@ function stopScanner() {
   
   // Stop video stream
   if (videoStream) {
-    videoStream.getTracks().forEach(track => track.stop());
+    videoStream.getTracks().forEach(track => {
+      track.stop();
+    });
     videoStream = null;
   }
   
@@ -2121,44 +2241,62 @@ function scanQRCode() {
   if (!scannerActive) return;
   
   const video = document.getElementById('video');
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
   
-  // Set canvas size
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  
-  // Draw video frame
-  context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  
-  // Get image data
-  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-  
-  // Scan for QR code
-  const code = jsQR(imageData.data, imageData.width, imageData.height);
-  
-  if (code) {
-    // QR code found
-    handleScannedQR(code.data);
-    return;
+  // Pastikan video siap
+  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    
+    // Set canvas size sesuai video
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    
+    // Gambar video frame ke canvas
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Ambil image data
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    
+    // Coba scan QR code
+    try {
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: 'dontInvert',
+      });
+      
+      if (code) {
+        // QR code ditemukan
+        console.log('QR Code found:', code.data);
+        handleScannedQR(code.data);
+        return;
+      }
+    } catch (error) {
+      console.error('QR scan error:', error);
+    }
   }
   
-  // Continue scanning
-  requestAnimationFrame(scanQRCode);
+  // Lanjutkan scanning jika masih aktif
+  if (scannerActive) {
+    requestAnimationFrame(scanQRCode);
+  }
 }
 
-// PERBAIKAN 5: Fungsi handleScannedQR yang diperbaiki
 function handleScannedQR(data) {
   try {
     // Bersihkan data QR
     const cleanData = data.trim();
     console.log("QR Code scanned:", cleanData);
     
+    // Hentikan scanner sementara
+    if (scannerActive) {
+      stopScanner();
+    }
+    
     // Cari di cache lokal dulu
     const cachedParticipant = participantsData.find(p => p.id === cleanData);
     
     if (cachedParticipant) {
       console.log("Found in cache:", cachedParticipant);
+      playSound('scan');
       showScanResult(cachedParticipant);
       return;
     }
@@ -2169,6 +2307,7 @@ function handleScannedQR(data) {
   } catch (error) {
     console.error('QR parse error:', error);
     showScanError('QR Code tidak valid');
+    playSound('error');
   }
 }
 
@@ -2177,7 +2316,7 @@ async function fetchParticipantById(id) {
   
   try {
     console.log('Fetching participant by ID:', id);
-    const response = await fetch(`${API_URL}?action=get_participant&id=${encodeURIComponent(id)}`);
+    const response = await fetch(`${API_URL}?action=get_participant&id=${encodeURIComponent(id)}&_t=${new Date().getTime()}`);
     const result = await response.json();
     
     console.log('Fetch result:', result);
@@ -2188,6 +2327,7 @@ async function fetchParticipantById(id) {
         id: result.participant.id || result.participant.ID || id,
         nama: result.participant.name || result.participant.nama || result.participant.Nama || 'Tidak diketahui',
         phone: result.participant.phone || result.participant.no_hp || result.participant.Phone || '-',
+        email: result.participant.email || result.participant.Email || '-',
         domisili: result.participant.domisili || result.participant.Domisili || 'Tidak diketahui',
         total: parseInt(result.participant.total) || parseInt(result.participant.Total) || 1,
         status: result.participant.status || result.participant.Status || 'Menunggu',
@@ -2207,12 +2347,15 @@ async function fetchParticipantById(id) {
         scannedAt: new Date().toLocaleString('id-ID')
       };
       
+      playSound('success');
       showScanResult(participant);
     } else {
+      playSound('error');
       showScanError('Data jamaah tidak ditemukan di sistem');
     }
   } catch (error) {
     console.error('Error fetching participant:', error);
+    playSound('error');
     showScanError('Gagal menghubungi server');
   } finally {
     hideLoading();
@@ -2225,8 +2368,11 @@ function showScanResult(participant) {
   
   const isPresent = participant.status === 'Hadir';
   
-  contentDiv.innerHTML = `
-    <div class="participant-info">
+  // Tampilkan data berdasarkan role
+  let participantInfo = '';
+  
+  if (currentUser.role === 'Administrator') {
+    participantInfo = `
       <div class="info-row">
         <strong>ID:</strong> ${participant.id}
       </div>
@@ -2237,8 +2383,30 @@ function showScanResult(participant) {
         <strong>Telepon:</strong> ${participant.phone}
       </div>
       <div class="info-row">
+        <strong>Email:</strong> ${participant.email || '-'}
+      </div>
+      <div class="info-row">
         <strong>Jumlah:</strong> ${participant.total} orang
       </div>
+    `;
+  } else {
+    // Untuk panitia, hanya tampilkan info dasar
+    participantInfo = `
+      <div class="info-row">
+        <strong>ID:</strong> ${participant.id}
+      </div>
+      <div class="info-row">
+        <strong>Nama:</strong> ${participant.nama}
+      </div>
+      <div class="info-row">
+        <strong>Jumlah:</strong> ${participant.total} orang
+      </div>
+    `;
+  }
+  
+  contentDiv.innerHTML = `
+    <div class="participant-info">
+      ${participantInfo}
       <div class="info-row">
         <strong>Status:</strong> 
         <span class="${isPresent ? 'text-success' : 'text-warning'}">
@@ -2264,8 +2432,13 @@ function showScanResult(participant) {
   
   // Auto-hide setelah 15 detik jika tidak ada aksi
   setTimeout(() => {
-    if (scannerActive && document.getElementById('scanResult').style.display !== 'none') {
+    if (resultDiv.style.display !== 'none') {
       cancelCheckin();
+      // Restart scanner jika masih di tab scanner
+      const scannerTab = document.getElementById('scannerTab');
+      if (scannerTab.classList.contains('active')) {
+        setTimeout(() => startScanner(), 1000);
+      }
     }
   }, 15000);
 }
@@ -2290,6 +2463,11 @@ function showScanError(message) {
   // Auto-hide setelah 5 detik
   setTimeout(() => {
     cancelCheckin();
+    // Restart scanner jika masih di tab scanner
+    const scannerTab = document.getElementById('scannerTab');
+    if (scannerTab.classList.contains('active')) {
+      setTimeout(() => startScanner(), 1000);
+    }
   }, 5000);
 }
 
@@ -2299,7 +2477,7 @@ async function confirmCheckin() {
   showLoading('Memproses check-in...');
   
   try {
-    const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(currentScannerData.id)}`);
+    const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(currentScannerData.id)}&_t=${new Date().getTime()}`);
     const result = await response.json();
     
     console.log('Check-in response:', result);
@@ -2321,26 +2499,34 @@ async function confirmCheckin() {
       
       // Update UI
       updateStats();
-      updateParticipantsTable();
-      updateCharts();
+      if (currentUser.permissions.includes('participants')) {
+        updateParticipantsTable();
+      }
+      if (currentUser.permissions.includes('analytics')) {
+        updateCharts();
+      }
       
       // Tampilkan notifikasi sukses
       showNotification(`Check-in berhasil untuk ${currentScannerData.nama}`, 'success');
+      playSound('success');
       
       // Reset scanner
       cancelCheckin();
       
       // Auto restart scanner setelah 2 detik
       setTimeout(() => {
-        if (!scannerActive && document.getElementById('scannerTab').classList.contains('active')) {
+        const scannerTab = document.getElementById('scannerTab');
+        if (scannerTab.classList.contains('active')) {
           startScanner();
         }
       }, 2000);
     } else {
+      playSound('error');
       showNotification('Gagal melakukan check-in: ' + (result.error || 'Unknown error'), 'error');
     }
   } catch (error) {
     console.error('Check-in error:', error);
+    playSound('error');
     showNotification('Gagal menghubungi server', 'error');
   } finally {
     hideLoading();
@@ -2359,9 +2545,11 @@ function showManualCheckin() {
     const participant = participantsData.find(p => p.id === regId);
     if (participant) {
       currentScannerData = participant;
+      playSound('scan');
       showScanResult(participant);
     } else {
       alert('ID Registrasi tidak ditemukan');
+      playSound('error');
     }
   }
 }
@@ -2633,6 +2821,13 @@ function setupTabs() {
     tab.addEventListener('click', () => {
       const tabId = tab.dataset.tab;
       
+      // Cek apakah user memiliki permission untuk tab ini
+      if (!currentUser.permissions.includes(tabId)) {
+        showNotification('Anda tidak memiliki akses ke fitur ini', 'error');
+        playSound('error');
+        return;
+      }
+      
       // Update active tab
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
@@ -2657,13 +2852,21 @@ function setupTabs() {
   });
 }
 
-function startAutoRefresh() {
-  // Auto refresh setiap 30 detik
-  setInterval(async () => {
+function startAutoRefresh(interval = 120000) { // 120 detik = 2 menit
+  // Clear existing interval jika ada
+  if (window.autoRefreshInterval) {
+    clearInterval(window.autoRefreshInterval);
+  }
+  
+  // Auto refresh setiap interval
+  window.autoRefreshInterval = setInterval(async () => {
     if (currentUser) {
+      console.log('Auto-refreshing data...');
       await loadDashboardData();
     }
-  }, 30000);
+  }, interval);
+  
+  console.log(`Auto refresh diatur setiap ${interval/1000} detik`);
 }
 
 // Manual checkin function (used in table)
@@ -2674,7 +2877,7 @@ async function manualCheckin(participantId) {
       showLoading('Memproses check-in...');
       
       try {
-        const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(participantId)}`);
+        const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(participantId)}&_t=${new Date().getTime()}`);
         const result = await response.json();
         
         if (result.success) {
@@ -2684,14 +2887,21 @@ async function manualCheckin(participantId) {
           
           // Update UI
           updateStats();
-          updateParticipantsTable();
-          updateCharts();
+          if (currentUser.permissions.includes('participants')) {
+            updateParticipantsTable();
+          }
+          if (currentUser.permissions.includes('analytics')) {
+            updateCharts();
+          }
           
           showNotification(`Check-in berhasil untuk ${participant.nama}`, 'success');
+          playSound('success');
         } else {
+          playSound('error');
           showNotification('Gagal melakukan check-in: ' + result.error, 'error');
         }
       } catch (error) {
+        playSound('error');
         showNotification('Gagal menghubungi server', 'error');
       } finally {
         hideLoading();
@@ -2700,28 +2910,44 @@ async function manualCheckin(participantId) {
   }
 }
 
-// View participant details
+// View participant details (hanya untuk admin)
 function viewParticipant(participantId) {
+  if (currentUser.role !== 'Administrator') {
+    showNotification('Anda tidak memiliki akses untuk melihat detail ini', 'error');
+    playSound('error');
+    return;
+  }
+  
   const participant = participantsData.find(p => p.id === participantId);
   if (participant) {
-    alert(`Detail Jamaah:\n\nID: ${participant.id}\nNama: ${participant.nama}\nTelepon: ${participant.phone}\nDomisili: ${participant.domisili}\nTotal: ${participant.total} orang\nStatus: ${participant.status}\nCheck-in: ${participant.checkin_time || 'Belum'}`);
+    alert(`Detail Jamaah:\n\nID: ${participant.id}\nNama: ${participant.nama}\nTelepon: ${participant.phone}\nEmail: ${participant.email || '-'}\nDomisili: ${participant.domisili}\nTotal: ${participant.total} orang\nUsia: ${participant.usia || '-'}\nGender: ${participant.gender || '-'}\nStatus: ${participant.status}\nCheck-in: ${participant.checkin_time || 'Belum'}\nTanggal Daftar: ${participant.registration_date || '-'}`);
   }
 }
 
-// Export function
+// Export function (hanya untuk admin)
 function exportData() {
+  if (currentUser.role !== 'Administrator') {
+    showNotification('Hanya administrator yang dapat mengekspor data', 'error');
+    playSound('error');
+    return;
+  }
+  
   // Create CSV data
-  const headers = ['ID', 'Nama', 'Telepon', 'Domisili', 'Total', 'Status', 'Check-in Time'];
+  const headers = ['ID', 'Nama', 'Telepon', 'Email', 'Domisili', 'Total', 'Status', 'Waktu Check-in', 'Usia', 'Gender', 'Tanggal Daftar'];
   const csvData = [
     headers.join(','),
     ...participantsData.map(p => [
       p.id,
       `"${p.nama}"`,
       p.phone,
+      p.email || '',
       `"${p.domisili}"`,
       p.total,
       p.status,
-      p.checkin_time || '-'
+      p.checkin_time || '-',
+      p.usia || '-',
+      p.gender || '-',
+      p.registration_date || '-'
     ].join(','))
   ].join('\n');
   
@@ -2737,27 +2963,44 @@ function exportData() {
   URL.revokeObjectURL(url);
   
   showNotification('Data berhasil diexport', 'success');
+  playSound('success');
 }
 
-// Settings functions
+// Settings functions (hanya untuk admin)
 function savePassword() {
+  if (currentUser.role !== 'Administrator') {
+    showNotification('Hanya administrator yang dapat mengubah password', 'error');
+    playSound('error');
+    return;
+  }
+  
   const newPassword = document.getElementById('newPassword').value;
   if (newPassword) {
     // Simpan password (dalam implementasi nyata, ini akan dikirim ke server)
     showNotification('Password berhasil diperbarui', 'success');
+    playSound('success');
     document.getElementById('newPassword').value = '';
   } else {
     showNotification('Harap masukkan password baru', 'warning');
+    playSound('warning');
   }
 }
 
 function saveEmail() {
+  if (currentUser.role !== 'Administrator') {
+    showNotification('Hanya administrator yang dapat mengubah pengaturan email', 'error');
+    playSound('error');
+    return;
+  }
+  
   const email = document.getElementById('notificationEmail').value;
   if (email && email.includes('@')) {
     // Simpan email (dalam implementasi nyata, ini akan dikirim ke server)
     showNotification('Email notifikasi berhasil diperbarui', 'success');
+    playSound('success');
   } else {
     showNotification('Harap masukkan email yang valid', 'warning');
+    playSound('warning');
   }
 }
 
@@ -2806,11 +3049,6 @@ function showNotification(message, type = 'info') {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
-  // ============================================
-  // DEBUG LOGGING - SEMUA DALAM SATU TEMPAT
-  // ============================================
-  
-  // System info
   console.log('🟢 ============================================');
   console.log('🟢 ADMIN DASHBOARD SYSTEM INITIALIZED');
   console.log('🟢 ============================================');
@@ -2829,6 +3067,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('✅ AUTO-LOGIN SUCCESS');
       console.log('   👤 Username:', currentUser.username);
       console.log('   🎯 Role:', currentUser.role);
+      console.log('   📋 Permissions:', currentUser.permissions);
       console.log('   🕐 Login Time:', currentUser.loginTime ? new Date(currentUser.loginTime).toLocaleString() : 'N/A');
       
       showDashboard();
