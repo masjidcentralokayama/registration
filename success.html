@@ -12,9 +12,10 @@
           content="default-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com; 
                   script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
                   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; 
-                  img-src 'self' data: https:; 
-                  connect-src 'self'; 
-                  font-src 'self' https://fonts.gstatic.com;">
+                  img-src 'self' data: https: blob:;
+                  connect-src 'self';
+                  font-src 'self' https://fonts.gstatic.com;
+                  worker-src 'self' blob:;">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Konfirmasi Registrasi - Buka Puasa Bersama 1447 H">
@@ -351,6 +352,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             border: 1px solid #e2e8f0;
             min-height: 200px;
+            min-width: 200px;
             position: relative;
         }
 
@@ -872,6 +874,78 @@
         }
 
         /* =========================================== */
+        /* DEBUG PANEL */
+        /* =========================================== */
+        .debug-panel {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 11px;
+            z-index: 9999;
+            max-width: 300px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-left: 3px solid var(--warning-orange);
+        }
+
+        .debug-panel.active {
+            display: block;
+        }
+
+        .debug-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+        }
+
+        .debug-title {
+            font-weight: bold;
+            color: #fbbf24;
+        }
+
+        .debug-close {
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .debug-content {
+            line-height: 1.4;
+        }
+
+        .debug-item {
+            margin: 3px 0;
+        }
+
+        .debug-warning {
+            color: #fbbf24;
+            font-weight: bold;
+        }
+
+        .debug-success {
+            color: #10b981;
+        }
+
+        .debug-error {
+            color: #ef4444;
+        }
+
+        /* =========================================== */
         /* RESPONSIVE DESIGN */
         /* =========================================== */
         @media (max-width: 480px) {
@@ -917,6 +991,13 @@
                 left: 20px;
                 right: 20px;
                 max-width: none;
+            }
+            
+            .debug-panel {
+                left: 10px;
+                right: 10px;
+                max-width: none;
+                bottom: 60px;
             }
         }
     </style>
@@ -1009,6 +1090,19 @@
     </div>
 
     <!-- =========================================== -->
+    <!-- DEBUG PANEL -->
+    <!-- =========================================== -->
+    <div class="debug-panel" id="debugPanel">
+        <div class="debug-header">
+            <div class="debug-title">Debug Info</div>
+            <button class="debug-close" id="debugClose">×</button>
+        </div>
+        <div class="debug-content" id="debugContent">
+            Memuat informasi debug...
+        </div>
+    </div>
+
+    <!-- =========================================== -->
     <!-- LOADING OVERLAY -->
     <!-- =========================================== -->
     <div class="loading-overlay" id="loadingOverlay">
@@ -1044,7 +1138,7 @@
             <!-- REGISTRATION CARD -->
             <div class="card" id="registrationCard">
                 <div class="gold-pattern"></div>
-                <div class="card-content">
+                <div class="card-content" id="cardContent">
                     <!-- Dynamic content will be loaded here -->
                 </div>
             </div>
@@ -1082,6 +1176,7 @@
             let registrationData = null;
             let isDownloading = false;
             let qrCodeImage = null;
+            let debugMode = false;
             
             // Translations
             const translations = {
@@ -1405,37 +1500,84 @@
             }
             
             /**
-             * Extract data from URL parameters with better validation
+             * Extract data from URL parameters - FIXED VERSION
              */
             function extractDataFromURL() {
-                const urlParams = new URLSearchParams(window.location.search);
-                
-                // Check if we have required parameters
-                const id = urlParams.get('id');
-                const nama = urlParams.get('nama');
-                
-                if (!id || !nama) {
+                try {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const t = translations[currentLang];
+                    
+                    // DEBUG: Log semua parameter
+                    console.log('URL Parameters:', Object.fromEntries(urlParams));
+                    
+                    // Check multiple possible ID parameter names
+                    const id = urlParams.get('id') || 
+                               urlParams.get('ID') || 
+                               urlParams.get('Id') || 
+                               urlParams.get('registrationId') ||
+                               urlParams.get('regId') ||
+                               urlParams.get('ticketId') ||
+                               urlParams.get('kode');
+                    
+                    const nama = urlParams.get('nama') || 
+                                 urlParams.get('name') || 
+                                 urlParams.get('nama_lengkap') || 
+                                 'Jamaah';
+                    
+                    // Jika tidak ada ID, coba buat dari hash
+                    if (!id) {
+                        // Coba ekstrak ID dari URL hash
+                        const hash = window.location.hash.substring(1);
+                        const hashParams = new URLSearchParams(hash);
+                        const hashId = hashParams.get('id') || hashParams.get('ID');
+                        
+                        if (hashId) {
+                            showToast('Menggunakan ID dari hash URL', 'info');
+                            return createDataObject(hashId, decodeURIComponent(nama), urlParams);
+                        }
+                        
+                        // Generate ID baru sebagai fallback
+                        const fallbackId = generateFallbackId();
+                        showToast(`ID tidak ditemukan. Menggunakan ID baru: ${fallbackId}`, 'warning');
+                        return createDataObject(fallbackId, decodeURIComponent(nama), urlParams);
+                    }
+                    
+                    // Clean ID: hapus spasi, karakter khusus
+                    const cleanId = id.toString().trim().replace(/\s+/g, '-').toUpperCase();
+                    
+                    console.log('Original ID:', id);
+                    console.log('Cleaned ID:', cleanId);
+                    
+                    return createDataObject(cleanId, decodeURIComponent(nama), urlParams);
+                    
+                } catch (error) {
+                    console.error('Error extracting URL data:', error);
                     return null;
                 }
-                
-                const data = {
+            }
+            
+            function createDataObject(id, nama, urlParams) {
+                return {
                     id: id,
-                    nama: nama ? decodeURIComponent(nama) : 'Jamaah',
+                    nama: nama,
                     email: urlParams.get('email') ? decodeURIComponent(urlParams.get('email')) : '-',
                     phone: urlParams.get('phone') ? decodeURIComponent(urlParams.get('phone')) : '-',
                     domisili: urlParams.get('domisili') ? decodeURIComponent(urlParams.get('domisili')) : '-',
                     qty: urlParams.get('qty') || '1',
-                    timestamp: new Date().toISOString()
+                    timestamp: new Date().toISOString(),
+                    source: 'url'
                 };
-                
-                // Save to localStorage with timestamp
-                saveToLocalStorage(data);
-                
-                return data;
+            }
+            
+            function generateFallbackId() {
+                const now = new Date();
+                const dateStr = now.toISOString().slice(0,10).replace(/-/g, '');
+                const timeStr = now.getTime().toString().slice(-6);
+                return `IFTAR-FB-${dateStr}-${timeStr}`;
             }
             
             /**
-             * Save data to localStorage
+             * Save data to localStorage - FIXED VERSION
              */
             function saveToLocalStorage(data) {
                 try {
@@ -1444,13 +1586,18 @@
                     const dataToSave = {
                         ...data,
                         expiresAt: expiresAt,
-                        downloadCount: 0
+                        downloadCount: 0,
+                        lastUpdated: new Date().toISOString()
                     };
                     
                     localStorage.setItem(`registration_${data.id}`, JSON.stringify(dataToSave));
                     localStorage.setItem('lastRegistrationId', data.id);
+                    
+                    console.log('Data saved to localStorage:', data.id);
+                    return true;
                 } catch (error) {
                     console.error('Error saving to localStorage:', error);
+                    return false;
                 }
             }
             
@@ -1460,29 +1607,91 @@
             function checkLocalStorage() {
                 try {
                     const savedId = localStorage.getItem('lastRegistrationId');
-                    if (!savedId) return null;
+                    if (!savedId) {
+                        console.log('No saved ID found in localStorage');
+                        return null;
+                    }
                     
-                    // Clear old data to prevent "already registered" bug
-                    const oldData = localStorage.getItem(`registration_${savedId}`);
-                    if (oldData) {
-                        const parsed = JSON.parse(oldData);
-                        // Check if expired (older than 5 minutes)
-                        const savedTime = new Date(parsed.timestamp || 0);
-                        const now = new Date();
-                        const diffMinutes = (now - savedTime) / (1000 * 60);
-                        
-                        if (diffMinutes > 5) {
+                    const storedData = localStorage.getItem(`registration_${savedId}`);
+                    if (!storedData) {
+                        console.log('No stored data found for ID:', savedId);
+                        return null;
+                    }
+                    
+                    const parsed = JSON.parse(storedData);
+                    
+                    // Check expiry
+                    if (parsed.expiresAt) {
+                        const expiryTime = new Date(parsed.expiresAt);
+                        if (new Date() > expiryTime) {
+                            console.log('Data expired, removing from localStorage');
                             localStorage.removeItem(`registration_${savedId}`);
                             localStorage.removeItem('lastRegistrationId');
                             return null;
                         }
-                        return parsed;
                     }
-                    return null;
+                    
+                    console.log('Loaded data from localStorage:', parsed.id);
+                    return parsed;
+                    
                 } catch (error) {
                     console.error('Error checking localStorage:', error);
                     return null;
                 }
+            }
+            
+            /**
+             * Verify ID consistency between display and QR
+             */
+            function verifyIdConsistency(data) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlId = urlParams.get('id') || urlParams.get('ID') || urlParams.get('Id');
+                
+                console.group('ID Verification');
+                console.log('Data ID:', data.id);
+                console.log('URL Parameter ID:', urlId);
+                console.log('Match:', data.id === urlId);
+                console.groupEnd();
+                
+                // Tampilkan warning jika ada perbedaan
+                if (urlId && urlId.toUpperCase() !== data.id.toUpperCase()) {
+                    showToast(`Perhatian: ID mungkin tidak konsisten. URL: ${urlId}, Data: ${data.id}`, 'warning');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            /**
+             * Update debug panel
+             */
+            function updateDebugInfo(data) {
+                if (!debugMode) return;
+                
+                const debugPanel = document.getElementById('debugPanel');
+                const debugContent = document.getElementById('debugContent');
+                
+                if (!debugPanel || !debugContent) return;
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlId = urlParams.get('id') || urlParams.get('ID') || urlParams.get('Id');
+                const matchStatus = urlId && urlId.toUpperCase() === data.id.toUpperCase();
+                
+                let debugHTML = `
+                    <div class="debug-item"><strong>ID Data:</strong> ${data.id}</div>
+                    <div class="debug-item"><strong>ID URL:</strong> ${urlId || 'tidak ada'}</div>
+                    <div class="debug-item"><strong>Status:</strong> <span class="${matchStatus ? 'debug-success' : 'debug-error'}">${matchStatus ? 'MATCH ✓' : 'MISMATCH ✗'}</span></div>
+                    <div class="debug-item"><strong>Source:</strong> ${data.source || 'unknown'}</div>
+                    <div class="debug-item"><strong>Download Count:</strong> ${downloadCount}</div>
+                    <div class="debug-item"><strong>Timestamp:</strong> ${new Date(data.timestamp).toLocaleString()}</div>
+                `;
+                
+                if (!matchStatus && urlId) {
+                    debugHTML += `<div class="debug-item debug-warning">WARNING: ID TIDAK COCOK!</div>`;
+                }
+                
+                debugContent.innerHTML = debugHTML;
+                debugPanel.classList.add('active');
             }
             
             // ============================================
@@ -1490,7 +1699,7 @@
             // ============================================
             
             /**
-             * Generate QR Code and convert to image - FIXED VERSION
+             * Generate QR Code with consistent data - FIXED VERSION
              */
             function generateQRCode(data) {
                 return new Promise((resolve) => {
@@ -1508,68 +1717,72 @@
                         </div>
                     `;
                     
-                    // Create QR data
-                    const qrData = JSON.stringify({
-                        id: data.id,
-                        name: data.nama.substring(0, 30),
-                        email: data.email || '',
-                        date: new Date().toISOString().split('T')[0]
-                    });
+                    // HANYA gunakan ID untuk QR Code (bukan JSON lengkap)
+                    // Ini memastikan konsistensi dengan Google Sheet
+                    const qrData = data.id;
+                    
+                    console.log('Generating QR Code for ID:', qrData);
                     
                     try {
-                        // Create temporary container for QR Code
-                        const tempDiv = document.createElement('div');
-                        tempDiv.style.position = 'absolute';
-                        tempDiv.style.left = '-9999px';
+                        // Pastikan library QRCode tersedia
+                        if (typeof QRCode === 'undefined') {
+                            throw new Error('QRCode library not loaded');
+                        }
                         
-                        // Generate QR Code in temporary container
-                        const qrcode = new QRCode(tempDiv, {
+                        // Generate QR Code langsung ke element
+                        qrcodeElement.innerHTML = ''; // Clear loading
+                        
+                        new QRCode(qrcodeElement, {
                             text: qrData,
                             width: 200,
                             height: 200,
                             colorDark: "#0a5c5a",
                             colorLight: "#ffffff",
-                            correctLevel: QRCode.CorrectLevel.H
+                            correctLevel: QRCode.CorrectLevel.H,
+                            useSVG: false // Gunakan canvas untuk konsistensi
                         });
                         
-                        document.body.appendChild(tempDiv);
-                        
-                        // Wait for QR Code to render
+                        // Ambil data URL dari canvas setelah render
                         setTimeout(() => {
-                            const canvas = tempDiv.querySelector('canvas');
+                            const canvas = qrcodeElement.querySelector('canvas');
                             if (canvas) {
-                                // Convert canvas to data URL
                                 qrCodeImage = canvas.toDataURL('image/png');
-                                
-                                // Display QR Code
-                                qrcodeElement.innerHTML = '';
-                                const img = document.createElement('img');
-                                img.src = qrCodeImage;
-                                img.alt = 'QR Code';
-                                img.style.maxWidth = '100%';
-                                img.style.height = 'auto';
-                                qrcodeElement.appendChild(img);
+                                console.log('QR Code generated successfully');
+                                resolve(true);
+                            } else {
+                                // Fallback jika canvas tidak dibuat
+                                console.warn('Canvas not found, using fallback');
+                                qrcodeElement.innerHTML = createQRCodeFallback(data.id);
+                                resolve(false);
                             }
-                            
-                            // Clean up
-                            document.body.removeChild(tempDiv);
-                            resolve(true);
                         }, 500);
                         
                     } catch (error) {
-                        console.error('QR Code error:', error);
-                        // Fallback display
-                        qrcodeElement.innerHTML = `
-                            <div style="text-align: center; padding: 20px;">
-                                <div style="font-size: 1.2rem; font-weight: bold; color: #0f766e; margin-bottom: 10px;">
-                                    <i class="fas fa-id-card"></i> ID: ${data.id}
-                                </div>
-                                <div style="color: #64748b;">${data.nama}</div>
-                            </div>
-                        `;
+                        console.error('QR Code generation error:', error);
+                        qrcodeElement.innerHTML = createQRCodeFallback(data.id);
                         resolve(false);
                     }
                 });
+            }
+            
+            function createQRCodeFallback(id) {
+                return `
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 1.5rem; color: #0f766e; margin-bottom: 10px;">
+                            <i class="fas fa-id-card-alt"></i>
+                        </div>
+                        <div style="font-size: 1.8rem; font-weight: bold; color: #1e293b; margin: 10px 0;">
+                            ${id}
+                        </div>
+                        <div style="color: #64748b; font-size: 0.9rem;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Scan kode manual
+                        </div>
+                        <div style="margin-top: 15px; padding: 10px; background: #f1f5f9; border-radius: 8px;">
+                            <small style="color: #475569;">ID: ${id}</small>
+                        </div>
+                    </div>
+                `;
             }
             
             /**
@@ -1645,7 +1858,10 @@
                     </div>
                 `;
                 
-                document.querySelector('.card-content').innerHTML = cardHTML;
+                document.getElementById('cardContent').innerHTML = cardHTML;
+                
+                // Verify ID consistency
+                const idConsistent = verifyIdConsistency(data);
                 
                 // Generate QR Code
                 generateQRCode(data);
@@ -1661,6 +1877,15 @@
                 
                 // Load download count
                 loadDownloadCount(data.id);
+                
+                // Update debug info
+                updateDebugInfo(data);
+                
+                // Show debug mode warning if ID inconsistent
+                if (!idConsistent) {
+                    debugMode = true;
+                    showToast('Mode debug diaktifkan karena ID tidak konsisten', 'warning');
+                }
             }
             
             /**
@@ -1762,7 +1987,7 @@
                     </div>
                 `;
                 
-                document.querySelector('.card-content').innerHTML = cardHTML;
+                document.getElementById('cardContent').innerHTML = cardHTML;
                 
                 // Hide action buttons
                 document.getElementById('actionButtons').innerHTML = '';
@@ -1785,6 +2010,7 @@
                     if (savedData) {
                         const parsed = JSON.parse(savedData);
                         downloadCount = parsed.downloadCount || 0;
+                        console.log('Loaded download count:', downloadCount);
                     }
                 } catch (error) {
                     console.error('Error loading download count:', error);
@@ -1800,10 +2026,13 @@
                     let data = savedData ? JSON.parse(savedData) : {};
                     
                     data.downloadCount = downloadCount;
+                    data.lastDownload = new Date().toISOString();
                     data.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 30 days
                     
                     localStorage.setItem(`registration_${registrationId}`, JSON.stringify(data));
                     localStorage.setItem('lastRegistrationId', registrationId);
+                    
+                    console.log('Saved download count:', downloadCount);
                 } catch (error) {
                     console.error('Error saving download count:', error);
                 }
@@ -2082,7 +2311,7 @@
                                 
                                 <div class="content-wrapper">
                                     <div class="qr-section">
-                                        <img src="${qrCodeImage}" alt="QR Code">
+                                        <img src="${qrCodeImage}" alt="QR Code" onerror="this.src='https://via.placeholder.com/250x250/0a5c5a/ffffff?text=QR+Code'">
                                         <div class="qr-label">${t.qrHint}</div>
                                     </div>
                                     
@@ -2140,7 +2369,21 @@
              * Download card as PNG - FIXED VERSION
              */
             async function downloadCard(data) {
-                if (isDownloading || downloadCount >= MAX_DOWNLOADS) return;
+                if (isDownloading || downloadCount >= MAX_DOWNLOADS) {
+                    showToast(translations[currentLang].downloadLimit, 'warning');
+                    return;
+                }
+                
+                // Check dependencies
+                if (typeof html2canvas === 'undefined') {
+                    showToast('Fitur download tidak tersedia. Silakan refresh halaman.', 'error');
+                    return;
+                }
+                
+                if (!qrCodeImage) {
+                    showToast('QR Code belum siap. Tunggu sebentar.', 'warning');
+                    return;
+                }
                 
                 const btn = document.getElementById('downloadBtn');
                 if (!btn) return;
@@ -2153,9 +2396,19 @@
                 btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t.downloading}`;
                 showLoading(t.downloading);
                 
+                let iframe = null;
+                
+                const cleanup = () => {
+                    if (iframe && iframe.parentNode) {
+                        document.body.removeChild(iframe);
+                    }
+                    isDownloading = false;
+                    hideLoading();
+                };
+                
                 try {
                     // Create a temporary iframe for rendering the premium card
-                    const iframe = document.createElement('iframe');
+                    iframe = document.createElement('iframe');
                     iframe.style.position = 'absolute';
                     iframe.style.left = '-9999px';
                     iframe.style.top = '0';
@@ -2173,7 +2426,7 @@
                     // Wait for iframe to load
                     await new Promise(resolve => {
                         iframe.onload = resolve;
-                        setTimeout(resolve, 1000);
+                        setTimeout(resolve, 1500);
                     });
                     
                     // Capture the iframe content
@@ -2186,12 +2439,9 @@
                         height: 1000
                     });
                     
-                    // Clean up
-                    document.body.removeChild(iframe);
-                    
                     // Create download link
                     const link = document.createElement('a');
-                    const fileName = `KARTU_IFTAR_PREMIUM_${data.id}.png`;
+                    const fileName = `KARTU_IFTAR_${data.id}.png`;
                     
                     link.href = canvas.toDataURL('image/png');
                     link.download = fileName;
@@ -2214,6 +2464,9 @@
                         updateActionButtons(data);
                     }
                     
+                    // Update debug info
+                    updateDebugInfo(data);
+                    
                 } catch (error) {
                     console.error('Download error:', error);
                     showToast(t.downloadError, 'error');
@@ -2222,8 +2475,7 @@
                     // Reset button
                     btn.innerHTML = originalText;
                     btn.disabled = downloadCount >= MAX_DOWNLOADS;
-                    isDownloading = false;
-                    hideLoading();
+                    cleanup();
                 }
             }
             
@@ -2292,14 +2544,17 @@
                         return;
                     }
                     
-                    // 3. Clear any existing error state
+                    // 3. Save to localStorage
+                    saveToLocalStorage(data);
+                    
+                    // 4. Clear any existing error state
                     hideError();
                     
-                    // 4. We have data - display it
+                    // 5. We have data - display it
                     registrationData = data;
                     displayRegistrationData(data);
                     
-                    // 5. Setup event listeners
+                    // 6. Setup event listeners
                     setupEventListeners();
                     
                 } catch (error) {
@@ -2317,6 +2572,26 @@
             function setupEventListeners() {
                 // Language switcher
                 document.getElementById('langBtn')?.addEventListener('click', switchLanguage);
+                
+                // Debug panel close
+                document.getElementById('debugClose')?.addEventListener('click', () => {
+                    document.getElementById('debugPanel').classList.remove('active');
+                });
+                
+                // Enable debug mode with triple click on logo
+                document.querySelector('.success-icon')?.addEventListener('dblclick', () => {
+                    debugMode = !debugMode;
+                    if (debugMode) {
+                        showToast('Mode debug diaktifkan', 'info');
+                        document.getElementById('debugPanel').classList.add('active');
+                        if (registrationData) {
+                            updateDebugInfo(registrationData);
+                        }
+                    } else {
+                        showToast('Mode debug dimatikan', 'info');
+                        document.getElementById('debugPanel').classList.remove('active');
+                    }
+                });
                 
                 // Online/offline detection
                 window.addEventListener('offline', () => {
