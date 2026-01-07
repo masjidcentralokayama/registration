@@ -1062,7 +1062,7 @@ footer .contact a:hover {
           <div class="input-wrapper">
             <i class="fas fa-envelope" aria-hidden="true"></i>
             <input type="email" id="email" name="email" required 
-                   placeholder="contoh@email.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                   placeholder="contoh@email.com" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                    aria-describedby="emailHint">
           </div>
           <div class="hint" id="hintEmail">Konfirmasi akan dikirim ke email ini</div>
@@ -1279,7 +1279,7 @@ footer .contact a:hover {
 // ============================================
 const CONFIG = Object.freeze({
   // ⚠️ URL HARUS SAMA PERSIS dengan di success.html
-  API_URL: "https://script.google.com/macros/s/AKfycbwyGSZOqvP0nEvnW59d-nmWiQ8VNTJr3zGShM7wq8uUVgmS21Na6lDGB4k1eC78_PgZ/exec",
+  API_URL: "https://script.google.com/macros/s/AKfycbyUFVopjCXkd-STiV6svcPE_8VPBtDfK3OGMVpY1NdPPtRUDMNrDQng6HT9srivnfi2/exec",
   MAX_OTP_ATTEMPTS: 3,
   OTP_TIMEOUT: 60000,
   RETRY_ATTEMPTS: 2,
@@ -1538,12 +1538,15 @@ function validatePhoneNumber(phone) {
     return cleanPhone.length >= 10 && cleanPhone.length <= 15;
   } else if (cleanPhone.startsWith('08')) {
     return cleanPhone.length >= 10 && cleanPhone.length <= 13;
-  } else if (cleanPhone.startsWith('81')) {
-    // Format Jepang: 81...
+  } 
+  // Format Jepang: 81... (international) atau 080/090/070
+  else if (cleanPhone.startsWith('81')) {
     return cleanPhone.length >= 10 && cleanPhone.length <= 13;
-  } else if (cleanPhone.startsWith('0')) {
-    // Format Jepang: 080/090/070
-    return /^0[789]0\d{8}$/.test(cleanPhone);
+  } else if (cleanPhone.startsWith('0') && 
+             (cleanPhone.startsWith('080') || 
+              cleanPhone.startsWith('090') || 
+              cleanPhone.startsWith('070'))) {
+    return cleanPhone.length >= 10 && cleanPhone.length <= 11;
   }
   
   return false;
