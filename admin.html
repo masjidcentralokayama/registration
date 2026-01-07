@@ -1634,6 +1634,10 @@ body {
 </div>
 
 <script>
+/* jshint browser: true, esversion: 6, devel: true */
+/* global Chart, jsQR, sessionStorage, fetch, alert, prompt, confirm, URL, Blob */
+/* eslint-disable */
+
 // ============================================
 // KONSTANTA SISTEM
 // ============================================
@@ -1676,6 +1680,34 @@ const CONSTANTS = {
 };
 
 // ============================================
+// UTILITAS UMUM
+// ============================================
+
+// Fungsi untuk mendapatkan nilai CSS variable
+function getCSSVariable(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+// Format waktu
+function formatTime(date = new Date()) {
+  return date.toLocaleTimeString('id-ID', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
+
+// Format tanggal
+function formatDate(date = new Date()) {
+  return date.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// ============================================
 // KONFIGURASI SISTEM
 // ============================================
 
@@ -1689,9 +1721,9 @@ const LOGIN_ENDPOINT = `${API_URL}?action=login`;
 const SessionManager = {
   TOKEN_KEY: 'iftar_auth_token',
   
-  saveSession(token, userData, expiresInHours = 8) {
+  saveSession: function(token, userData, expiresInHours = 8) {
     const sessionData = {
-      token,
+      token: token,
       user: userData,
       expiry: Date.now() + (expiresInHours * 60 * 60 * 1000)
     };
@@ -1705,7 +1737,7 @@ const SessionManager = {
     }
   },
   
-  validateSession() {
+  validateSession: function() {
     try {
       const sessionData = sessionStorage.getItem(this.TOKEN_KEY);
       
@@ -1734,21 +1766,21 @@ const SessionManager = {
     }
   },
   
-  getToken() {
+  getToken: function() {
     const session = this.validateSession();
     return session ? session.token : null;
   },
   
-  getUser() {
+  getUser: function() {
     const session = this.validateSession();
     return session ? session.user : null;
   },
   
-  clearSession() {
+  clearSession: function() {
     sessionStorage.removeItem(this.TOKEN_KEY);
   },
   
-  extendSession(extraHours = 0.5) {
+  extendSession: function(extraHours = 0.5) {
     const session = this.validateSession();
     if (session) {
       session.expiry = Date.now() + (extraHours * 60 * 60 * 1000);
@@ -1852,7 +1884,7 @@ const itemsPerPage = 10;
 const chartManager = {
   instances: {},
   
-  create(chartId, config) {
+  create: function(chartId, config) {
     this.destroy(chartId);
     
     const canvas = document.getElementById(chartId);
@@ -1867,14 +1899,14 @@ const chartManager = {
     return this.instances[chartId];
   },
   
-  destroy(chartId) {
+  destroy: function(chartId) {
     if (this.instances[chartId]) {
       this.instances[chartId].destroy();
       delete this.instances[chartId];
     }
   },
   
-  destroyAll() {
+  destroyAll: function() {
     Object.keys(this.instances).forEach(chartId => {
       this.destroy(chartId);
     });
@@ -1888,25 +1920,6 @@ let audioBuffers = {};
 // ============================================
 // FUNGSI UTILITAS
 // ============================================
-
-// Format waktu
-function formatTime(date = new Date()) {
-  return date.toLocaleTimeString('id-ID', { 
-    hour: '2-digit', 
-    minute: '2-digit',
-    second: '2-digit'
-  });
-}
-
-// Format tanggal
-function formatDate(date = new Date()) {
-  return date.toLocaleDateString('id-ID', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-}
 
 // Update waktu terakhir update
 function updateLastUpdateTime() {
@@ -2391,13 +2404,13 @@ function updateParticipantsTable() {
       <td>${participant.checkin_time || '-'}</td>
       <td class="actions">
         ${participant.status !== CONSTANTS.STATUS.PRESENT ? 
-          `<button class="btn-action btn-checkin" onclick="manualCheckin('${participant.id}')" aria-label="Check-in ${participant.nama}">
+          `<button class="btn-action btn-checkin" data-id="${participant.id}" aria-label="Check-in ${participant.nama}">
             <i class="fas fa-user-check" aria-hidden="true"></i> Check-in
           </button>` : 
           '<span class="text-muted"><i class="fas fa-check" aria-hidden="true"></i> Selesai</span>'
         }
         ${currentUser.role === CONSTANTS.ROLES.ADMIN ? 
-          `<button class="btn-action btn-view" onclick="viewParticipant('${participant.id}')" aria-label="Lihat detail ${participant.nama}">
+          `<button class="btn-action btn-view" data-id="${participant.id}" aria-label="Lihat detail ${participant.nama}">
             <i class="fas fa-eye" aria-hidden="true"></i>
           </button>` : ''
         }
@@ -2417,7 +2430,7 @@ function updateParticipantsTable() {
 }
 
 // ============================================
-// FUNGSI SCANNER QR - DIPERBAIKI
+// FUNGSI SCANNER QR
 // ============================================
 
 function setupScanner() {
@@ -2877,7 +2890,7 @@ function updateAttendanceChart() {
       labels: ['Sudah Hadir', 'Belum Hadir'],
       datasets: [{
         data: [present, waiting],
-        backgroundColor: [var(--success), var(--warning)],
+        backgroundColor: [getCSSVariable('--success'), getCSSVariable('--warning')],
         borderWidth: 2
       }]
     },
@@ -2916,7 +2929,7 @@ function updateRegistrationChart() {
         label: 'Pendaftaran',
         data: Object.values(registrationData),
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        borderColor: var(--info),
+        borderColor: getCSSVariable('--info'),
         borderWidth: 2,
         tension: 0.4
       }]
@@ -2972,9 +2985,9 @@ function updateLocationChart() {
           'rgba(236, 72, 153, 0.7)'
         ],
         borderColor: [
-          var(--accent-green),
-          var(--info),
-          var(--warning),
+          getCSSVariable('--accent-green'),
+          getCSSVariable('--info'),
+          getCSSVariable('--warning'),
           '#8b5cf6',
           '#ec4899'
         ],
@@ -3024,7 +3037,7 @@ function updateGenderChart() {
       labels: Object.keys(genderData),
       datasets: [{
         data: Object.values(genderData),
-        backgroundColor: [var(--info), '#ec4899', var(--text-muted)],
+        backgroundColor: [getCSSVariable('--info'), '#ec4899', getCSSVariable('--text-muted')],
         borderWidth: 2
       }]
     },
@@ -3148,7 +3161,7 @@ function startAutoRefresh(interval = CONSTANTS.INTERVALS.AUTO_REFRESH) {
   console.log(`Auto refresh diatur setiap ${interval/1000} detik`);
 }
 
-// Manual checkin function (used in table)
+// Manual checkin function
 async function manualCheckin(participantId) {
   const participant = participantsData.find(p => p.id === participantId);
   if (participant) {
@@ -3352,6 +3365,27 @@ document.addEventListener('DOMContentLoaded', function() {
   DOM.passwordInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
       handleLogin();
+    }
+  });
+  
+  // Setup event delegation untuk table buttons
+  document.addEventListener('click', function(e) {
+    // Check-in button
+    if (e.target.closest('.btn-checkin')) {
+      const btn = e.target.closest('.btn-checkin');
+      const participantId = btn.getAttribute('data-id');
+      if (participantId) {
+        manualCheckin(participantId);
+      }
+    }
+    
+    // View button
+    if (e.target.closest('.btn-view')) {
+      const btn = e.target.closest('.btn-view');
+      const participantId = btn.getAttribute('data-id');
+      if (participantId) {
+        viewParticipant(participantId);
+      }
     }
   });
   
