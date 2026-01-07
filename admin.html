@@ -11,19 +11,30 @@
 <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
 
 <style>
-/* CSS dengan tema konsisten */
+/* CSS dengan tema konsisten dan kontras yang lebih baik */
 :root {
-  --accent-green: #10a37f;
-  --accent-green-dark: #0d8465;
-  --accent-gold: #d4af37;
+  /* Warna dengan kontras WCAG AA */
+  --accent-green: #0d8465;
+  --accent-green-dark: #0a5c47;
+  --accent-gold: #b5942d;
   --accent-gold-light: #f0e6c5;
-  --accent-teal: #0f766e;
-  --accent-dark: #1e293b;
+  --accent-teal: #0c625a;
+  --accent-dark: #0f172a;
   --accent-light: #f8fafc;
-  --danger: #ef4444;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --info: #3b82f6;
+  --danger: #dc2626;
+  --success: #059669;
+  --warning: #d97706;
+  --info: #2563eb;
+  
+  /* Warna teks dengan kontras memadai */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  
+  /* Background dengan kontras */
+  --bg-light: #f8fafc;
+  --bg-card: #ffffff;
+  --border-color: #e2e8f0;
 }
 
 * { 
@@ -39,7 +50,7 @@ html {
 body {
   font-family: 'Poppins', 'Inter', sans-serif;
   background: linear-gradient(135deg, #f7f7f8 0%, #f0f9ff 100%);
-  color: var(--accent-dark);
+  color: var(--text-primary);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -131,14 +142,14 @@ body {
 }
 
 .login-box {
-  background: white;
+  background: var(--bg-card);
   padding: 2.5rem;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
   text-align: center;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
   position: relative;
 }
 
@@ -178,7 +189,7 @@ body {
 }
 
 .login-subtitle {
-  color: #64748b;
+  color: var(--text-muted);
   margin-bottom: 2rem;
   font-size: 0.9rem;
   position: relative;
@@ -203,11 +214,13 @@ body {
 .form-control {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 10px;
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   transition: all 0.3s ease;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .form-control:focus {
@@ -255,7 +268,7 @@ body {
 
 .login-footer {
   margin-top: 1.5rem;
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.8rem;
 }
 
@@ -270,7 +283,7 @@ body {
 
 /* Header Dashboard */
 .dashboard-header {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
@@ -278,7 +291,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
 }
 
 .header-left h1 {
@@ -288,7 +301,7 @@ body {
 }
 
 .header-left .subtitle {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.9rem;
   font-style: italic;
 }
@@ -316,7 +329,7 @@ body {
 }
 
 .btn-logout {
-  background: white;
+  background: var(--bg-card);
   color: var(--accent-teal);
   border: 2px solid var(--accent-teal);
   padding: 0.5rem 1rem;
@@ -336,7 +349,7 @@ body {
 }
 
 .last-update {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.8rem;
   display: flex;
   align-items: center;
@@ -352,11 +365,11 @@ body {
 }
 
 .stat-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 1.5rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -379,16 +392,16 @@ body {
 }
 
 .stat-icon.total { 
-  background: linear-gradient(135deg, var(--info), #2563eb); 
+  background: linear-gradient(135deg, var(--info), #1d4ed8); 
 }
 .stat-icon.present { 
-  background: linear-gradient(135deg, var(--success), #059669); 
+  background: linear-gradient(135deg, var(--success), #047857); 
 }
 .stat-icon.waiting { 
-  background: linear-gradient(135deg, var(--warning), #d97706); 
+  background: linear-gradient(135deg, var(--warning), #b45309); 
 }
 .stat-icon.total-people { 
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed); 
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9); 
 }
 
 .stat-content h3 {
@@ -398,7 +411,7 @@ body {
 }
 
 .stat-content p {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
@@ -407,7 +420,7 @@ body {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  background: white;
+  background: var(--bg-card);
   padding: 0.5rem;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -424,7 +437,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #64748b;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -454,12 +467,12 @@ body {
 
 /* Scanner Section */
 .scanner-section {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
 }
 
 .scanner-section h2 {
@@ -472,7 +485,7 @@ body {
 }
 
 .scanner-section .subtitle {
-  color: #64748b;
+  color: var(--text-muted);
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
 }
@@ -571,7 +584,7 @@ body {
 }
 
 .btn-secondary {
-  background: white;
+  background: var(--bg-card);
   color: var(--accent-teal);
   border: 2px solid var(--accent-teal);
 }
@@ -603,12 +616,12 @@ body {
 }
 
 .btn-success:hover {
-  background: #059669;
+  background: #047857;
   transform: translateY(-2px);
 }
 
 .btn-danger {
-  background: white;
+  background: var(--bg-card);
   color: var(--danger);
   border: 2px solid var(--danger);
 }
@@ -624,7 +637,7 @@ body {
 }
 
 .btn-refresh:hover:not(:disabled) {
-  background: #2563eb;
+  background: #1d4ed8;
   transform: translateY(-2px);
 }
 
@@ -634,7 +647,7 @@ body {
 }
 
 .btn-export:hover {
-  background: #b5942d;
+  background: #9c7e25;
   transform: translateY(-2px);
 }
 
@@ -645,6 +658,10 @@ body {
   border-radius: 10px;
   border-left: 4px solid var(--accent-gold);
   display: none;
+}
+
+.scan-result.active {
+  display: block;
 }
 
 .scan-result h3 {
@@ -706,12 +723,12 @@ body {
 
 /* Participants Section */
 .participants-section {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
 }
 
 .section-header {
@@ -747,16 +764,18 @@ body {
 .search-box i {
   position: absolute;
   left: 1rem;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .search-box input {
   padding: 0.5rem 1rem 0.5rem 2.5rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   font-family: 'Poppins', sans-serif;
   width: 250px;
   transition: all 0.3s ease;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .search-box input:focus {
@@ -782,13 +801,13 @@ body {
   padding: 1rem;
   text-align: left;
   font-size: 0.9rem;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--border-color);
   white-space: nowrap;
 }
 
 .data-table td {
   padding: 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border-color);
   font-size: 0.9rem;
   vertical-align: middle;
 }
@@ -819,7 +838,7 @@ body {
 }
 
 .text-muted {
-  color: #64748b;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -864,7 +883,7 @@ body {
 }
 
 .btn-view:hover {
-  background: #2563eb;
+  background: #1d4ed8;
   transform: translateY(-1px);
 }
 
@@ -873,7 +892,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--border-color);
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -886,8 +905,8 @@ body {
 
 .pagination button {
   padding: 0.5rem 0.75rem;
-  border: 1px solid #e2e8f0;
-  background: white;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -908,18 +927,18 @@ body {
 }
 
 .total-info {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
 /* Analytics Section */
 .analytics-section {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
 }
 
 .analytics-section h2 {
@@ -939,10 +958,10 @@ body {
 }
 
 .chart-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   padding: 1.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -959,7 +978,7 @@ body {
   background: var(--accent-light);
   border-radius: 12px;
   padding: 1.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
 }
 
 .analytics-summary h3 {
@@ -984,7 +1003,7 @@ body {
 }
 
 .summary-item .label {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
@@ -996,12 +1015,12 @@ body {
 
 /* Settings Section */
 .settings-section {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
 }
 
 .settings-section h2 {
@@ -1023,7 +1042,7 @@ body {
   background: var(--accent-light);
   border-radius: 12px;
   padding: 1.5rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
 }
 
 .settings-card h3 {
@@ -1054,11 +1073,13 @@ body {
 .setting-item input {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   font-family: 'Poppins', sans-serif;
   margin-bottom: 0.75rem;
   transition: all 0.3s ease;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .setting-item input:focus {
@@ -1090,18 +1111,18 @@ body {
 
 /* Footer Dashboard */
 .dashboard-footer {
-  background: white;
+  background: var(--bg-card);
   border-radius: 15px;
   padding: 1.5rem;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
   text-align: center;
   margin-top: 2rem;
 }
 
 .footer-content p {
   margin-bottom: 0.5rem;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .prayer-message {
@@ -1121,7 +1142,7 @@ body {
   align-items: center;
   gap: 1rem;
   margin-top: 0.75rem;
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.8rem;
   flex-wrap: wrap;
 }
@@ -1132,7 +1153,7 @@ body {
   top: 100px;
   right: 20px;
   padding: 12px 20px;
-  background: white;
+  background: var(--bg-card);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   display: flex;
@@ -1144,22 +1165,22 @@ body {
 }
 
 .notification-success {
-  border-left: 4px solid #10b981;
+  border-left: 4px solid var(--success);
   color: #065f46;
 }
 
 .notification-error {
-  border-left: 4px solid #ef4444;
+  border-left: 4px solid var(--danger);
   color: #7f1d1d;
 }
 
 .notification-info {
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid var(--info);
   color: #1e40af;
 }
 
 .notification-warning {
-  border-left: 4px solid #f59e0b;
+  border-left: 4px solid var(--warning);
   color: #92400e;
 }
 
@@ -1289,54 +1310,66 @@ body {
 <div class="login-container" id="loginContainer">
   <div class="login-box">
     <div class="login-icon">
-      <i class="fas fa-lock"></i>
+      <i class="fas fa-lock" aria-hidden="true"></i>
     </div>
     <h1 class="login-title">Admin Dashboard</h1>
     <p class="login-subtitle">Akses terbatas untuk panitia dan pengelola acara</p>
     
     <form id="loginForm">
       <div class="form-group">
-        <label for="username"><i class="fas fa-user"></i> Username</label>
-        <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
+        <label for="username" id="usernameLabel">
+          <i class="fas fa-user" aria-hidden="true"></i> Username
+        </label>
+        <input type="text" id="username" class="form-control" 
+               placeholder="Masukkan username" 
+               aria-labelledby="usernameLabel"
+               aria-required="true"
+               required>
       </div>
       
       <div class="form-group">
-        <label for="password"><i class="fas fa-lock"></i> Password</label>
-        <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
+        <label for="password" id="passwordLabel">
+          <i class="fas fa-lock" aria-hidden="true"></i> Password
+        </label>
+        <input type="password" id="password" class="form-control" 
+               placeholder="Masukkan password" 
+               aria-labelledby="passwordLabel"
+               aria-required="true"
+               required>
       </div>
       
       <button type="submit" class="btn-login" id="loginBtn">
-        <i class="fas fa-sign-in-alt"></i> Masuk ke Dashboard
+        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Masuk ke Dashboard
       </button>
       
       <div class="error-message" id="loginError" style="display: none;">
-        <i class="fas fa-exclamation-circle"></i> Username atau password salah
+        <i class="fas fa-exclamation-circle" aria-hidden="true"></i> Username atau password salah
       </div>
     </form>
     
     <div class="login-footer">
-      <p><i class="fas fa-info-circle"></i> Hubungi administrator jika lupa password</p>
+      <p><i class="fas fa-info-circle" aria-hidden="true"></i> Hubungi administrator jika lupa password</p>
     </div>
   </div>
 </div>
 
 <!-- Dashboard Container -->
-<div class="dashboard-container" id="dashboardContainer" style="display: none;">
+<div class="dashboard-container" id="dashboardContainer">
   <!-- Header -->
   <div class="dashboard-header">
     <div class="header-left">
-      <h1><i class="fas fa-mosque"></i> Dashboard Admin Buka Puasa Bersama</h1>
+      <h1><i class="fas fa-mosque" aria-hidden="true"></i> Dashboard Admin Buka Puasa Bersama</h1>
       <p class="subtitle">Sistem monitoring kehadiran jamaah real-time</p>
     </div>
     <div class="header-right">
       <div class="user-info">
         <span class="user-role" id="userRole">Admin</span>
-        <button class="btn-logout" id="logoutBtn">
-          <i class="fas fa-sign-out-alt"></i> Logout
+        <button class="btn-logout" id="logoutBtn" aria-label="Logout dari sistem">
+          <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
         </button>
       </div>
       <div class="last-update" id="lastUpdate">
-        <i class="fas fa-sync-alt"></i> Terakhir update: <span id="updateTime">-</span>
+        <i class="fas fa-sync-alt" aria-hidden="true"></i> Terakhir update: <span id="updateTime">-</span>
       </div>
     </div>
   </div>
@@ -1345,40 +1378,40 @@ body {
   <div class="stats-container">
     <div class="stat-card">
       <div class="stat-icon total">
-        <i class="fas fa-users"></i>
+        <i class="fas fa-users" aria-hidden="true"></i>
       </div>
       <div class="stat-content">
-        <h3 id="totalRegistered">0</h3>
+        <h3 class="stat-value" data-stat="totalRegistered">0</h3>
         <p>Total Pendaftar</p>
       </div>
     </div>
     
     <div class="stat-card">
       <div class="stat-icon present">
-        <i class="fas fa-user-check"></i>
+        <i class="fas fa-user-check" aria-hidden="true"></i>
       </div>
       <div class="stat-content">
-        <h3 id="totalPresent">0</h3>
+        <h3 class="stat-value" data-stat="totalPresent">0</h3>
         <p>Sudah Hadir</p>
       </div>
     </div>
     
     <div class="stat-card">
       <div class="stat-icon waiting">
-        <i class="fas fa-user-clock"></i>
+        <i class="fas fa-user-clock" aria-hidden="true"></i>
       </div>
       <div class="stat-content">
-        <h3 id="totalWaiting">0</h3>
+        <h3 class="stat-value" data-stat="totalWaiting">0</h3>
         <p>Belum Hadir</p>
       </div>
     </div>
     
     <div class="stat-card">
       <div class="stat-icon total-people">
-        <i class="fas fa-user-friends"></i>
+        <i class="fas fa-user-friends" aria-hidden="true"></i>
       </div>
       <div class="stat-content">
-        <h3 id="totalPeople">0</h3>
+        <h3 class="stat-value" data-stat="totalPeople">0</h3>
         <p>Total Jamaah</p>
       </div>
     </div>
@@ -1386,17 +1419,17 @@ body {
   
   <!-- Tabs -->
   <div class="tabs">
-    <button class="tab active" data-tab="scanner">
-      <i class="fas fa-qrcode"></i> QR Scanner
+    <button class="tab active" data-tab="scanner" aria-label="Tab scanner QR code">
+      <i class="fas fa-qrcode" aria-hidden="true"></i> QR Scanner
     </button>
-    <button class="tab" data-tab="participants">
-      <i class="fas fa-list"></i> Daftar Jamaah
+    <button class="tab" data-tab="participants" aria-label="Tab daftar jamaah">
+      <i class="fas fa-list" aria-hidden="true"></i> Daftar Jamaah
     </button>
-    <button class="tab" data-tab="analytics">
-      <i class="fas fa-chart-bar"></i> Analisis
+    <button class="tab" data-tab="analytics" aria-label="Tab analisis data">
+      <i class="fas fa-chart-bar" aria-hidden="true"></i> Analisis
     </button>
-    <button class="tab" data-tab="settings">
-      <i class="fas fa-cog"></i> Pengaturan
+    <button class="tab" data-tab="settings" aria-label="Tab pengaturan sistem">
+      <i class="fas fa-cog" aria-hidden="true"></i> Pengaturan
     </button>
   </div>
   
@@ -1405,7 +1438,7 @@ body {
     <!-- Scanner Tab -->
     <div class="tab-content active" id="scannerTab">
       <div class="scanner-section">
-        <h2><i class="fas fa-qrcode"></i> QR Code Scanner</h2>
+        <h2><i class="fas fa-qrcode" aria-hidden="true"></i> QR Code Scanner</h2>
         <p class="subtitle">Arahkan kamera ke QR Code pada kartu akses jamaah</p>
         
         <div class="scanner-box">
@@ -1415,27 +1448,27 @@ body {
           </div>
           
           <div class="scanner-controls">
-            <button id="startScanner" class="btn-primary">
-              <i class="fas fa-play"></i> Mulai Scan
+            <button id="startScanner" class="btn-primary" aria-label="Mulai scan QR code">
+              <i class="fas fa-play" aria-hidden="true"></i> Mulai Scan
             </button>
-            <button id="stopScanner" class="btn-secondary" disabled>
-              <i class="fas fa-stop"></i> Stop Scan
+            <button id="stopScanner" class="btn-secondary" disabled aria-label="Stop scan QR code">
+              <i class="fas fa-stop" aria-hidden="true"></i> Stop Scan
             </button>
-            <button id="manualCheckin" class="btn-tertiary">
-              <i class="fas fa-keyboard"></i> Check-in Manual
+            <button id="manualCheckin" class="btn-tertiary" aria-label="Check-in manual tanpa QR code">
+              <i class="fas fa-keyboard" aria-hidden="true"></i> Check-in Manual
             </button>
           </div>
         </div>
         
-        <div class="scan-result" id="scanResult" style="display: none;">
-          <h3><i class="fas fa-check-circle"></i> Hasil Scan</h3>
+        <div class="scan-result" id="scanResult">
+          <h3><i class="fas fa-check-circle" aria-hidden="true"></i> Hasil Scan</h3>
           <div id="scanResultContent"></div>
           <div class="scan-actions">
-            <button id="confirmCheckin" class="btn-success">
-              <i class="fas fa-user-check"></i> Konfirmasi Check-in
+            <button id="confirmCheckin" class="btn-success" aria-label="Konfirmasi check-in peserta">
+              <i class="fas fa-user-check" aria-hidden="true"></i> Konfirmasi Check-in
             </button>
-            <button id="cancelCheckin" class="btn-danger">
-              <i class="fas fa-times"></i> Batal
+            <button id="cancelCheckin" class="btn-danger" aria-label="Batalkan check-in">
+              <i class="fas fa-times" aria-hidden="true"></i> Batal
             </button>
           </div>
         </div>
@@ -1446,17 +1479,17 @@ body {
     <div class="tab-content" id="participantsTab">
       <div class="participants-section">
         <div class="section-header">
-          <h2><i class="fas fa-users"></i> Daftar Jamaah Terdaftar</h2>
+          <h2><i class="fas fa-users" aria-hidden="true"></i> Daftar Jamaah Terdaftar</h2>
           <div class="header-actions">
             <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input type="text" id="searchInput" placeholder="Cari nama atau ID...">
+              <i class="fas fa-search" aria-hidden="true"></i>
+              <input type="text" id="searchInput" placeholder="Cari nama atau ID..." aria-label="Cari jamaah">
             </div>
-            <button id="refreshBtn" class="btn-refresh">
-              <i class="fas fa-sync-alt"></i> Refresh
+            <button id="refreshBtn" class="btn-refresh" aria-label="Refresh data jamaah">
+              <i class="fas fa-sync-alt" aria-hidden="true"></i> Refresh
             </button>
-            <button id="exportBtn" class="btn-export">
-              <i class="fas fa-download"></i> Export
+            <button id="exportBtn" class="btn-export" aria-label="Export data ke CSV">
+              <i class="fas fa-download" aria-hidden="true"></i> Export
             </button>
           </div>
         </div>
@@ -1481,9 +1514,9 @@ body {
         
         <div class="table-footer">
           <div class="pagination">
-            <button id="prevPage" disabled><i class="fas fa-chevron-left"></i></button>
+            <button id="prevPage" disabled aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
             <span id="pageInfo">Halaman 1 dari 1</span>
-            <button id="nextPage" disabled><i class="fas fa-chevron-right"></i></button>
+            <button id="nextPage" disabled aria-label="Halaman berikutnya"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
           </div>
           <div class="total-info">
             Total: <span id="tableTotal">0</span> pendaftar
@@ -1495,32 +1528,32 @@ body {
     <!-- Analytics Tab -->
     <div class="tab-content" id="analyticsTab">
       <div class="analytics-section">
-        <h2><i class="fas fa-chart-bar"></i> Analisis Kehadiran</h2>
+        <h2><i class="fas fa-chart-bar" aria-hidden="true"></i> Analisis Kehadiran</h2>
         
         <div class="charts-grid">
           <div class="chart-card">
-            <h3><i class="fas fa-chart-pie"></i> Status Kehadiran</h3>
-            <canvas id="attendanceChart"></canvas>
+            <h3><i class="fas fa-chart-pie" aria-hidden="true"></i> Status Kehadiran</h3>
+            <canvas id="attendanceChart" aria-label="Diagram status kehadiran jamaah"></canvas>
           </div>
           
           <div class="chart-card">
-            <h3><i class="fas fa-chart-line"></i> Timeline Pendaftaran</h3>
-            <canvas id="registrationChart"></canvas>
+            <h3><i class="fas fa-chart-line" aria-hidden="true"></i> Timeline Pendaftaran</h3>
+            <canvas id="registrationChart" aria-label="Grafik timeline pendaftaran jamaah"></canvas>
           </div>
           
           <div class="chart-card">
-            <h3><i class="fas fa-map-marker-alt"></i> Distribusi Domisili</h3>
-            <canvas id="locationChart"></canvas>
+            <h3><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Distribusi Domisili</h3>
+            <canvas id="locationChart" aria-label="Diagram distribusi domisili jamaah"></canvas>
           </div>
           
           <div class="chart-card">
-            <h3><i class="fas fa-venus-mars"></i> Rasio Gender</h3>
-            <canvas id="genderChart"></canvas>
+            <h3><i class="fas fa-venus-mars" aria-hidden="true"></i> Rasio Gender</h3>
+            <canvas id="genderChart" aria-label="Diagram rasio gender jamaah"></canvas>
           </div>
         </div>
         
         <div class="analytics-summary">
-          <h3><i class="fas fa-info-circle"></i> Ringkasan Statistik</h3>
+          <h3><i class="fas fa-info-circle" aria-hidden="true"></i> Ringkasan Statistik</h3>
           <div class="summary-grid">
             <div class="summary-item">
               <span class="label">Rata-rata Usia</span>
@@ -1546,33 +1579,33 @@ body {
     <!-- Settings Tab -->
     <div class="tab-content" id="settingsTab">
       <div class="settings-section">
-        <h2><i class="fas fa-cog"></i> Pengaturan Sistem</h2>
+        <h2><i class="fas fa-cog" aria-hidden="true"></i> Pengaturan Sistem</h2>
         
         <div class="settings-grid">
           <div class="settings-card">
-            <h3><i class="fas fa-user-shield"></i> Keamanan</h3>
+            <h3><i class="fas fa-user-shield" aria-hidden="true"></i> Keamanan</h3>
             <div class="setting-item">
               <label>Ganti Password Admin</label>
-              <input type="password" id="newPassword" placeholder="Password baru">
-              <button class="btn-small" id="savePasswordBtn">Simpan</button>
+              <input type="password" id="newPassword" placeholder="Password baru" aria-label="Input password baru">
+              <button class="btn-small" id="savePasswordBtn" aria-label="Simpan password baru">Simpan</button>
             </div>
           </div>
           
           <div class="settings-card">
-            <h3><i class="fas fa-bell"></i> Notifikasi</h3>
+            <h3><i class="fas fa-bell" aria-hidden="true"></i> Notifikasi</h3>
             <div class="setting-item">
               <label>Email Notifikasi</label>
-              <input type="email" id="notificationEmail" placeholder="email@contoh.com">
-              <button class="btn-small" id="saveEmailBtn">Simpan</button>
+              <input type="email" id="notificationEmail" placeholder="email@contoh.com" aria-label="Input email notifikasi">
+              <button class="btn-small" id="saveEmailBtn" aria-label="Simpan email notifikasi">Simpan</button>
             </div>
           </div>
           
           <div class="settings-card">
-            <h3><i class="fas fa-database"></i> Data</h3>
+            <h3><i class="fas fa-database" aria-hidden="true"></i> Data</h3>
             <div class="setting-item">
               <label>Backup Data</label>
-              <button class="btn-small" id="backupBtn">
-                <i class="fas fa-download"></i> Backup ke Excel
+              <button class="btn-small" id="backupBtn" aria-label="Backup data ke Excel">
+                <i class="fas fa-download" aria-hidden="true"></i> Backup ke Excel
               </button>
             </div>
           </div>
@@ -1586,7 +1619,7 @@ body {
     <div class="footer-content">
       <p>© 2026 Masjid Central Okayama • Sistem Pendataan Buka Puasa Bersama</p>
       <p class="prayer-message">
-        <i class="fas fa-star-and-crescent"></i>
+        <i class="fas fa-star-and-crescent" aria-hidden="true"></i>
         Semoga Allah memberkahi setiap amal kebaikan kita
       </p>
       <div class="system-info">
@@ -1602,29 +1635,212 @@ body {
 
 <script>
 // ============================================
+// KONSTANTA SISTEM
+// ============================================
+
+const CONSTANTS = {
+  // User roles
+  ROLES: {
+    ADMIN: 'Administrator',
+    PANITIA: 'Panitia'
+  },
+  
+  // Permissions
+  PERMISSIONS: {
+    SCANNER: 'scanner',
+    PARTICIPANTS: 'participants',
+    ANALYTICS: 'analytics',
+    SETTINGS: 'settings'
+  },
+  
+  // Participant status
+  STATUS: {
+    PRESENT: 'Hadir',
+    WAITING: 'Menunggu'
+  },
+  
+  // Notification types
+  NOTIFICATION_TYPES: {
+    SUCCESS: 'success',
+    ERROR: 'error',
+    WARNING: 'warning',
+    INFO: 'info'
+  },
+  
+  // Time intervals
+  INTERVALS: {
+    AUTO_REFRESH: 120000, // 2 menit
+    SESSION_CHECK: 60000, // 1 menit
+    SCAN_TIMEOUT: 15000   // 15 detik
+  }
+};
+
+// ============================================
 // KONFIGURASI SISTEM
 // ============================================
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyFwWCu4SzL6re7bwuSg1myRSS3y4yiPddpNgGE8bz7WPEmdVDpUWhq2S4xcOlsvqQ/exec";
+const LOGIN_ENDPOINT = `${API_URL}?action=login`;
 
-// Data login yang valid dengan role berbeda
-const validCredentials = {
-  admin: {
-    username: 'admin',
-    password: 'admin123',
-    role: 'Administrator',
-    permissions: ['scanner', 'participants', 'analytics', 'settings']
+// ============================================
+// SESSION MANAGEMENT
+// ============================================
+
+const SessionManager = {
+  TOKEN_KEY: 'iftar_auth_token',
+  
+  saveSession(token, userData, expiresInHours = 8) {
+    const sessionData = {
+      token,
+      user: userData,
+      expiry: Date.now() + (expiresInHours * 60 * 60 * 1000)
+    };
+    
+    try {
+      sessionStorage.setItem(this.TOKEN_KEY, JSON.stringify(sessionData));
+      return true;
+    } catch (error) {
+      console.error('Failed to save session:', error);
+      return false;
+    }
   },
-  panitia: {
-    username: 'panitia',
-    password: 'panitia123',
-    role: 'Panitia',
-    permissions: ['scanner'] // Panitia hanya bisa akses scanner
+  
+  validateSession() {
+    try {
+      const sessionData = sessionStorage.getItem(this.TOKEN_KEY);
+      
+      if (!sessionData) return null;
+      
+      const parsed = JSON.parse(sessionData);
+      
+      // Cek expiry
+      if (Date.now() > parsed.expiry) {
+        this.clearSession();
+        return null;
+      }
+      
+      // Cek structure
+      if (!parsed.token || !parsed.user) {
+        this.clearSession();
+        return null;
+      }
+      
+      return parsed;
+      
+    } catch (error) {
+      console.error('Session validation error:', error);
+      this.clearSession();
+      return null;
+    }
+  },
+  
+  getToken() {
+    const session = this.validateSession();
+    return session ? session.token : null;
+  },
+  
+  getUser() {
+    const session = this.validateSession();
+    return session ? session.user : null;
+  },
+  
+  clearSession() {
+    sessionStorage.removeItem(this.TOKEN_KEY);
+  },
+  
+  extendSession(extraHours = 0.5) {
+    const session = this.validateSession();
+    if (session) {
+      session.expiry = Date.now() + (extraHours * 60 * 60 * 1000);
+      sessionStorage.setItem(this.TOKEN_KEY, JSON.stringify(session));
+      return true;
+    }
+    return false;
   }
 };
 
-// State aplikasi
+// ============================================
+// DOM ELEMENTS CACHE
+// ============================================
+
+const DOM = {
+  // Login elements
+  loginForm: document.getElementById('loginForm'),
+  usernameInput: document.getElementById('username'),
+  passwordInput: document.getElementById('password'),
+  loginBtn: document.getElementById('loginBtn'),
+  loginError: document.getElementById('loginError'),
+  loginContainer: document.getElementById('loginContainer'),
+  
+  // Dashboard elements
+  dashboardContainer: document.getElementById('dashboardContainer'),
+  userRole: document.getElementById('userRole'),
+  logoutBtn: document.getElementById('logoutBtn'),
+  
+  // Stats elements
+  statElements: {
+    totalRegistered: document.querySelector('[data-stat="totalRegistered"]'),
+    totalPresent: document.querySelector('[data-stat="totalPresent"]'),
+    totalWaiting: document.querySelector('[data-stat="totalWaiting"]'),
+    totalPeople: document.querySelector('[data-stat="totalPeople"]')
+  },
+  
+  // Scanner elements
+  video: document.getElementById('video'),
+  startScannerBtn: document.getElementById('startScanner'),
+  stopScannerBtn: document.getElementById('stopScanner'),
+  manualCheckinBtn: document.getElementById('manualCheckin'),
+  scanResult: document.getElementById('scanResult'),
+  scanResultContent: document.getElementById('scanResultContent'),
+  confirmCheckinBtn: document.getElementById('confirmCheckin'),
+  cancelCheckinBtn: document.getElementById('cancelCheckin'),
+  
+  // Table elements
+  participantsTableBody: document.getElementById('participantsTableBody'),
+  searchInput: document.getElementById('searchInput'),
+  refreshBtn: document.getElementById('refreshBtn'),
+  exportBtn: document.getElementById('exportBtn'),
+  prevPageBtn: document.getElementById('prevPage'),
+  nextPageBtn: document.getElementById('nextPage'),
+  pageInfo: document.getElementById('pageInfo'),
+  tableTotal: document.getElementById('tableTotal'),
+  
+  // Charts
+  charts: {
+    attendance: document.getElementById('attendanceChart'),
+    registration: document.getElementById('registrationChart'),
+    location: document.getElementById('locationChart'),
+    gender: document.getElementById('genderChart')
+  },
+  
+  // Analytics
+  avgAge: document.getElementById('avgAge'),
+  topLocation: document.getElementById('topLocation'),
+  lastCheckin: document.getElementById('lastCheckin'),
+  todayReg: document.getElementById('todayReg'),
+  
+  // Settings
+  savePasswordBtn: document.getElementById('savePasswordBtn'),
+  saveEmailBtn: document.getElementById('saveEmailBtn'),
+  backupBtn: document.getElementById('backupBtn'),
+  
+  // System
+  updateTime: document.getElementById('updateTime'),
+  systemStatus: document.getElementById('systemStatus'),
+  dataCount: document.getElementById('dataCount'),
+  serverTime: document.getElementById('serverTime'),
+  
+  // Loading
+  loadingOverlay: document.getElementById('loadingOverlay'),
+  loadingText: document.getElementById('loadingText')
+};
+
+// ============================================
+// STATE APLIKASI
+// ============================================
+
 let currentUser = null;
+let authToken = null;
 let scannerActive = false;
 let videoStream = null;
 let currentScannerData = null;
@@ -1632,11 +1848,38 @@ let participantsData = [];
 let currentPage = 1;
 const itemsPerPage = 10;
 
-// Charts
-let attendanceChart = null;
-let registrationChart = null;
-let locationChart = null;
-let genderChart = null;
+// Chart instances
+const chartManager = {
+  instances: {},
+  
+  create(chartId, config) {
+    this.destroy(chartId);
+    
+    const canvas = document.getElementById(chartId);
+    if (!canvas) {
+      console.error(`Canvas ${chartId} not found`);
+      return null;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    this.instances[chartId] = new Chart(ctx, config);
+    
+    return this.instances[chartId];
+  },
+  
+  destroy(chartId) {
+    if (this.instances[chartId]) {
+      this.instances[chartId].destroy();
+      delete this.instances[chartId];
+    }
+  },
+  
+  destroyAll() {
+    Object.keys(this.instances).forEach(chartId => {
+      this.destroy(chartId);
+    });
+  }
+};
 
 // Audio Context untuk efek suara
 let audioContext = null;
@@ -1667,28 +1910,23 @@ function formatDate(date = new Date()) {
 
 // Update waktu terakhir update
 function updateLastUpdateTime() {
-  const timeStr = formatTime(new Date());
-  document.getElementById('updateTime').textContent = timeStr;
+  DOM.updateTime.textContent = formatTime(new Date());
 }
 
 // Update waktu server
 function updateServerTime() {
-  const timeStr = formatTime(new Date());
-  document.getElementById('serverTime').textContent = timeStr;
+  DOM.serverTime.textContent = formatTime(new Date());
 }
 
 // Tampilkan loading overlay
 function showLoading(text = 'Memuat data...') {
-  const overlay = document.getElementById('loadingOverlay');
-  const textElement = document.getElementById('loadingText');
-  textElement.textContent = text;
-  overlay.style.display = 'flex';
+  DOM.loadingText.textContent = text;
+  DOM.loadingOverlay.style.display = 'flex';
 }
 
 // Sembunyikan loading overlay
 function hideLoading() {
-  const overlay = document.getElementById('loadingOverlay');
-  overlay.style.display = 'none';
+  DOM.loadingOverlay.style.display = 'none';
 }
 
 // Inisialisasi audio untuk efek suara
@@ -1743,34 +1981,87 @@ function playSound(type) {
   }
 }
 
+// Utility function untuk fetch dengan error handling
+async function safeFetch(url, options = {}) {
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+        ...options.headers
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const result = await response.json();
+    
+    if (result.error) {
+      throw new Error(result.error);
+    }
+    
+    return result;
+    
+  } catch (error) {
+    console.error('Fetch error:', error);
+    
+    // Tampilkan notifikasi yang user-friendly
+    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+      showNotification('Tidak dapat terhubung ke server. Periksa koneksi internet Anda.', CONSTANTS.NOTIFICATION_TYPES.ERROR);
+    } else {
+      showNotification(`Error: ${error.message}`, CONSTANTS.NOTIFICATION_TYPES.ERROR);
+    }
+    
+    throw error;
+  }
+}
+
+// ============================================
+// FUNGSI NOTIFIKASI
+// ============================================
+
+function showNotification(message, type = CONSTANTS.NOTIFICATION_TYPES.INFO) {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.setAttribute('role', 'alert');
+  
+  let icon = 'info-circle';
+  switch(type) {
+    case CONSTANTS.NOTIFICATION_TYPES.SUCCESS: icon = 'check-circle'; break;
+    case CONSTANTS.NOTIFICATION_TYPES.ERROR: icon = 'exclamation-circle'; break;
+    case CONSTANTS.NOTIFICATION_TYPES.WARNING: icon = 'exclamation-triangle'; break;
+  }
+  
+  notification.innerHTML = `
+    <i class="fas fa-${icon}" aria-hidden="true"></i>
+    <span>${message}</span>
+  `;
+  
+  // Add to document
+  document.body.appendChild(notification);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.classList.add('fade-out');
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
+
 // ============================================
 // FUNGSI LOGIN
 // ============================================
 
-// Setup event listeners untuk login
-function setupLoginListeners() {
-  const loginForm = document.getElementById('loginForm');
-  const loginBtn = document.getElementById('loginBtn');
-  
-  loginForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    handleLogin();
-  });
-  
-  // Enter key untuk submit
-  document.getElementById('password').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      handleLogin();
-    }
-  });
-}
-
 async function handleLogin() {
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
-  const errorElement = document.getElementById('loginError');
-  
-  console.log('🔐 Login attempt for user:', username);
+  const username = DOM.usernameInput.value.trim();
+  const password = DOM.passwordInput.value;
   
   // Validasi input
   if (!username || !password) {
@@ -1779,70 +2070,71 @@ async function handleLogin() {
   }
   
   // Tampilkan loading
-  const loginBtn = document.getElementById('loginBtn');
-  loginBtn.disabled = true;
-  loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+  DOM.loginBtn.disabled = true;
+  DOM.loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Memproses...';
   
-  // Simulasi proses login
-  await new Promise(resolve => setTimeout(resolve, 800));
-  
-  // Cek credentials
-  let authenticated = false;
-  let userData = null;
-  
-  for (const [key, cred] of Object.entries(validCredentials)) {
-    if (cred.username === username && cred.password === password) {
-      authenticated = true;
-      userData = cred;
-      break;
+  try {
+    // Kirim permintaan login ke backend
+    const response = await fetch(LOGIN_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        timestamp: new Date().toISOString()
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  }
-  
-  if (authenticated) {
-    // Login berhasil
-    currentUser = {
-      username: userData.username,
-      role: userData.role,
-      permissions: userData.permissions,
-      loginTime: new Date().toISOString()
-    };
     
-    // Simpan ke session storage
-    sessionStorage.setItem('iftar_admin_user', JSON.stringify(currentUser));
+    const result = await response.json();
     
-    // Redirect ke dashboard
-    showDashboard();
+    if (result.success && result.token) {
+      // Simpan token dan data user
+      authToken = result.token;
+      currentUser = result.user;
+      
+      // Simpan session
+      SessionManager.saveSession(authToken, currentUser);
+      
+      // Redirect ke dashboard
+      showDashboard();
+      DOM.loginForm.reset();
+      
+    } else {
+      throw new Error(result.error || 'Login gagal');
+    }
     
-    // Reset form
-    document.getElementById('loginForm').reset();
-    
-  } else {
-    // Login gagal
+  } catch (error) {
+    console.error('Login error:', error);
     showError('Username atau password salah');
     playSound('error');
     
-    // Shake effect
+    // Shake effect untuk feedback
     const loginBox = document.querySelector('.login-box');
     loginBox.style.animation = 'shake 0.5s';
     setTimeout(() => {
       loginBox.style.animation = '';
     }, 500);
+  } finally {
+    // Reset button
+    DOM.loginBtn.disabled = false;
+    DOM.loginBtn.innerHTML = '<i class="fas fa-sign-in-alt" aria-hidden="true"></i> Masuk ke Dashboard';
   }
-  
-  // Reset button
-  loginBtn.disabled = false;
-  loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk ke Dashboard';
 }
 
 function showError(message) {
-  const errorElement = document.getElementById('loginError');
-  errorElement.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-  errorElement.style.display = 'block';
+  DOM.loginError.innerHTML = `<i class="fas fa-exclamation-circle" aria-hidden="true"></i> ${message}`;
+  DOM.loginError.style.display = 'block';
 }
 
 function showLogin() {
-  document.getElementById('loginContainer').style.display = 'flex';
-  document.getElementById('dashboardContainer').style.display = 'none';
+  DOM.loginContainer.style.display = 'flex';
+  DOM.dashboardContainer.style.display = 'none';
 }
 
 // ============================================
@@ -1850,8 +2142,8 @@ function showLogin() {
 // ============================================
 
 async function showDashboard() {
-  document.getElementById('loginContainer').style.display = 'none';
-  document.getElementById('dashboardContainer').style.display = 'block';
+  DOM.loginContainer.style.display = 'none';
+  DOM.dashboardContainer.style.display = 'block';
   
   // Inisialisasi audio
   initAudio();
@@ -1877,13 +2169,19 @@ async function showDashboard() {
   updateServerTime();
   setInterval(updateServerTime, 1000);
   
-  // Setup auto refresh (120 detik / 2 menit - waktu ideal)
-  startAutoRefresh(120000);
+  // Setup auto refresh
+  startAutoRefresh(CONSTANTS.INTERVALS.AUTO_REFRESH);
+  
+  // Auto-extend session setiap 30 menit jika user aktif
+  setInterval(() => {
+    if (document.hasFocus()) {
+      SessionManager.extendSession(0.5);
+    }
+  }, 30 * 60 * 1000);
 }
 
 function updateUIForRole() {
-  const roleElement = document.getElementById('userRole');
-  roleElement.textContent = currentUser.role;
+  DOM.userRole.textContent = currentUser.role;
   
   // Sembunyikan/munculkan tab berdasarkan permissions
   const tabs = document.querySelectorAll('.tab');
@@ -1897,14 +2195,14 @@ function updateUIForRole() {
   });
   
   // Jika scanner adalah satu-satunya permission, aktifkan tab scanner
-  if (currentUser.permissions.length === 1 && currentUser.permissions[0] === 'scanner') {
+  if (currentUser.permissions.length === 1 && currentUser.permissions[0] === CONSTANTS.PERMISSIONS.SCANNER) {
     document.querySelector('[data-tab="scanner"]').click();
   }
 }
 
 function setupDashboardListeners() {
   // Logout button
-  document.getElementById('logoutBtn').addEventListener('click', function() {
+  DOM.logoutBtn.addEventListener('click', function() {
     if (confirm('Apakah Anda yakin ingin logout?')) {
       // Stop scanner if active
       if (scannerActive) {
@@ -1912,8 +2210,12 @@ function setupDashboardListeners() {
       }
       
       // Clear session
-      sessionStorage.removeItem('iftar_admin_user');
+      SessionManager.clearSession();
       currentUser = null;
+      authToken = null;
+      
+      // Cleanup resources
+      cleanupResources();
       
       // Show login
       showLogin();
@@ -1921,11 +2223,11 @@ function setupDashboardListeners() {
   });
   
   // Refresh button
-  document.getElementById('refreshBtn').addEventListener('click', async function() {
+  DOM.refreshBtn.addEventListener('click', async function() {
     const btn = this;
     const originalHtml = btn.innerHTML;
     
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>';
     btn.disabled = true;
     
     await loadDashboardData();
@@ -1933,28 +2235,28 @@ function setupDashboardListeners() {
     btn.innerHTML = originalHtml;
     btn.disabled = false;
     
-    showNotification('Data diperbarui', 'success');
+    showNotification('Data diperbarui', CONSTANTS.NOTIFICATION_TYPES.SUCCESS);
     playSound('success');
   });
   
   // Export button (hanya untuk admin)
-  document.getElementById('exportBtn').addEventListener('click', exportData);
+  DOM.exportBtn.addEventListener('click', exportData);
   
   // Search functionality
-  document.getElementById('searchInput').addEventListener('input', function() {
+  DOM.searchInput.addEventListener('input', function() {
     currentPage = 1;
     updateParticipantsTable();
   });
   
   // Pagination
-  document.getElementById('prevPage').addEventListener('click', function() {
+  DOM.prevPageBtn.addEventListener('click', function() {
     if (currentPage > 1) {
       currentPage--;
       updateParticipantsTable();
     }
   });
   
-  document.getElementById('nextPage').addEventListener('click', function() {
+  DOM.nextPageBtn.addEventListener('click', function() {
     const totalPages = Math.ceil(participantsData.length / itemsPerPage);
     if (currentPage < totalPages) {
       currentPage++;
@@ -1963,9 +2265,9 @@ function setupDashboardListeners() {
   });
   
   // Settings buttons (hanya untuk admin)
-  document.getElementById('savePasswordBtn').addEventListener('click', savePassword);
-  document.getElementById('saveEmailBtn').addEventListener('click', saveEmail);
-  document.getElementById('backupBtn').addEventListener('click', backupData);
+  DOM.savePasswordBtn.addEventListener('click', savePassword);
+  DOM.saveEmailBtn.addEventListener('click', saveEmail);
+  DOM.backupBtn.addEventListener('click', backupData);
 }
 
 // ============================================
@@ -1981,12 +2283,12 @@ async function loadDashboardData() {
     updateStats();
     
     // Update table hanya jika user memiliki permission
-    if (currentUser.permissions.includes('participants')) {
+    if (currentUser.permissions.includes(CONSTANTS.PERMISSIONS.PARTICIPANTS)) {
       updateParticipantsTable();
     }
     
     // Update charts hanya jika user memiliki permission
-    if (currentUser.permissions.includes('analytics')) {
+    if (currentUser.permissions.includes(CONSTANTS.PERMISSIONS.ANALYTICS)) {
       updateCharts();
     }
     
@@ -1995,7 +2297,7 @@ async function loadDashboardData() {
     
   } catch (error) {
     console.error('Error loading dashboard data:', error);
-    showNotification('Gagal memuat data', 'error');
+    showNotification('Gagal memuat data', CONSTANTS.NOTIFICATION_TYPES.ERROR);
     playSound('error');
   }
 }
@@ -2004,11 +2306,7 @@ async function loadParticipants() {
   try {
     showLoading('Memuat data peserta...');
     
-    console.log('Fetching participants from:', API_URL);
-    const response = await fetch(`${API_URL}?action=get_participants&_t=${new Date().getTime()}`);
-    const result = await response.json();
-    
-    console.log('API Response:', result);
+    const result = await safeFetch(`${API_URL}?action=get_participants&_t=${new Date().getTime()}`);
     
     if (result.success && result.participants) {
       participantsData = result.participants.map(participant => ({
@@ -2018,7 +2316,7 @@ async function loadParticipants() {
         email: participant.email || participant.Email || '-',
         domisili: participant.domisili || participant.Domisili || 'Tidak diketahui',
         total: parseInt(participant.total) || parseInt(participant.Total) || 1,
-        status: participant.status || participant.Status || 'Menunggu',
+        status: participant.status || participant.Status || CONSTANTS.STATUS.WAITING,
         checkin_time: participant.checkin_time || participant['Check-in Time'] || '-',
         usia: participant.usia || participant.Usia || '-',
         gender: participant.gender || participant.jk || participant.Gender || '-',
@@ -2026,18 +2324,13 @@ async function loadParticipants() {
       }));
       
       console.log('Participants loaded:', participantsData.length);
-      showNotification('Data peserta berhasil dimuat', 'success');
+      showNotification('Data peserta berhasil dimuat', CONSTANTS.NOTIFICATION_TYPES.SUCCESS);
       playSound('success');
     } else {
-      console.error('Gagal mengambil data peserta:', result.error);
-      showNotification('Gagal mengambil data peserta', 'error');
-      playSound('error');
-      participantsData = [];
+      throw new Error(result.error || 'Gagal mengambil data');
     }
   } catch (error) {
-    console.error('Error fetching participants:', error);
-    showNotification('Gagal menghubungi server', 'error');
-    playSound('error');
+    console.error('Error loading participants:', error);
     participantsData = [];
   } finally {
     hideLoading();
@@ -2045,23 +2338,26 @@ async function loadParticipants() {
 }
 
 function updateStats() {
-  const total = participantsData.length;
-  const present = participantsData.filter(p => p.status === 'Hadir').length;
-  const waiting = total - present;
-  const totalPeople = participantsData.reduce((sum, p) => sum + (parseInt(p.total) || 1), 0);
+  const stats = {
+    totalRegistered: participantsData.length,
+    totalPresent: participantsData.filter(p => p.status === CONSTANTS.STATUS.PRESENT).length,
+    totalWaiting: participantsData.length - participantsData.filter(p => p.status === CONSTANTS.STATUS.PRESENT).length,
+    totalPeople: participantsData.reduce((sum, p) => sum + (parseInt(p.total) || 1), 0)
+  };
   
-  console.log('Stats updated - Total:', total, 'Present:', present, 'Waiting:', waiting, 'Total People:', totalPeople);
+  // Update semua stats sekaligus
+  Object.keys(stats).forEach(stat => {
+    const element = DOM.statElements[stat];
+    if (element) {
+      element.textContent = stats[stat];
+    }
+  });
   
-  document.getElementById('totalRegistered').textContent = total;
-  document.getElementById('totalPresent').textContent = present;
-  document.getElementById('totalWaiting').textContent = waiting;
-  document.getElementById('totalPeople').textContent = totalPeople;
-  document.getElementById('dataCount').textContent = `${total} data tersimpan`;
+  DOM.dataCount.textContent = `${participantsData.length} data tersimpan`;
 }
 
 function updateParticipantsTable() {
-  const tableBody = document.getElementById('participantsTableBody');
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const searchTerm = DOM.searchInput.value.toLowerCase();
   
   // Filter data
   const filteredData = participantsData.filter(p =>
@@ -2077,141 +2373,161 @@ function updateParticipantsTable() {
   const pageData = filteredData.slice(startIndex, endIndex);
   
   // Clear table
-  tableBody.innerHTML = '';
+  DOM.participantsTableBody.innerHTML = '';
   
   // Add rows
   pageData.forEach(participant => {
     const row = document.createElement('tr');
     
     // Status badge
-    const statusClass = participant.status === 'Hadir' ? 'status-success' : 'status-warning';
-    const statusIcon = participant.status === 'Hadir' ? 'fa-check-circle' : 'fa-clock';
+    const statusClass = participant.status === CONSTANTS.STATUS.PRESENT ? 'status-success' : 'status-warning';
+    const statusIcon = participant.status === CONSTANTS.STATUS.PRESENT ? 'fa-check-circle' : 'fa-clock';
     
-    // Tampilkan data berdasarkan role
-    // Panitia tidak boleh melihat nomor telepon dan email
     row.innerHTML = `
       <td><strong>${participant.id}</strong></td>
       <td>${participant.nama}</td>
       <td>${participant.total} orang</td>
-      <td><span class="status-badge ${statusClass}"><i class="fas ${statusIcon}"></i> ${participant.status}</span></td>
+      <td><span class="status-badge ${statusClass}"><i class="fas ${statusIcon}" aria-hidden="true"></i> ${participant.status}</span></td>
       <td>${participant.checkin_time || '-'}</td>
       <td class="actions">
-        ${participant.status !== 'Hadir' ? 
-          `<button class="btn-action btn-checkin" onclick="manualCheckin('${participant.id}')">
-            <i class="fas fa-user-check"></i> Check-in
+        ${participant.status !== CONSTANTS.STATUS.PRESENT ? 
+          `<button class="btn-action btn-checkin" onclick="manualCheckin('${participant.id}')" aria-label="Check-in ${participant.nama}">
+            <i class="fas fa-user-check" aria-hidden="true"></i> Check-in
           </button>` : 
-          '<span class="text-muted"><i class="fas fa-check"></i> Selesai</span>'
+          '<span class="text-muted"><i class="fas fa-check" aria-hidden="true"></i> Selesai</span>'
         }
-        ${currentUser.role === 'Administrator' ? 
-          `<button class="btn-action btn-view" onclick="viewParticipant('${participant.id}')">
-            <i class="fas fa-eye"></i>
+        ${currentUser.role === CONSTANTS.ROLES.ADMIN ? 
+          `<button class="btn-action btn-view" onclick="viewParticipant('${participant.id}')" aria-label="Lihat detail ${participant.nama}">
+            <i class="fas fa-eye" aria-hidden="true"></i>
           </button>` : ''
         }
       </td>
     `;
     
-    tableBody.appendChild(row);
+    DOM.participantsTableBody.appendChild(row);
   });
   
   // Update pagination info
-  document.getElementById('pageInfo').textContent = `Halaman ${currentPage} dari ${totalPages}`;
-  document.getElementById('tableTotal').textContent = filteredData.length;
+  DOM.pageInfo.textContent = `Halaman ${currentPage} dari ${totalPages}`;
+  DOM.tableTotal.textContent = filteredData.length;
   
   // Update pagination buttons
-  document.getElementById('prevPage').disabled = currentPage === 1;
-  document.getElementById('nextPage').disabled = currentPage === totalPages || totalPages === 0;
+  DOM.prevPageBtn.disabled = currentPage === 1;
+  DOM.nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
 }
 
 // ============================================
-// FUNGSI SCANNER QR - PERBAIKAN BUG KAMERA
+// FUNGSI SCANNER QR - DIPERBAIKI
 // ============================================
 
 function setupScanner() {
-  const startBtn = document.getElementById('startScanner');
-  const stopBtn = document.getElementById('stopScanner');
-  const manualBtn = document.getElementById('manualCheckin');
-  
-  startBtn.addEventListener('click', startScanner);
-  stopBtn.addEventListener('click', stopScanner);
-  manualBtn.addEventListener('click', showManualCheckin);
+  DOM.startScannerBtn.addEventListener('click', startScanner);
+  DOM.stopScannerBtn.addEventListener('click', stopScanner);
+  DOM.manualCheckinBtn.addEventListener('click', showManualCheckin);
   
   // Confirm check-in button
-  document.getElementById('confirmCheckin').addEventListener('click', confirmCheckin);
-  document.getElementById('cancelCheckin').addEventListener('click', cancelCheckin);
+  DOM.confirmCheckinBtn.addEventListener('click', confirmCheckin);
+  DOM.cancelCheckinBtn.addEventListener('click', cancelCheckin);
+  
+  // Handle tab visibility changes
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && scannerActive) {
+      console.log('Tab tidak aktif, stopping scanner...');
+      stopScanner();
+    }
+  });
 }
 
 async function startScanner() {
   if (scannerActive) return;
   
   try {
-    // Request camera access dengan konfigurasi yang lebih baik
+    // Cek apakah browser mendukung mediaDevices
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error('Browser tidak mendukung akses kamera');
+    }
+    
+    // Cek izin kamera terlebih dahulu
+    if (navigator.permissions && navigator.permissions.query) {
+      const cameraPermission = await navigator.permissions.query({ name: 'camera' });
+      
+      if (cameraPermission.state === 'denied') {
+        throw new Error('IZIN_KAMERA_DITOLAK');
+      }
+    }
+    
     const constraints = {
       video: { 
         facingMode: 'environment',
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
+        width: { ideal: 1280, max: 1920 },
+        height: { ideal: 720, max: 1080 }
       }
     };
     
     videoStream = await navigator.mediaDevices.getUserMedia(constraints);
     
-    const video = document.getElementById('video');
-    video.srcObject = videoStream;
+    DOM.video.srcObject = videoStream;
     
-    // Tunggu hingga video siap
-    await new Promise((resolve) => {
-      video.onloadedmetadata = () => {
-        video.play();
-        resolve();
-      };
+    // Handle video errors
+    DOM.video.onerror = () => {
+      throw new Error('Gagal memuat video stream');
+    };
+    
+    await new Promise((resolve, reject) => {
+      DOM.video.onloadedmetadata = resolve;
+      DOM.video.onerror = reject;
+      setTimeout(() => reject(new Error('Timeout loading video')), 5000);
     });
     
-    // Set active state
+    DOM.video.play();
+    
     scannerActive = true;
-    document.getElementById('startScanner').disabled = true;
-    document.getElementById('stopScanner').disabled = false;
+    DOM.startScannerBtn.disabled = true;
+    DOM.stopScannerBtn.disabled = false;
     
-    // Start scanning loop
     scanQRCode();
-    
-    showNotification('Scanner aktif', 'info');
+    showNotification('Scanner aktif', CONSTANTS.NOTIFICATION_TYPES.INFO);
     playSound('scan');
     
   } catch (error) {
     console.error('Camera error:', error);
-    showNotification('Tidak dapat mengakses kamera: ' + error.message, 'error');
+    
+    let errorMessage = 'Tidak dapat mengakses kamera';
+    let errorType = CONSTANTS.NOTIFICATION_TYPES.ERROR;
+    
+    switch(error.message) {
+      case 'IZIN_KAMERA_DITOLAK':
+        errorMessage = 'Izin kamera ditolak. Silakan aktifkan izin kamera di pengaturan browser.';
+        break;
+      case 'Permission dismissed':
+      case 'Permission denied':
+        errorMessage = 'Anda perlu memberikan izin kamera untuk menggunakan scanner.';
+        break;
+      case 'Requested device not found':
+        errorMessage = 'Kamera tidak ditemukan di perangkat ini.';
+        break;
+      default:
+        if (error.name === 'NotAllowedError') {
+          errorMessage = 'Akses kamera ditolak oleh pengguna atau browser.';
+        } else if (error.name === 'NotFoundError') {
+          errorMessage = 'Tidak ada kamera yang ditemukan.';
+          errorType = CONSTANTS.NOTIFICATION_TYPES.WARNING;
+        } else if (error.name === 'NotReadableError') {
+          errorMessage = 'Kamera sedang digunakan oleh aplikasi lain.';
+        } else if (error.name === 'OverconstrainedError') {
+          errorMessage = 'Kamera tidak memenuhi persyaratan. Coba gunakan kamera lain.';
+        }
+    }
+    
+    showNotification(errorMessage, errorType);
     playSound('error');
     
-    // Coba dengan konfigurasi yang lebih sederhana
-    try {
-      showNotification('Mencoba kamera depan...', 'warning');
-      const fallbackConstraints = {
-        video: { facingMode: 'user' }
-      };
-      
-      videoStream = await navigator.mediaDevices.getUserMedia(fallbackConstraints);
-      const video = document.getElementById('video');
-      video.srcObject = videoStream;
-      
-      await new Promise((resolve) => {
-        video.onloadedmetadata = () => {
-          video.play();
-          resolve();
-        };
-      });
-      
-      scannerActive = true;
-      document.getElementById('startScanner').disabled = true;
-      document.getElementById('stopScanner').disabled = false;
-      scanQRCode();
-      
-      showNotification('Scanner aktif (kamera depan)', 'info');
-      playSound('scan');
-      
-    } catch (fallbackError) {
-      console.error('Fallback camera error:', fallbackError);
-      showNotification('Gagal mengakses kamera. Pastikan izin kamera diberikan.', 'error');
-    }
+    // Tawarkan fallback ke manual input
+    setTimeout(() => {
+      if (confirm('Gagal mengakses kamera. Ingin melakukan check-in manual?')) {
+        showManualCheckin();
+      }
+    }, 1500);
   }
 }
 
@@ -2228,31 +2544,29 @@ function stopScanner() {
   
   // Reset scanner state
   scannerActive = false;
-  document.getElementById('startScanner').disabled = false;
-  document.getElementById('stopScanner').disabled = true;
+  DOM.startScannerBtn.disabled = false;
+  DOM.stopScannerBtn.disabled = true;
   
   // Hide result
-  document.getElementById('scanResult').style.display = 'none';
+  DOM.scanResult.classList.remove('active');
   
-  showNotification('Scanner dihentikan', 'info');
+  showNotification('Scanner dihentikan', CONSTANTS.NOTIFICATION_TYPES.INFO);
 }
 
 function scanQRCode() {
   if (!scannerActive) return;
   
-  const video = document.getElementById('video');
-  
   // Pastikan video siap
-  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+  if (DOM.video.readyState === DOM.video.HAVE_ENOUGH_DATA) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     
     // Set canvas size sesuai video
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = DOM.video.videoWidth;
+    canvas.height = DOM.video.videoHeight;
     
     // Gambar video frame ke canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    context.drawImage(DOM.video, 0, 0, canvas.width, canvas.height);
     
     // Ambil image data
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -2315,11 +2629,7 @@ async function fetchParticipantById(id) {
   showLoading('Mencari data jamaah...');
   
   try {
-    console.log('Fetching participant by ID:', id);
-    const response = await fetch(`${API_URL}?action=get_participant&id=${encodeURIComponent(id)}&_t=${new Date().getTime()}`);
-    const result = await response.json();
-    
-    console.log('Fetch result:', result);
+    const result = await safeFetch(`${API_URL}?action=get_participant&id=${encodeURIComponent(id)}&_t=${new Date().getTime()}`);
     
     if (result.success && result.participant) {
       // Format data peserta
@@ -2330,7 +2640,7 @@ async function fetchParticipantById(id) {
         email: result.participant.email || result.participant.Email || '-',
         domisili: result.participant.domisili || result.participant.Domisili || 'Tidak diketahui',
         total: parseInt(result.participant.total) || parseInt(result.participant.Total) || 1,
-        status: result.participant.status || result.participant.Status || 'Menunggu',
+        status: result.participant.status || result.participant.Status || CONSTANTS.STATUS.WAITING,
         checkin_time: result.participant.checkin_time || result.participant['Check-in Time'] || '-',
         usia: result.participant.usia || result.participant.Usia || '-',
         gender: result.participant.gender || result.participant.jk || result.participant.Gender || '-'
@@ -2363,15 +2673,12 @@ async function fetchParticipantById(id) {
 }
 
 function showScanResult(participant) {
-  const resultDiv = document.getElementById('scanResult');
-  const contentDiv = document.getElementById('scanResultContent');
-  
-  const isPresent = participant.status === 'Hadir';
+  const isPresent = participant.status === CONSTANTS.STATUS.PRESENT;
   
   // Tampilkan data berdasarkan role
   let participantInfo = '';
   
-  if (currentUser.role === 'Administrator') {
+  if (currentUser.role === CONSTANTS.ROLES.ADMIN) {
     participantInfo = `
       <div class="info-row">
         <strong>ID:</strong> ${participant.id}
@@ -2404,35 +2711,35 @@ function showScanResult(participant) {
     `;
   }
   
-  contentDiv.innerHTML = `
+  DOM.scanResultContent.innerHTML = `
     <div class="participant-info">
       ${participantInfo}
       <div class="info-row">
         <strong>Status:</strong> 
         <span class="${isPresent ? 'text-success' : 'text-warning'}">
-          <i class="fas ${isPresent ? 'fa-check-circle' : 'fa-clock'}"></i>
+          <i class="fas ${isPresent ? 'fa-check-circle' : 'fa-clock'}" aria-hidden="true"></i>
           ${isPresent ? 'Sudah Check-in' : 'Belum Check-in'}
         </span>
       </div>
       ${isPresent ? `
         <div class="alert alert-warning">
-          <i class="fas fa-exclamation-triangle"></i>
+          <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
           Jamaah ini sudah check-in pada ${participant.checkin_time}
         </div>
       ` : `
         <div class="alert alert-success">
-          <i class="fas fa-check-circle"></i>
+          <i class="fas fa-check-circle" aria-hidden="true"></i>
           Jamaah ditemukan. Klik "Konfirmasi Check-in" untuk menandai kehadiran.
         </div>
       `}
     </div>
   `;
   
-  resultDiv.style.display = 'block';
+  DOM.scanResult.classList.add('active');
   
   // Auto-hide setelah 15 detik jika tidak ada aksi
   setTimeout(() => {
-    if (resultDiv.style.display !== 'none') {
+    if (DOM.scanResult.classList.contains('active')) {
       cancelCheckin();
       // Restart scanner jika masih di tab scanner
       const scannerTab = document.getElementById('scannerTab');
@@ -2440,25 +2747,22 @@ function showScanResult(participant) {
         setTimeout(() => startScanner(), 1000);
       }
     }
-  }, 15000);
+  }, CONSTANTS.INTERVALS.SCAN_TIMEOUT);
 }
 
 function showScanError(message) {
-  const resultDiv = document.getElementById('scanResult');
-  const contentDiv = document.getElementById('scanResultContent');
-  
-  contentDiv.innerHTML = `
+  DOM.scanResultContent.innerHTML = `
     <div class="alert alert-danger">
-      <i class="fas fa-exclamation-circle"></i>
+      <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
       ${message}
     </div>
     <div class="hint" style="margin-top: 10px; text-align: center;">
-      <i class="fas fa-lightbulb"></i>
+      <i class="fas fa-lightbulb" aria-hidden="true"></i>
       Pastikan QR Code dari halaman success.html
     </div>
   `;
   
-  resultDiv.style.display = 'block';
+  DOM.scanResult.classList.add('active');
   
   // Auto-hide setelah 5 detik
   setTimeout(() => {
@@ -2477,37 +2781,34 @@ async function confirmCheckin() {
   showLoading('Memproses check-in...');
   
   try {
-    const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(currentScannerData.id)}&_t=${new Date().getTime()}`);
-    const result = await response.json();
-    
-    console.log('Check-in response:', result);
+    const result = await safeFetch(`${API_URL}?action=checkin&id=${encodeURIComponent(currentScannerData.id)}&_t=${new Date().getTime()}`);
     
     if (result.success) {
       // Update data lokal
       const index = participantsData.findIndex(p => p.id === currentScannerData.id);
       if (index !== -1) {
-        participantsData[index].status = 'Hadir';
+        participantsData[index].status = CONSTANTS.STATUS.PRESENT;
         participantsData[index].checkin_time = result.checkin_time || new Date().toLocaleString('id-ID');
       } else {
         // Jika tidak ada di cache, tambahkan
         participantsData.push({
           ...currentScannerData,
-          status: 'Hadir',
+          status: CONSTANTS.STATUS.PRESENT,
           checkin_time: result.checkin_time || new Date().toLocaleString('id-ID')
         });
       }
       
       // Update UI
       updateStats();
-      if (currentUser.permissions.includes('participants')) {
+      if (currentUser.permissions.includes(CONSTANTS.PERMISSIONS.PARTICIPANTS)) {
         updateParticipantsTable();
       }
-      if (currentUser.permissions.includes('analytics')) {
+      if (currentUser.permissions.includes(CONSTANTS.PERMISSIONS.ANALYTICS)) {
         updateCharts();
       }
       
       // Tampilkan notifikasi sukses
-      showNotification(`Check-in berhasil untuk ${currentScannerData.nama}`, 'success');
+      showNotification(`Check-in berhasil untuk ${currentScannerData.nama}`, CONSTANTS.NOTIFICATION_TYPES.SUCCESS);
       playSound('success');
       
       // Reset scanner
@@ -2522,12 +2823,12 @@ async function confirmCheckin() {
       }, 2000);
     } else {
       playSound('error');
-      showNotification('Gagal melakukan check-in: ' + (result.error || 'Unknown error'), 'error');
+      showNotification('Gagal melakukan check-in: ' + (result.error || 'Unknown error'), CONSTANTS.NOTIFICATION_TYPES.ERROR);
     }
   } catch (error) {
     console.error('Check-in error:', error);
     playSound('error');
-    showNotification('Gagal menghubungi server', 'error');
+    showNotification('Gagal menghubungi server', CONSTANTS.NOTIFICATION_TYPES.ERROR);
   } finally {
     hideLoading();
   }
@@ -2535,7 +2836,7 @@ async function confirmCheckin() {
 
 function cancelCheckin() {
   currentScannerData = null;
-  document.getElementById('scanResult').style.display = 'none';
+  DOM.scanResult.classList.remove('active');
 }
 
 function showManualCheckin() {
@@ -2567,26 +2868,22 @@ function updateCharts() {
 }
 
 function updateAttendanceChart() {
-  const ctx = document.getElementById('attendanceChart').getContext('2d');
-  const present = participantsData.filter(p => p.status === 'Hadir').length;
+  const present = participantsData.filter(p => p.status === CONSTANTS.STATUS.PRESENT).length;
   const waiting = participantsData.length - present;
   
-  if (attendanceChart) {
-    attendanceChart.destroy();
-  }
-  
-  attendanceChart = new Chart(ctx, {
+  chartManager.create('attendanceChart', {
     type: 'doughnut',
     data: {
       labels: ['Sudah Hadir', 'Belum Hadir'],
       datasets: [{
         data: [present, waiting],
-        backgroundColor: ['#10b981', '#f59e0b'],
+        backgroundColor: [var(--success), var(--warning)],
         borderWidth: 2
       }]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: { 
           position: 'bottom',
@@ -2603,9 +2900,7 @@ function updateRegistrationChart() {
   // Hitung pendaftaran per hari
   const registrationData = {};
   participantsData.forEach(p => {
-    // Asumsi data memiliki tanggal pendaftaran
-    // Jika tidak ada, gunakan tanggal default
-    const date = 'Hari ini'; // Ini hanya contoh, sesuaikan dengan data sebenarnya
+    const date = 'Hari ini'; // Sesuaikan dengan data sebenarnya
     
     if (!registrationData[date]) {
       registrationData[date] = 0;
@@ -2613,13 +2908,7 @@ function updateRegistrationChart() {
     registrationData[date]++;
   });
   
-  const ctx = document.getElementById('registrationChart').getContext('2d');
-  
-  if (registrationChart) {
-    registrationChart.destroy();
-  }
-  
-  registrationChart = new Chart(ctx, {
+  chartManager.create('registrationChart', {
     type: 'line',
     data: {
       labels: Object.keys(registrationData),
@@ -2627,13 +2916,14 @@ function updateRegistrationChart() {
         label: 'Pendaftaran',
         data: Object.values(registrationData),
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        borderColor: '#3b82f6',
+        borderColor: var(--info),
         borderWidth: 2,
         tension: 0.4
       }]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           display: false
@@ -2667,13 +2957,7 @@ function updateLocationChart() {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
   
-  const ctx = document.getElementById('locationChart').getContext('2d');
-  
-  if (locationChart) {
-    locationChart.destroy();
-  }
-  
-  locationChart = new Chart(ctx, {
+  chartManager.create('locationChart', {
     type: 'bar',
     data: {
       labels: sortedLocations.map(item => item[0]),
@@ -2688,9 +2972,9 @@ function updateLocationChart() {
           'rgba(236, 72, 153, 0.7)'
         ],
         borderColor: [
-          '#10a37f',
-          '#3b82f6',
-          '#f59e0b',
+          var(--accent-green),
+          var(--info),
+          var(--warning),
           '#8b5cf6',
           '#ec4899'
         ],
@@ -2699,6 +2983,7 @@ function updateLocationChart() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           display: false
@@ -2733,24 +3018,19 @@ function updateGenderChart() {
     }
   });
   
-  const ctx = document.getElementById('genderChart').getContext('2d');
-  
-  if (genderChart) {
-    genderChart.destroy();
-  }
-  
-  genderChart = new Chart(ctx, {
+  chartManager.create('genderChart', {
     type: 'pie',
     data: {
       labels: Object.keys(genderData),
       datasets: [{
         data: Object.values(genderData),
-        backgroundColor: ['#3b82f6', '#ec4899', '#64748b'],
+        backgroundColor: [var(--info), '#ec4899', var(--text-muted)],
         borderWidth: 2
       }]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: { 
           position: 'bottom',
@@ -2772,7 +3052,7 @@ function updateAnalyticsSummary() {
   const avgAge = ages.length > 0 ? 
     Math.round(ages.reduce((a, b) => a + b, 0) / ages.length) : 0;
   
-  document.getElementById('avgAge').textContent = avgAge + ' tahun';
+  DOM.avgAge.textContent = avgAge + ' tahun';
   
   // Hitung domisili terbanyak
   const locationCounts = {};
@@ -2784,29 +3064,28 @@ function updateAnalyticsSummary() {
   const topLocation = Object.entries(locationCounts)
     .sort((a, b) => b[1] - a[1])[0];
   
-  document.getElementById('topLocation').textContent = topLocation ? 
+  DOM.topLocation.textContent = topLocation ? 
     `${topLocation[0]} (${topLocation[1]} orang)` : '-';
   
   // Check-in terakhir
   const checkins = participantsData
-    .filter(p => p.status === 'Hadir' && p.checkin_time !== '-')
+    .filter(p => p.status === CONSTANTS.STATUS.PRESENT && p.checkin_time !== '-')
     .map(p => new Date(p.checkin_time))
     .filter(date => !isNaN(date.getTime()));
   
   const lastCheckin = checkins.length > 0 ? 
     new Date(Math.max(...checkins)).toLocaleString('id-ID') : '-';
   
-  document.getElementById('lastCheckin').textContent = lastCheckin;
+  DOM.lastCheckin.textContent = lastCheckin;
   
-  // Pendaftar hari ini (contoh)
+  // Pendaftar hari ini
   const today = new Date().toLocaleDateString('id-ID');
   const todayReg = participantsData.filter(p => {
-    // Asumsi ada field registrationDate
     // Untuk saat ini, kita hitung semua sebagai hari ini
     return true;
   }).length;
   
-  document.getElementById('todayReg').textContent = todayReg + ' orang';
+  DOM.todayReg.textContent = todayReg + ' orang';
 }
 
 // ============================================
@@ -2823,7 +3102,7 @@ function setupTabs() {
       
       // Cek apakah user memiliki permission untuk tab ini
       if (!currentUser.permissions.includes(tabId)) {
-        showNotification('Anda tidak memiliki akses ke fitur ini', 'error');
+        showNotification('Anda tidak memiliki akses ke fitur ini', CONSTANTS.NOTIFICATION_TYPES.ERROR);
         playSound('error');
         return;
       }
@@ -2841,7 +3120,7 @@ function setupTabs() {
       });
       
       // Handle scanner tab
-      if (tabId === 'scanner') {
+      if (tabId === CONSTANTS.PERMISSIONS.SCANNER) {
         if (!scannerActive) {
           startScanner();
         }
@@ -2852,7 +3131,7 @@ function setupTabs() {
   });
 }
 
-function startAutoRefresh(interval = 120000) { // 120 detik = 2 menit
+function startAutoRefresh(interval = CONSTANTS.INTERVALS.AUTO_REFRESH) {
   // Clear existing interval jika ada
   if (window.autoRefreshInterval) {
     clearInterval(window.autoRefreshInterval);
@@ -2877,32 +3156,31 @@ async function manualCheckin(participantId) {
       showLoading('Memproses check-in...');
       
       try {
-        const response = await fetch(`${API_URL}?action=checkin&id=${encodeURIComponent(participantId)}&_t=${new Date().getTime()}`);
-        const result = await response.json();
+        const result = await safeFetch(`${API_URL}?action=checkin&id=${encodeURIComponent(participantId)}&_t=${new Date().getTime()}`);
         
         if (result.success) {
           // Update status
-          participant.status = 'Hadir';
+          participant.status = CONSTANTS.STATUS.PRESENT;
           participant.checkin_time = new Date().toLocaleString('id-ID');
           
           // Update UI
           updateStats();
-          if (currentUser.permissions.includes('participants')) {
+          if (currentUser.permissions.includes(CONSTANTS.PERMISSIONS.PARTICIPANTS)) {
             updateParticipantsTable();
           }
-          if (currentUser.permissions.includes('analytics')) {
+          if (currentUser.permissions.includes(CONSTANTS.PERMISSIONS.ANALYTICS)) {
             updateCharts();
           }
           
-          showNotification(`Check-in berhasil untuk ${participant.nama}`, 'success');
+          showNotification(`Check-in berhasil untuk ${participant.nama}`, CONSTANTS.NOTIFICATION_TYPES.SUCCESS);
           playSound('success');
         } else {
           playSound('error');
-          showNotification('Gagal melakukan check-in: ' + result.error, 'error');
+          showNotification('Gagal melakukan check-in: ' + result.error, CONSTANTS.NOTIFICATION_TYPES.ERROR);
         }
       } catch (error) {
         playSound('error');
-        showNotification('Gagal menghubungi server', 'error');
+        showNotification('Gagal menghubungi server', CONSTANTS.NOTIFICATION_TYPES.ERROR);
       } finally {
         hideLoading();
       }
@@ -2912,8 +3190,8 @@ async function manualCheckin(participantId) {
 
 // View participant details (hanya untuk admin)
 function viewParticipant(participantId) {
-  if (currentUser.role !== 'Administrator') {
-    showNotification('Anda tidak memiliki akses untuk melihat detail ini', 'error');
+  if (currentUser.role !== CONSTANTS.ROLES.ADMIN) {
+    showNotification('Anda tidak memiliki akses untuk melihat detail ini', CONSTANTS.NOTIFICATION_TYPES.ERROR);
     playSound('error');
     return;
   }
@@ -2926,8 +3204,8 @@ function viewParticipant(participantId) {
 
 // Export function (hanya untuk admin)
 function exportData() {
-  if (currentUser.role !== 'Administrator') {
-    showNotification('Hanya administrator yang dapat mengekspor data', 'error');
+  if (currentUser.role !== CONSTANTS.ROLES.ADMIN) {
+    showNotification('Hanya administrator yang dapat mengekspor data', CONSTANTS.NOTIFICATION_TYPES.ERROR);
     playSound('error');
     return;
   }
@@ -2962,14 +3240,14 @@ function exportData() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   
-  showNotification('Data berhasil diexport', 'success');
+  showNotification('Data berhasil diexport', CONSTANTS.NOTIFICATION_TYPES.SUCCESS);
   playSound('success');
 }
 
 // Settings functions (hanya untuk admin)
 function savePassword() {
-  if (currentUser.role !== 'Administrator') {
-    showNotification('Hanya administrator yang dapat mengubah password', 'error');
+  if (currentUser.role !== CONSTANTS.ROLES.ADMIN) {
+    showNotification('Hanya administrator yang dapat mengubah password', CONSTANTS.NOTIFICATION_TYPES.ERROR);
     playSound('error');
     return;
   }
@@ -2977,18 +3255,18 @@ function savePassword() {
   const newPassword = document.getElementById('newPassword').value;
   if (newPassword) {
     // Simpan password (dalam implementasi nyata, ini akan dikirim ke server)
-    showNotification('Password berhasil diperbarui', 'success');
+    showNotification('Password berhasil diperbarui', CONSTANTS.NOTIFICATION_TYPES.SUCCESS);
     playSound('success');
     document.getElementById('newPassword').value = '';
   } else {
-    showNotification('Harap masukkan password baru', 'warning');
+    showNotification('Harap masukkan password baru', CONSTANTS.NOTIFICATION_TYPES.WARNING);
     playSound('warning');
   }
 }
 
 function saveEmail() {
-  if (currentUser.role !== 'Administrator') {
-    showNotification('Hanya administrator yang dapat mengubah pengaturan email', 'error');
+  if (currentUser.role !== CONSTANTS.ROLES.ADMIN) {
+    showNotification('Hanya administrator yang dapat mengubah pengaturan email', CONSTANTS.NOTIFICATION_TYPES.ERROR);
     playSound('error');
     return;
   }
@@ -2996,52 +3274,34 @@ function saveEmail() {
   const email = document.getElementById('notificationEmail').value;
   if (email && email.includes('@')) {
     // Simpan email (dalam implementasi nyata, ini akan dikirim ke server)
-    showNotification('Email notifikasi berhasil diperbarui', 'success');
+    showNotification('Email notifikasi berhasil diperbarui', CONSTANTS.NOTIFICATION_TYPES.SUCCESS);
     playSound('success');
   } else {
-    showNotification('Harap masukkan email yang valid', 'warning');
+    showNotification('Harap masukkan email yang valid', CONSTANTS.NOTIFICATION_TYPES.WARNING);
     playSound('warning');
   }
 }
 
 function backupData() {
   // Backup data ke Excel
-  exportData(); // Untuk sementara, gunakan fungsi export yang sama
+  exportData();
 }
 
-// ============================================
-// FUNGSI NOTIFIKASI
-// ============================================
-
-function showNotification(message, type = 'info') {
-  // Create notification element
-  const notification = document.createElement('div');
-  notification.className = `notification notification-${type}`;
+function cleanupResources() {
+  chartManager.destroyAll();
   
-  let icon = 'info-circle';
-  switch(type) {
-    case 'success': icon = 'check-circle'; break;
-    case 'error': icon = 'exclamation-circle'; break;
-    case 'warning': icon = 'exclamation-triangle'; break;
+  if (scannerActive) {
+    stopScanner();
   }
   
-  notification.innerHTML = `
-    <i class="fas fa-${icon}"></i>
-    <span>${message}</span>
-  `;
+  if (audioContext && audioContext.state !== 'closed') {
+    audioContext.close();
+  }
   
-  // Add to document
-  document.body.appendChild(notification);
-  
-  // Remove after 3 seconds
-  setTimeout(() => {
-    notification.classList.add('fade-out');
-    setTimeout(() => {
-      if (notification.parentNode) {
-        notification.parentNode.removeChild(notification);
-      }
-    }, 300);
-  }, 3000);
+  // Clear intervals
+  if (window.autoRefreshInterval) {
+    clearInterval(window.autoRefreshInterval);
+  }
 }
 
 // ============================================
@@ -3055,38 +3315,47 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('📅 Date:', new Date().toLocaleDateString());
   console.log('⏰ Time:', new Date().toLocaleTimeString());
   console.log('🌐 API URL:', API_URL);
-  console.log('🔐 Available Users:', Object.keys(validCredentials));
   
   // Session check
-  const savedUser = sessionStorage.getItem('iftar_admin_user');
-  console.log('💾 Session Storage Check:', savedUser ? 'User found' : 'No user found');
+  const session = SessionManager.validateSession();
+  console.log('💾 Session Storage Check:', session ? 'User found' : 'No user found');
   
-  if (savedUser) {
+  if (session) {
     try {
-      currentUser = JSON.parse(savedUser);
+      currentUser = session.user;
+      authToken = session.token;
       console.log('✅ AUTO-LOGIN SUCCESS');
       console.log('   👤 Username:', currentUser.username);
       console.log('   🎯 Role:', currentUser.role);
       console.log('   📋 Permissions:', currentUser.permissions);
-      console.log('   🕐 Login Time:', currentUser.loginTime ? new Date(currentUser.loginTime).toLocaleString() : 'N/A');
       
       showDashboard();
       
     } catch (e) {
       console.error('❌ AUTO-LOGIN FAILED');
       console.error('   Error:', e.message);
-      sessionStorage.removeItem('iftar_admin_user');
+      SessionManager.clearSession();
       showLogin();
     }
   } else {
-    console.log('👋 Showing login form (no saved session)');
+    console.log('👋 Showing login form (no valid session)');
     showLogin();
   }
   
   // Setup event listeners untuk login
-  setupLoginListeners();
+  DOM.loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    handleLogin();
+  });
   
-  // Browser info (bonus)
+  // Enter key untuk submit
+  DOM.passwordInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  });
+  
+  // Browser info
   console.log('🌍 Browser:', navigator.userAgent);
   console.log('📱 Screen:', window.screen.width + 'x' + window.screen.height);
   console.log('🔋 Online:', navigator.onLine);
