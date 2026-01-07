@@ -1062,7 +1062,7 @@ footer .contact a:hover {
           <div class="input-wrapper">
             <i class="fas fa-envelope" aria-hidden="true"></i>
             <input type="email" id="email" name="email" required 
-                   placeholder="contoh@email.com" pattern="[a-z0-9._%+\- ]+@[a-z0-9.\- ]+\.[a-z]{2,}$"
+                   placeholder="contoh@email.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                    aria-describedby="emailHint">
           </div>
           <div class="hint" id="hintEmail">Konfirmasi akan dikirim ke email ini</div>
@@ -1278,7 +1278,8 @@ footer .contact a:hover {
 // KONFIGURASI SISTEM - SATU SUMBER KEBENARAN
 // ============================================
 const CONFIG = Object.freeze({
-  API_URL: "https://script.google.com/macros/s/AKfycbyFwWCu4SzL6re7bwuSg1myRSS3y4yiPddpNgGE8bz7WPEmdVDpUWhq2S4xcOlsvqQ/exec",
+  // ⚠️ URL HARUS SAMA PERSIS dengan di success.html
+  API_URL: "https://script.google.com/macros/s/AKfycbwyGSZOqvP0nEvnW59d-nmWiQ8VNTJr3zGShM7wq8uUVgmS21Na6lDGB4k1eC78_PgZ/exec",
   MAX_OTP_ATTEMPTS: 3,
   OTP_TIMEOUT: 60000,
   RETRY_ATTEMPTS: 2,
@@ -1609,6 +1610,11 @@ function generateRegistrationId() {
   return `${prefix}-${dateStr}-${random}`;
 }
 
+function showDuplicateAlert() {
+  document.getElementById('duplicateAlert').classList.add('active');
+  document.getElementById('submitBtn').disabled = true;
+}
+
 // ============================================
 // FUNGSI API DENGAN ERROR HANDLING
 // ============================================
@@ -1665,8 +1671,7 @@ async function checkDuplicate() {
     const result = await response.json();
     
     if (result.isDuplicate) {
-      document.getElementById('duplicateAlert').classList.add('active');
-      document.getElementById('submitBtn').disabled = true;
+      showDuplicateAlert();
     } else {
       document.getElementById('duplicateAlert').classList.remove('active');
       document.getElementById('submitBtn').disabled = false;
@@ -1701,21 +1706,22 @@ async function submitRegistration(formData) {
 
     const result = await makeAPICall('register', dataToSubmit, 'POST');
     
-    if (result.success) {
-      const redirectParams = new URLSearchParams({
-        id: registrationId,
-        nama: encodeURIComponent(formData.nama_lengkap),
-        email: encodeURIComponent(formData.email),
-        phone: encodeURIComponent(formData.no_hp),
-        domisili: encodeURIComponent(formData.domisili),
-        qty: dataToSubmit.total
-      });
-      
+    // ✅ TAMBAHKAN HANDLER DUPLICATE RESPONSE
+    if (result.status === "duplicate") {
+      showDuplicateAlert();
+      return {
+        success: false,
+        status: "duplicate"
+      };
+    }
+
+    if (result.status === "success") {
+      // ✅ PERBAIKI REDIRECT KE success.html (HANYA ID SAJA)
       setTimeout(() => {
-        window.location.href = `success.html?${redirectParams.toString()}`;
+        window.location.href = `success.html?id=${result.id}`;
       }, 800);
       
-      return { success: true, id: registrationId };
+      return { success: true, id: result.id };
     } else {
       return { 
         success: false, 
@@ -1893,7 +1899,11 @@ async function handleFormSubmit(e) {
       submitBtn.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 8px;"></i> ${getTranslation('success')}`;
       submitBtn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
     } else {
-      showAlert('alert', result.error || getTranslation('networkError'));
+      if (result.status === "duplicate") {
+        showDuplicateAlert();
+      } else {
+        showAlert('alert', result.error || getTranslation('networkError'));
+      }
       isSubmitting = false;
       submitBtn.disabled = false;
       progressIndicator.classList.remove('active');
